@@ -67,11 +67,11 @@ Finding a babysitter can be a time-consuming struggle for parents. BabyBuddy is 
 ### Pages
 
 * Login page: Sign up or login as either a guardian or babysitter.
-* Babysitter homepage: View/search for families nearby that is in need for a babysitter. Change availability (time and date).
-* Guardian homepage: View/search for available babysitters nearby. Change the request for babysitters. Go to child page.
-* Child: Add child. Remove child. Change information about child.
-* Babysitter bookings: View scheduled bookings. Change bookings.
-* Guardian bookings: View scheduled bookings. Change bookings.
+* Babysitter homepage: View/search for families nearby that is in need for a babysitter. Change availability (time and date). Update personal information.
+* Guardian homepage: View/search for available babysitters nearby. Change the request for babysitters. Update personal  information. Go to child page.
+* Child: Add child. Remove child. Update personal information about children.
+* Babysitter bookings: View scheduled bookings. Change bookings (location etc).
+* Guardian bookings: View scheduled bookings. Change bookings (location etc).
 
 ### Entity-Relationship (ER) Diagram
 
