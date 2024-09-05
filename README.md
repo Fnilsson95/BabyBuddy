@@ -62,7 +62,7 @@ Open the `server` and `client` in separate VSCode workspaces or open the combine
 
 ### Purpose
 
-2-5 sentences describing what the system does
+Finding a babysitter can be a time-consuming struggle for parents. BabyBuddy is a web application that connects parents with qualified babysitters in their local area and helps them book a babysitter with just a few clicks. Additionally, BabyBuddy makes it simple for babysitters to find local jobs, giving them a great opportunity to earn some extra income by providing their services. 
 
 ### Pages
 
