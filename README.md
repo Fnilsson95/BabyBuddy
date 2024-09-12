@@ -73,6 +73,27 @@ Finding a babysitter can be a time-consuming struggle for parents. BabyBuddy is 
 * Babysitter bookings: View scheduled bookings. Change bookings (location etc).
 * Guardian bookings: View scheduled bookings. Change bookings (location etc).
 
+1. **General Page**
+* Home Page
+* Sign Up / Login Page
+* Contact Us Page
+* FAQ Page
+* Terms of Service/Policy Page
+2. **Guardian Page**
+* Dashboard/Home
+* Manage Children Page
+* Book a Babysitter Page
+* Booking History Page
+3. **Babysitter Pages**
+* Dashboard/Home
+* Manage Availability Page
+* Booking Requests Page
+* Booking History Page
+* Earnings Page
+4. **Admin Pages**
+* Dashboard/Home
+* User Management Page
+
 ### Entity-Relationship (ER) Diagram
 
 ![ER Diagram](./images/er_diagram.png)
