@@ -35,5 +35,24 @@ router.post('/', async (req, res) => {
     }
 });
 
+
+// Get all bookings
+// Pagination Example for test
+// /api/bookings?page=2&limit=10
+router.get('/', async (req, res) => {
+
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 20;
+    const skip = (page - 1) * limit;
+
+    try {
+        const bookings = await Booking.find().skip(skip).limit(limit);
+        const total = await Booking.countDocuments();
+        res.status(200).json({total,page, limit, bookings});
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
 // Save/Export the router
 module.exports = router;
