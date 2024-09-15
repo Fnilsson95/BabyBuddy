@@ -18,3 +18,22 @@
 //    GET /guardians/delete/{guardianId}
 
 
+// Importing libraries
+const express = require('express');
+const router = express.Router();
+// Import Booking Model
+const Booking = require('./bookingModel');
+
+// Create a new booking
+router.post('/', async (req, res) => {
+    try {
+        const newBooking = new Booking(req.body);
+        await newBooking.save();
+        res.status(201).json(newBooking);
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+});
+
+// Save/Export the router
+module.exports = router;

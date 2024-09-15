@@ -21,5 +21,3 @@ const Bookings = mongoose.model('bookings', bookingSchema);
 
 // Save/Export the model
 module.exports = Bookings;
-
-
