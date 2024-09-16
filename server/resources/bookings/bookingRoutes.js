@@ -54,5 +54,20 @@ router.get('/', async (req, res) => {
     }
 });
 
+
+// Get a booking by ID
+router.get('/:id', async (req, res) => {
+    try {
+        const booking = await Booking.findById(req.params.id);
+        if (!booking) {
+            return res.status(404).json({ message: 'Booking not found' });
+        }
+        res.status(200).json(booking);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+
 // Save/Export the router
 module.exports = router;
