@@ -35,7 +35,6 @@ router.post('/', async (req, res) => {
     }
 });
 
-
 // Get all bookings
 // Pagination Example for test
 // /api/bookings?page=2&limit=10
@@ -67,6 +66,20 @@ router.get('/:id', async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 });
+
+// Update a booking by ID
+router.put('/:id', async (req, res) => {
+    try {
+        const updatedBooking = await Booking.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
+        if (!updatedBooking) {
+            return res.status(404).json({ message: 'Booking not found' });
+        }
+        res.status(200).json(updatedBooking);
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+});
+
 
 
 // Save/Export the router
