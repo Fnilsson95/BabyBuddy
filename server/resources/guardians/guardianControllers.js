@@ -17,4 +17,20 @@
 //    Example: Should not use GET method in combination with an update/delete method which alters the state of the collection/object.
 //    GET /guardians/delete/{guardianId}
 
+const Guardian = require('./guardianModel');
 
+//create new guardian
+function createGuardian (req, res, next) {
+    const guardian = new Guardian(req.body);
+    guardian.save(function(err) {
+        if (err) { return next(err); }
+        res.status(201).json(guardian);
+    });
+};
+
+function getGuardian() {
+    return {};
+};
+
+exports.createGuardian = createGuardian;
+exports.getGuardian = getGuardian;
