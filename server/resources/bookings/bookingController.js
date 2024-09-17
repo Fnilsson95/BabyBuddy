@@ -1,11 +1,11 @@
 // Importing libraries
 const express = require('express');
-const router = express.Router();
+const controller = express.Router();
 // Import Booking Model
 const Booking = require('./bookingModel');
 
 // Create a new booking
-router.post('/', async (req, res) => {
+controller.post('/', async (req, res) => {
     try {
         const newBooking = new Booking(req.body);
         await newBooking.save();
@@ -18,7 +18,7 @@ router.post('/', async (req, res) => {
 // Get all bookings
 // Pagination Example for test
 // /api/bookings?page=2&limit=10
-router.get('/', async (req, res) => {
+controller.get('/', async (req, res) => {
 
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 20;
@@ -35,7 +35,7 @@ router.get('/', async (req, res) => {
 
 
 // Get a booking by ID
-router.get('/:id', async (req, res) => {
+controller.get('/:id', async (req, res) => {
     try {
         const booking = await Booking.findById(req.params.id);
         if (!booking) {
@@ -48,7 +48,7 @@ router.get('/:id', async (req, res) => {
 });
 
 // Update a booking by ID
-router.put('/:id', async (req, res) => {
+controller.put('/:id', async (req, res) => {
     try {
         const updatedBooking = await Booking.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
         if (!updatedBooking) {
@@ -61,7 +61,7 @@ router.put('/:id', async (req, res) => {
 });
 
 // Delete a booking by ID
-router.delete('/:id', async (req, res) => {
+controller.delete('/:id', async (req, res) => {
     try {
         const deletedBooking = await Booking.findByIdAndDelete(req.params.id);
         if (!deletedBooking) {
@@ -74,5 +74,5 @@ router.delete('/:id', async (req, res) => {
 });
 
 
-// Save/Export the router
-module.exports = router;
+// Save/Export the controller
+module.exports = controller;

@@ -6,7 +6,7 @@ var cors = require('cors');
 var history = require('connect-history-api-fallback');
 
 // Import booking routes
-const bookingRoutes = require('./resources/bookings/bookingRoutes');
+const bookingController = require('./resources/bookings/bookingController');
 
 // Variables
 // mongoURI - MongoDB connection string MONGODB_URI or default local instance
@@ -40,7 +40,7 @@ app.get('/api', function(req, res) {
 });
 
 // Mount Booking Routes onto baseline /api
-app.use('/api/bookings', bookingRoutes);
+app.use('/api/bookings', bookingController);
 
 // Error handling
 // Catch all non-error handler for api (i.e., 404 Not Found)
