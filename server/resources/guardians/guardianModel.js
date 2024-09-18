@@ -10,4 +10,4 @@ const guardianSchema = new mongoose.Schema({
 
 const Guardian = mongoose.model('guardians', guardianSchema);
 
-exports.Guardian = Guardian;
+module.exports = Guardian;
