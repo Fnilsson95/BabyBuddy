@@ -18,15 +18,19 @@
 //    GET /guardians/delete/{guardianId}
 
 const Guardian = require('./guardianModel');
+const express = require('express');
+const controller = express.Router();
 
-//create new guardian
-function createGuardian (req, res, next) {
-    const guardian = new Guardian(req.body);
-    guardian.save(function(err) {
-        if (err) { return next(err); }
+// Create new guardian
+controller.post('/', async (req, res) => {
+    try {
+        const guardian = new Guardian(req.body);
+        await guardian.save();
         res.status(201).json(guardian);
-    });
-};
+    } catch (error) {
+        res.status(400).json({ error: error.message});
+    }
+});
 
 function getGuardian() {
     return {};
