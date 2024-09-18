@@ -32,9 +32,37 @@ controller.post('/', async (req, res) => {
     }
 });
 
-function getGuardian() {
-    return {};
-};
+// Get guardian
+controller.get('/', async (req, res) => {
+    try {
+        const guardians = await Guardian.find();
+        res.status(201).json(guardians);
+    } catch (error) {
+        res.status(500).json({ error: error.message});
+    }
+});
 
-exports.createGuardian = createGuardian;
-exports.getGuardian = getGuardian;
+
+// Update guardian
+
+// Delete guardian by id
+controller.delete('/:id', async (req, res) => {
+    const id = req.params.id;
+    console.log(id);
+
+    try {
+        const guardian = await Guardian.findByIdAndDelete(id);
+        if (guardian) {
+            res.status(200).json(guardian);
+        } else {
+            res.status(404).json({ error: `Could not find guardian with id: ${id}`});
+        }
+    } catch (error) {
+        res.status(500).json({ error: error.message});
+    }
+});
+
+
+
+// Export routes
+module.exports = controller;
