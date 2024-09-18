@@ -34,11 +34,8 @@ app.use(cors());
 app.get('/api', function(req, res) {
     res.json({'message': 'Welcome to your DIT342 backend ExpressJS project!'});
 });
-
-app.get('/api/guardian', function(req, res, next) {
-    const guardian = guardianRoutes.getGuardian();
-    res.json(guardian);
-});
+// Import guardian route
+app.use('/api/guardian', guardianRoutes);
 // Catch all non-error handler for api (i.e., 404 Not Found)
 app.use('/api/*', function (req, res) {
     res.status(404).json({ 'message': 'Not Found' });
