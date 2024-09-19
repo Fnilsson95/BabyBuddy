@@ -35,6 +35,12 @@ app.use(morgan("dev"));
 app.options("*", cors());
 app.use(cors());
 
+// Import routes
+// Sets up simple route /api
+app.get("/api", function (req, res) {
+  res.json({ message: "Welcome to your DIT342 backend ExpressJS project!" });
+});
+
 app.use("/api/babysitters", babysitterController);
 app.use("/api/children", childrenController);
 // Catch all non-error handler for api (i.e., 404 Not Found)
