@@ -1,5 +1,7 @@
 // Import Mongoose library
 const mongoose = require('mongoose');
+// Import Schema from Mongoose
+const Schema = mongoose.Schema;
 
 // Define Mongoose booking Schema
 // * Reference to Guardian/Babysitter *

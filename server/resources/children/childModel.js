@@ -1,4 +1,6 @@
 const mongoose = require("mongoose");
+// Import Schema from Mongoose
+const Schema = mongoose.Schema;
 
 const childrenSchema = mongoose.Schema(
   {

@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+// Import Schema from Mongoose
 const Schema = mongoose.Schema;
 
 const guardianSchema = new Schema({
