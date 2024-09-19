@@ -1,14 +1,15 @@
-var express = require("express");
-var mongoose = require("mongoose");
-var morgan = require("morgan");
-var path = require("path");
-var cors = require("cors");
-var history = require("connect-history-api-fallback");
-const babysitterController = require("./resources/babysitters/babysitterController");
-const childrenController = require("./resources/children/childController");
+var express = require('express');
+var mongoose = require('mongoose');
+var morgan = require('morgan');
+var path = require('path');
+var cors = require('cors');
+var history = require('connect-history-api-fallback');
 
 // Import booking routes
 const bookingController = require('./resources/bookings/bookingController');
+const babysitterController = require("./resources/babysitters/babysitterController");
+const childrenController = require("./resources/children/childController");
+const guardianController = require('./resources/guardians/guardianController');
 
 // Variables
 // mongoURI - MongoDB connection string MONGODB_URI or default local instance
@@ -44,8 +45,10 @@ app.get('/api', function(req, res) {
     res.json({'message': 'Welcome to your DIT342 backend ExpressJS project!'});
 });
 
+
 // Mount Booking Routes onto baseline /api
 app.use('/api/bookings', bookingController);
+app.use('/api/guardians', guardianController);
 app.use("/api/babysitters", babysitterController);
 app.use("/api/children", childrenController);
 
