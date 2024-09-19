@@ -75,6 +75,7 @@ controller.delete('/:id', async (req, res) => {
 
 
 // Delete whole booking collection
+// Use with Caution! (Maybe not needed? Maybe change endpoint name for safety?)
 controller.delete ('/', async (req, res) => {
     try {
         const result = await Booking.deleteMany({});
@@ -84,8 +85,22 @@ controller.delete ('/', async (req, res) => {
     }
 });
 
-// Partial Update a booking by ID 
-
+// Partially Update a booking by ID 
+controller.patch('/:id', async (req, res) => {
+    try {
+        const updatedBooking = await Booking.findByIdAndUpdate(
+            req.params.id,
+            req.body,
+            { new: true, runValidators: true}
+        );
+        if (!updatedBooking) {
+            return res.status(404).json({ message: "Booking not found"});
+        }
+        res.status(200).json(updatedBooking);
+    } catch (error) {
+        res.status(400).json({ error: error.message});
+    }
+});
 
 
 // Save/Export the controller
