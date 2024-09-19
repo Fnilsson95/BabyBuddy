@@ -1,9 +1,10 @@
-var express = require("express");
-var mongoose = require("mongoose");
-var morgan = require("morgan");
-var path = require("path");
-var cors = require("cors");
-var history = require("connect-history-api-fallback");
+var express = require('express');
+var mongoose = require('mongoose');
+var morgan = require('morgan');
+var path = require('path');
+var cors = require('cors');
+var history = require('connect-history-api-fallback');
+const guardianRoutes = require('./resources/guardians/guardianControllers');
 const babysitterController = require("./resources/babysitters/babysitterController");
 const childrenController = require("./resources/children/childController");
 
@@ -40,7 +41,8 @@ app.use(cors());
 app.get("/api", function (req, res) {
   res.json({ message: "Welcome to your DIT342 backend ExpressJS project!" });
 });
-
+// Import guardian route
+app.use('/api/guardian', guardianRoutes);
 app.use("/api/babysitters", babysitterController);
 app.use("/api/children", childrenController);
 // Catch all non-error handler for api (i.e., 404 Not Found)
