@@ -39,7 +39,7 @@ controller.get('/:id', async (req, res) => {
     try {
         const booking = await Booking.findById(req.params.id);
         if (!booking) {
-            return res.status(404).json({ message: 'Booking not found' });
+            return res.status(404).json({ message: "Booking not found" });
         }
         res.status(200).json(booking);
     } catch (error) {
@@ -52,7 +52,7 @@ controller.put('/:id', async (req, res) => {
     try {
         const updatedBooking = await Booking.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
         if (!updatedBooking) {
-            return res.status(404).json({ message: 'Booking not found' });
+            return res.status(404).json({ message: "Booking not found" });
         }
         res.status(200).json(updatedBooking);
     } catch (error) {
@@ -65,13 +65,27 @@ controller.delete('/:id', async (req, res) => {
     try {
         const deletedBooking = await Booking.findByIdAndDelete(req.params.id);
         if (!deletedBooking) {
-            return res.status(404).json({ message: 'Booking not found' });
+            return res.status(404).json({ message: "Booking not found" });
         }
-        res.status(200).json({ message: 'Booking deleted successfully' });
+        res.status(200).json({ message: "Booking deleted successfully" });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 });
+
+
+// Delete whole booking collection
+controller.delete ('/', async (req, res) => {
+    try {
+        const result = await Booking.deleteMany({});
+        res.status(200).json({ message: "All bookings deleted successfully!", deletedCount: result.deletedCount });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+// Partial Update a booking by ID 
+
 
 
 // Save/Export the controller
