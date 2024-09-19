@@ -48,7 +48,6 @@ controller.get('/', async (req, res) => {
 // Delete guardian by id
 controller.delete('/:id', async (req, res) => {
     const id = req.params.id;
-    console.log(id);
 
     try {
         const guardian = await Guardian.findByIdAndDelete(id);
