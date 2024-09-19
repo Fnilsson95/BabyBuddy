@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const babySitters = mongoose.Schema(
+const babysitterSchema = mongoose.Schema(
   {
     firstName: {
       type: String,
@@ -34,6 +34,6 @@ const babySitters = mongoose.Schema(
   { timestamps: true }
 );
 
-const Babysitter = mongoose.model("Babysitters", babySitters);
+const Babysitter = mongoose.model("Babysitters", babysitterSchema);
 
 module.exports = Babysitter;

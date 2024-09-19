@@ -4,13 +4,16 @@ var morgan = require('morgan');
 var path = require('path');
 var cors = require('cors');
 var history = require('connect-history-api-fallback');
-const guardianRoutes = require('./resources/guardians/guardianControllers');
+
+// Import booking routes
+const bookingController = require('./resources/bookings/bookingController');
 const babysitterController = require("./resources/babysitters/babysitterController");
 const childrenController = require("./resources/children/childController");
+const guardianController = require('./resources/guardians/guardianController');
 
 // Variables
-var mongoURI =
-  process.env.MONGODB_URI || "mongodb://localhost:27017/animalDevelopmentDB";
+// mongoURI - MongoDB connection string MONGODB_URI or default local instance
+var mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/animalDevelopmentDB';
 var port = process.env.PORT || 3000;
 
 // Connect to MongoDB
@@ -37,14 +40,19 @@ app.options("*", cors());
 app.use(cors());
 
 // Import routes
-// Sets up simple route /api
-app.get("/api", function (req, res) {
-  res.json({ message: "Welcome to your DIT342 backend ExpressJS project!" });
+// Sets up simple route /api 
+app.get('/api', function(req, res) {
+    res.json({'message': 'Welcome to your DIT342 backend ExpressJS project!'});
 });
-// Import guardian route
-app.use('/api/guardian', guardianRoutes);
+
+
+// Mount Booking Routes onto baseline /api
+app.use('/api/bookings', bookingController);
+app.use('/api/guardians', guardianController);
 app.use("/api/babysitters", babysitterController);
 app.use("/api/children", childrenController);
+
+// Error handling
 // Catch all non-error handler for api (i.e., 404 Not Found)
 app.use("/api/*", function (req, res) {
   res.status(404).json({ message: "Not Found" });
@@ -57,6 +65,7 @@ var root = path.normalize(__dirname + "/..");
 var client = path.join(root, "client", "dist");
 app.use(express.static(client));
 
+// Error Handling
 // Error handler (i.e., when exception is thrown) must be registered last
 var env = app.get("env");
 // eslint-disable-next-line no-unused-vars

@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const children = mongoose.Schema(
+const childrenSchema = mongoose.Schema(
   {
     firstName: {
       type: String,
@@ -24,6 +24,6 @@ const children = mongoose.Schema(
   { timestamps: true }
 );
 
-const Children = mongoose.model("Children", children);
+const Children = mongoose.model("Children", childrenSchema);
 
 module.exports = Children;
