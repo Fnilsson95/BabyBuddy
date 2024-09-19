@@ -20,6 +20,11 @@ const childrenSchema = mongoose.Schema(
       type: String,
       required: [false],
     },
+    
+    guardian: {
+      type: Schema.Types.ObjectId, ref: "Guardians",
+      required: [true, "Guardian is required"],
+    },
   },
   { timestamps: true }
 );

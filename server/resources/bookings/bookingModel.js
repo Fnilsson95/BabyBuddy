@@ -12,6 +12,9 @@ const bookingSchema = new mongoose.Schema({
         pickup_Location: { type: String, required: true },
         dropoff_Location: { type: String, required: true}
         },
+    guardian: {type: Schema.Types.ObjectId, ref: "Guardians", required: true},
+    babysitter: { type: Schema.Types.ObjectId, ref: "Babysitters", required: true},
+    children: [{ type: Schema.Types.ObjectId, ref: "Children", required: true }], // Array for choice of multiple children
     },
 { timestamps: true});
 

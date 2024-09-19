@@ -4,8 +4,8 @@ const Schema = mongoose.Schema;
 const guardianSchema = new Schema({
     name: { type : String },
     age: { type : Number },
-    children: { type : Number },
-    address: { type : String }
+    address: { type : String },
+    children: [{ type: Schema.Types.ObjectId, ref: "Children" }], // Array for choice of multiple children
 },
 { timestamps: true});
 
