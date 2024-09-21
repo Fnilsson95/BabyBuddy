@@ -20,14 +20,15 @@ const babysitterSchema = mongoose.Schema(
     },
     phoneNumber: {
       type: String,
-      required: [true, "Phonenumber is required"],
+      required: [true, "Phone-number is required"],
     },
     experience: {
       type: String,
     },
     hourlyRate: {
       type: Number,
-      required: [true, "Hourly rate is required"], min: [50, "Minimum 50kr/h is required as minimum wage"],
+      required: [true, "Hourly rate is required"], 
+      min: [50, "Minimum 50kr/h is required as minimum wage"],
     },
   },
   { timestamps: true }

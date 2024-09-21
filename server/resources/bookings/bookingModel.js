@@ -13,12 +13,12 @@ const bookingSchema = new mongoose.Schema(
         endDateTime: { 
             type: Date, 
             required: [true, "End-date is required"],
-                        validate: {
-                            validator: function (value) {
-                                return this.startDateTime < value;
-                            },
-                            message: "End-date must be after Start-date"
-                        }
+                    validate: {
+                        validator: function (value) {
+                            return this.startDateTime < value;
+                        },
+                        message: "End-date must be after Start-date"
+                    }
         },
         totalCost: { 
             type: Number, 

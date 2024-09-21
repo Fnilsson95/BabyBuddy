@@ -24,7 +24,8 @@ const childrenSchema = mongoose.Schema(
     },
     
     guardian: {
-      type: Schema.Types.ObjectId, ref: "Guardians",
+      type: Schema.Types.ObjectId,
+      ref: "Guardians",
       required: [true, "Guardian is required"],
     },
   },

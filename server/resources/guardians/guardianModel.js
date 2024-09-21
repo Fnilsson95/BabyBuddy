@@ -7,10 +7,12 @@ const guardianSchema = new Schema(
         name: {
             firstName: { 
                 type: String, 
-                required: [true, "First name is required"]},
+                required: [true, "First name is required"]
+            },
             lastName: { 
                 type: String, 
-                required: [true, "Last name is required"]},
+                required: [true, "Last name is required"]
+            },
         },
         email: { 
             type: String, 
@@ -41,7 +43,8 @@ const guardianSchema = new Schema(
         children: [{ 
             // Array for choice of multiple children
             type: Schema.Types.ObjectId, 
-            ref: "Children" }], 
+            ref: "Children"
+        }],
     },
     { timestamps: true}
 );
