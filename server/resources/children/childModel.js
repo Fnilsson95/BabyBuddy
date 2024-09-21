@@ -25,13 +25,13 @@ const childrenSchema = mongoose.Schema(
     
     guardian: {
       type: Schema.Types.ObjectId,
-      ref: "Guardians",
+      ref: "Guardian",
       required: [true, "Guardian is required"],
     },
   },
   { timestamps: true }
 );
 
-const Children = mongoose.model("Child", childrenSchema);
+const Children = mongoose.model("Children", childrenSchema);
 
 module.exports = Children;

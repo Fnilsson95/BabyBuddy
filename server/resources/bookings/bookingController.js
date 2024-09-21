@@ -25,9 +25,14 @@ controller.get('/', async (req, res) => {
     const skip = (page - 1) * limit;
 
     try {
-        const bookings = await Booking.find().skip(skip).limit(limit);
+        const bookings = await Booking.find()
+        .skip(skip)
+        .limit(limit)
+        .populate("guardian")
+        .populate("babysitter")
+        .populate("children");
         const total = await Booking.countDocuments();
-        res.status(200).json({total,page, limit, bookings});
+        res.status(200).json({total, page, limit, bookings});
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
@@ -37,7 +42,10 @@ controller.get('/', async (req, res) => {
 // Get a booking by ID
 controller.get('/:id', async (req, res) => {
     try {
-        const booking = await Booking.findById(req.params.id);
+        const booking = await Booking.findById(req.params.id)
+        .populate("guardian")
+        .populate("babysitter")
+        .populate("children");
         if (!booking) {
             return res.status(404).json({ message: "Booking not found" });
         }
@@ -50,7 +58,21 @@ controller.get('/:id', async (req, res) => {
 // Update a booking by ID
 controller.put('/:id', async (req, res) => {
     try {
-        const updatedBooking = await Booking.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
+
+        const { startDateTime, endDateTime } = req.body;
+
+        // Validate dates
+        if (new Date(startDateTime) >= new Date(endDateTime)) {
+            return res.status(400).json({ error: "End-date must be after Start-date" });
+        }
+
+        const updatedBooking = await Booking.findByIdAndUpdate(
+            req.params.id,
+            req.body,
+            { new: true, runValidators: true })
+            .populate("guardian")
+            .populate("babysitter")
+            .populate("children");
         if (!updatedBooking) {
             return res.status(404).json({ message: "Booking not found" });
         }
@@ -88,11 +110,21 @@ controller.delete ('/', async (req, res) => {
 // Partially Update a booking by ID 
 controller.patch('/:id', async (req, res) => {
     try {
+
+        const { startDateTime, endDateTime } = req.body;
+
+        // Validate dates
+        if (new Date(startDateTime) >= new Date(endDateTime)) {
+            return res.status(400).json({ error: "End-date must be after Start-date" });
+        }
+
         const updatedBooking = await Booking.findByIdAndUpdate(
             req.params.id,
             req.body,
-            { new: true, runValidators: true}
-        );
+            { new: true, runValidators: true})
+            .populate("guardian")
+            .populate("babysitter")
+            .populate("children");
         if (!updatedBooking) {
             return res.status(404).json({ message: "Booking not found"});
         }

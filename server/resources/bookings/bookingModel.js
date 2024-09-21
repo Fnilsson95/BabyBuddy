@@ -13,12 +13,6 @@ const bookingSchema = new mongoose.Schema(
         endDateTime: { 
             type: Date, 
             required: [true, "End-date is required"],
-                    validate: {
-                        validator: function (value) {
-                            return this.startDateTime < value;
-                        },
-                        message: "End-date must be after Start-date"
-                    }
         },
         totalCost: { 
             type: Number, 
@@ -37,12 +31,12 @@ const bookingSchema = new mongoose.Schema(
         },
         guardian: { 
             type: Schema.Types.ObjectId, 
-            ref: "Guardians", 
+            ref: "Guardian", 
             required: [true, "A Guardian is required"]
         },
         babysitter: { 
             type: Schema.Types.ObjectId, 
-            ref: "Babysitters", 
+            ref: "Babysitter", 
             required: [true, "A babysitter is required"]
         },
         children: [{ 
