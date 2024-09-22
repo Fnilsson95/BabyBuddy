@@ -15,7 +15,7 @@ controller.post('/', async (req, res) => {
         if (new Date(startDateTime) >= new Date(endDateTime)) {
             return res.status(400).json({ error: "End-date must be after Start-date" });
         }
-        
+
         const { guardian } = req.body;
         const { babysitter } = req.body;
 
@@ -116,7 +116,12 @@ controller.delete('/:id', async (req, res) => {
 // Use with Caution!
 controller.delete ('/', async (req, res) => {
     try {
+
         const result = await Booking.deleteMany({});
+
+        if (result.deletedCount === 0) {
+            return res.status(400).json({ error: "No further bookings in list!" });
+        }
         res.status(200).json({ message: "All bookings deleted successfully!", deletedCount: result.deletedCount });
     } catch (error) {
         res.status(500).json({ error: error.message });
