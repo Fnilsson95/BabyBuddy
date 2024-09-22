@@ -64,6 +64,28 @@ controller.put("/:id", async (req, res) => {
   }
 });
 
+// Partially update a babysitter
+
+controller.patch("/:id", async (req, res) => {
+
+  try {
+    const { id } = req.params;
+
+    const updatedBabysitter = await Babysitter.findByIdAndUpdate(
+      id,
+      { $set: req.body },
+      { new: true, runValidators: true } 
+    );
+
+    if (!updatedBabysitter) {
+      return res.status(404).json({ message: `Babysitter with id ${id} not found` });
+    }
+    res.status(200).json(updatedBabysitter);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+});
+
 //Delete babysitter
 controller.delete("/:id", async (req, res) => {
   try {
