@@ -3,6 +3,8 @@ const express = require('express');
 const controller = express.Router();
 // Import Booking Model
 const Booking = require('./bookingModel');
+const Guardian = require("../guardians/guardianModel");
+const Babysitter = require("../babysitters/babysitterModel");
 
 // Create a new booking
 controller.post('/', async (req, res) => {
@@ -13,10 +15,17 @@ controller.post('/', async (req, res) => {
         if (new Date(startDateTime) >= new Date(endDateTime)) {
             return res.status(400).json({ error: "End-date must be after Start-date" });
         }
+        
+        const { guardian } = req.body;
+        const { babysitter } = req.body;
 
         const newBooking = new Booking(req.body);
         await newBooking.save();
         res.status(201).json(newBooking);
+
+        // Update the Guardian and Babysitter to include the booking.
+        await Guardian.findByIdAndUpdate(guardian, { $push: { bookings: newBooking._id } });
+        await Babysitter.findByIdAndUpdate(babysitter, { $push: { bookings: newBooking._id } });
     } catch (error) {
         res.status(400).json({ error: error.message });
     }

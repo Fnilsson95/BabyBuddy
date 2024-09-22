@@ -45,6 +45,11 @@ const guardianSchema = new Schema(
             type: Schema.Types.ObjectId, 
             ref: "Children"
         }],
+        bookings: [{
+            // Array for all bookings
+            type: Schema.Types.ObjectId,
+            ref: "Bookings",
+          }],
     },
     { timestamps: true}
 );

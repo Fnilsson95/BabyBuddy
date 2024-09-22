@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
 
 const babysitterSchema = mongoose.Schema(
   {
@@ -30,6 +31,11 @@ const babysitterSchema = mongoose.Schema(
       required: [true, "Hourly rate is required"], 
       min: [50, "Minimum 50kr/h is required as minimum wage"],
     },
+    bookings: [{
+      // Array for all bookings
+      type: Schema.Types.ObjectId,
+      ref: "Bookings",
+    }],
   },
   { timestamps: true }
 );
