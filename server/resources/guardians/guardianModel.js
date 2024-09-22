@@ -9,7 +9,5 @@ const guardianSchema = new Schema({
 },
 { timestamps: true});
 
-
 const Guardian = mongoose.model('guardians', guardianSchema);
-
 module.exports = Guardian;
