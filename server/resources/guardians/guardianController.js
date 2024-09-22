@@ -97,6 +97,9 @@ controller.delete('/:id', async (req, res) => {
 controller.delete('/', async (req, res) => {
     try {
         const deleteAll = await Guardian.deleteMany({});
+        if (deleteAll.deletedCount === 0){
+            return res.status(400).json({ message: "No guardians to delete" });
+        }
         res.status(200).json({ message: "All guardians was successfully deleted!",
         deletedCount: deleteAll.deletedCount });
     } catch (error) {
