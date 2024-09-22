@@ -7,6 +7,13 @@ const Booking = require('./bookingModel');
 // Create a new booking
 controller.post('/', async (req, res) => {
     try {
+
+        // Validate dates
+        const { startDateTime, endDateTime } = req.body;
+        if (new Date(startDateTime) >= new Date(endDateTime)) {
+            return res.status(400).json({ error: "End-date must be after Start-date" });
+        }
+
         const newBooking = new Booking(req.body);
         await newBooking.save();
         res.status(201).json(newBooking);
@@ -97,7 +104,7 @@ controller.delete('/:id', async (req, res) => {
 
 
 // Delete whole booking collection
-// Use with Caution! (Maybe not needed? Maybe change endpoint name for safety?)
+// Use with Caution!
 controller.delete ('/', async (req, res) => {
     try {
         const result = await Booking.deleteMany({});
@@ -111,9 +118,8 @@ controller.delete ('/', async (req, res) => {
 controller.patch('/:id', async (req, res) => {
     try {
 
-        const { startDateTime, endDateTime } = req.body;
-
         // Validate dates
+        const { startDateTime, endDateTime } = req.body;
         if (new Date(startDateTime) >= new Date(endDateTime)) {
             return res.status(400).json({ error: "End-date must be after Start-date" });
         }
