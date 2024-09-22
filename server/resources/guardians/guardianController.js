@@ -2,7 +2,7 @@ const Guardian = require('./guardianModel');
 const express = require('express');
 const controller = express.Router();
 const Child = require('../children/childModel');
-aadadadad
+
 // Create new guardian
 controller.post('/', async (req, res) => {
     try {
