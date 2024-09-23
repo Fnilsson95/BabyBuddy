@@ -2,6 +2,7 @@ const Guardian = require("./guardianModel");
 const express = require("express");
 const controller = express.Router();
 const Child = require("../children/childModel");
+const Children = require("../children/childModel");
 
 // Create new guardian
 controller.post("/", async (req, res) => {
@@ -13,6 +14,38 @@ controller.post("/", async (req, res) => {
       .json({ message: "Successfully created guardian!", newGuardian });
   } catch (error) {
     res.status(400).json({ error: error.message });
+  }
+});
+
+//Create new child fo a specific guardian
+controller.post("/:guardianId/children", async (req, res) => {
+  try {
+    const { guardianId } = req.params;
+    const guardian = await Guardian.findById(guardianId);
+
+    if (!guardian) {
+      return res.status(404).json({
+        message: `Guardian with id ${guardianId} was not found`,
+      });
+    }
+
+    //Create new child
+    const child = new Children(req.body);
+    const newChild = await child.save();
+
+    // Add the child to the guardian's children array
+    guardian.children.push(newChild._id);
+    await guardian.save();
+
+    const updatedGuardian = await Guardian.findById(guardianId).populate(
+      "children"
+    );
+
+    res
+      .status(201)
+      .json({ message: "Successfully created child!", updatedGuardian });
+  } catch (e) {
+    res.status(500).json({ message: e.message });
   }
 });
 
