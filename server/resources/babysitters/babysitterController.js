@@ -17,9 +17,32 @@ controller.post("/", async (req, res) => {
 });
 
 //Get all babysitters
+// Pagination and sorting example
+// /api/babysitters?page=1&limit=15&sort=hourlyRate&order=asc
 controller.get("/", async (req, res) => {
+  const { page, limit, sort, order } = req.query;
+
+  //Pagination
+  const pages = parseInt(req.query.page) || 1;
+  const limits = parseInt(req.query.limit) || 20;
+  const skip = (pages - 1) * limit;
+
+  //Sorting
+  //Default sort is by hourlyRate in descending order
+  if (order && order !== "asc" && order !== "desc") {
+    return res.status(400).json({
+      message: "Invalid order parameter. Use 'asc' or 'desc'.",
+    });
+  }
+  const sortField = sort || "hourlyRate";
+  const sortOrder = order === "asc" ? 1 : -1;
+  const sortOption = { [sortField]: sortOrder };
+
   try {
-    const babysitters = await Babysitter.find({});
+    const babysitters = await Babysitter.find({})
+      .sort(sortOption)
+      .skip(skip)
+      .limit(limits);
     res.status(200).json(babysitters);
   } catch (e) {
     res.status(500).json({ error: e.message });
