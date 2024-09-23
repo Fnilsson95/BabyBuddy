@@ -2,6 +2,19 @@ const express = require("express");
 const controller = express.Router();
 const Babysitter = require("./babysitterModel");
 
+//Create babysitter
+controller.post("/", async (req, res) => {
+  try {
+    const babysitter = await Babysitter.create(req.body);
+    res.status(201).json({
+      message: `Successfully created babysitter!`,
+      babysitter,
+    });
+  } catch (e) {
+    res.status(400).json({ error: e.message });
+  }
+});
+
 //Get all babysitters
 controller.get("/", async (req, res) => {
   try {
@@ -21,24 +34,11 @@ controller.get("/:id", async (req, res) => {
     if (!babysitter) {
       return res
         .status(404)
-        .json({ message: `Babysitter with id ${id} were not found` });
+        .json({ message: `Babysitter with id ${id} was not found` });
     }
     res.status(200).json(babysitter);
   } catch (e) {
     res.status(500).json({ error: e.message });
-  }
-});
-
-//Create babysitter
-controller.post("/", async (req, res) => {
-  try {
-    const babysitter = await Babysitter.create(req.body);
-    res.status(201).json({
-      message: `Successfully created babysitter!`,
-      babysitter,
-    });
-  } catch (e) {
-    res.status(400).json({ error: e.message });
   }
 });
 
@@ -51,7 +51,7 @@ controller.put("/:id", async (req, res) => {
     if (!babysitter) {
       return res
         .status(404)
-        .json({ message: `Babysitter with id ${id} were not found` });
+        .json({ message: `Babysitter with id ${id} was not found` });
     }
 
     const updatedBabysitter = await Babysitter.findById(id);
@@ -78,7 +78,7 @@ controller.patch("/:id", async (req, res) => {
     );
 
     if (!updatedBabysitter) {
-      return res.status(404).json({ message: `Babysitter with id ${id} not found` });
+      return res.status(404).json({ message: `Babysitter with id ${id} was not found` });
     }
     res.status(200).json(updatedBabysitter);
   } catch (error) {
@@ -95,7 +95,7 @@ controller.delete("/:id", async (req, res) => {
     if (!deletedBabysitter) {
       return res
         .status(404)
-        .json({ message: `Babysitter with id ${id} were not found` });
+        .json({ message: `Babysitter with id ${id} was not found` });
     }
     res
       .status(200)

@@ -5,31 +5,53 @@ const controller = express.Router();
 const Booking = require('./bookingModel');
 const Guardian = require("../guardians/guardianModel");
 const Babysitter = require("../babysitters/babysitterModel");
+const Children = require ("../children/childModel");
 
 // Create a new booking
 controller.post('/', async (req, res) => {
     try {
+        // Log the request body to debug
+        console.log(req.body);
+
+        const { startDateTime, endDateTime, guardian, babysitter, children } = req.body;
 
         // Validate dates
-        const { startDateTime, endDateTime } = req.body;
         if (new Date(startDateTime) >= new Date(endDateTime)) {
             return res.status(400).json({ error: "End-date must be after Start-date" });
         }
 
-        const { guardian } = req.body;
-        const { babysitter } = req.body;
+        // Check if the guardian exists
+        const guardianExists = await Guardian.findById(guardian);
+        if (!guardianExists) {
+            return res.status(404).json({ message: `Guardian with id ${guardian} was not found` });
+        }
 
+        // Check if babysitter exists
+        const babysitterExists = await Babysitter.findById(babysitter);
+        if (!babysitterExists) {
+            return res.status(404).json({ message: `Babysitter with id ${babysitter} was not found`});
+        }
+
+        // Check if all children exist
+        const childrenExist = await Children.find({ _id: { $in: children } });
+        if (childrenExist.length !== children.length) {
+            return res.status(404).json({ message: `One or more children were not found: ${children}` });
+        }
+    
+        // Create the booking
         const newBooking = new Booking(req.body);
         await newBooking.save();
-        res.status(201).json(newBooking);
-
+        
         // Update the Guardian and Babysitter to include the booking.
         await Guardian.findByIdAndUpdate(guardian, { $push: { bookings: newBooking._id } });
         await Babysitter.findByIdAndUpdate(babysitter, { $push: { bookings: newBooking._id } });
+
+        res.status(201).json({ message: "Successfully created booking", newBooking });
     } catch (error) {
         res.status(400).json({ error: error.message });
     }
 });
+
 
 // Get all bookings
 // Pagination Example for test
@@ -63,13 +85,14 @@ controller.get('/:id', async (req, res) => {
         .populate("babysitter")
         .populate("children");
         if (!booking) {
-            return res.status(404).json({ message: "Booking not found" });
+            return res.status(404).json({ message: `Booking with id ${id} was not found` });
         }
         res.status(200).json(booking);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 });
+
 
 // Update a booking by ID
 controller.put('/:id', async (req, res) => {
@@ -90,9 +113,9 @@ controller.put('/:id', async (req, res) => {
             .populate("babysitter")
             .populate("children");
         if (!updatedBooking) {
-            return res.status(404).json({ message: "Booking not found" });
+            return res.status(404).json({ message: `Booking with id ${id} was not found` });
         }
-        res.status(200).json(updatedBooking);
+        res.status(200).json({message: `Successfully updated booking with id ${id}`, updatedBooking });
     } catch (error) {
         res.status(400).json({ error: error.message });
     }
@@ -101,11 +124,14 @@ controller.put('/:id', async (req, res) => {
 // Delete a booking by ID
 controller.delete('/:id', async (req, res) => {
     try {
-        const deletedBooking = await Booking.findByIdAndDelete(req.params.id);
+
+        const { id } = req.params;
+
+        const deletedBooking = await Booking.findByIdAndDelete(id);
         if (!deletedBooking) {
-            return res.status(404).json({ message: "Booking not found" });
+            return res.status(404).json({ message: `Booking with id ${id} was not found` });
         }
-        res.status(200).json({ message: "Booking deleted successfully" });
+        res.status(200).json({ message: `Successfully deleted booking with id ${id}` });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
@@ -146,7 +172,7 @@ controller.patch('/:id', async (req, res) => {
             .populate("babysitter")
             .populate("children");
         if (!updatedBooking) {
-            return res.status(404).json({ message: "Booking not found"});
+            return res.status(404).json({ message: `Booking with id ${id} was not found`});
         }
         res.status(200).json(updatedBooking);
     } catch (error) {

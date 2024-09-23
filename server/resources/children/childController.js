@@ -3,6 +3,28 @@ const controller = express.Router();
 const Children = require("./childModel");
 const Guardian = require("../guardians/guardianModel");
 
+//Create child
+controller.post("/", async (req, res) => {
+  try {
+    const { guardian } = req.body;
+    
+    const guardianExists = await Guardian.findById(guardian);
+    if (!guardianExists) {
+      res.status(404).json({ message: `Guardian with id were not found` });
+    }
+    const child = await Children.create(req.body);
+    
+    // Update the guardian to include this child in the array
+    await Guardian.findByIdAndUpdate(guardian, { $push: { children: child._id } });
+    res.status(201).json({
+      message: `Successfully created child!`,
+      child,
+    });
+  } catch (e) {
+    res.status(400).json({ error: e.message });
+  }
+});
+
 //Get all children
 controller.get("/", async (req, res) => {
   try {
@@ -26,26 +48,7 @@ controller.get('/:id', async (req, res) => {
   }
 });
 
-//Create child
-controller.post("/", async (req, res) => {
-  try {
-
-    const { guardian } = req.body;
-
-    const child = await Children.create(req.body);
-    // Update the guardian to include this child in the array
-    await Guardian.findByIdAndUpdate(guardian, { $push: { children: child._id } });
-    res.status(201).json({
-      message: `Successfully created child!`,
-      child,
-    });
-  } catch (e) {
-    res.status(400).json({ error: e.message });
-  }
-});
-
 //Update child
-
 controller.put("/:id", async (req, res) => {
   try {
     const { id } = req.params;
@@ -71,7 +74,7 @@ controller.delete("/:id", async (req, res) => {
     const deletedChild = await Children.findByIdAndDelete(id);
 
     if (!deletedChild) {
-      res.status(404).json({ message: `Child with id ${id} were not found` });
+      res.status(404).json({ message: `Child with id ${id} was not found` });
     }
     res.status(200).json({
       message: `Successfully deleted child with id ${id}`,
