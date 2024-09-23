@@ -1,16 +1,19 @@
 const mongoose = require("mongoose");
+// Import Schema from Mongoose
+const Schema = mongoose.Schema;
 
 const childrenSchema = mongoose.Schema(
   {
-    firstName: {
+    name: {
+      firstName: {
       type: String,
       required: [true, "First name is required"],
     },
-    lastName: {
+      lastName: {
       type: String,
       required: [true, "Last name is required"],
-    },
-
+    }
+  },
     dateOfBirth: {
       type: Date,
       required: [true, "Date of birth is required"],
@@ -18,7 +21,12 @@ const childrenSchema = mongoose.Schema(
 
     specialNeeds: {
       type: String,
-      required: [false],
+    },
+    
+    guardian: {
+      type: Schema.Types.ObjectId,
+      ref: "Guardian",
+      required: [true, "Guardian is required"],
     },
   },
   { timestamps: true }

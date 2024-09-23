@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
 
 const babysitterSchema = mongoose.Schema(
   {
@@ -18,22 +19,27 @@ const babysitterSchema = mongoose.Schema(
       type: Date,
       required: [true, "Date of birth is required"],
     },
-
     phoneNumber: {
       type: String,
-      required: [true, "Phonenumber is required"],
+      required: [true, "Phone-number is required"],
     },
     experience: {
       type: String,
     },
     hourlyRate: {
       type: Number,
-      required: [true, "Hourly rate is required"],
+      required: [true, "Hourly rate is required"], 
+      min: [50, "Minimum 50kr/h is required as minimum wage"],
     },
+    bookings: [{
+      // Array for all bookings
+      type: Schema.Types.ObjectId,
+      ref: "Bookings",
+    }],
   },
   { timestamps: true }
 );
 
-const Babysitter = mongoose.model("Babysitters", babysitterSchema);
+const Babysitter = mongoose.model("Babysitter", babysitterSchema);
 
 module.exports = Babysitter;
