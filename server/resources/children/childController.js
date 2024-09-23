@@ -7,18 +7,21 @@ const Guardian = require("../guardians/guardianModel");
 controller.post("/", async (req, res) => {
   try {
     const { guardian } = req.body;
-    
+
     const guardianExists = await Guardian.findById(guardian);
     if (!guardianExists) {
       res.status(404).json({ message: `Guardian with id were not found` });
     }
-    const child = await Children.create(req.body);
-    
+    const child = new Children(req.body);
+    const newChild = await child.save();
+
     // Update the guardian to include this child in the array
-    await Guardian.findByIdAndUpdate(guardian, { $push: { children: child._id } });
+    await Guardian.findByIdAndUpdate(guardian, {
+      $push: { children: newChild._id },
+    });
     res.status(201).json({
       message: `Successfully created child!`,
-      child,
+      newChild,
     });
   } catch (e) {
     res.status(400).json({ error: e.message });
@@ -36,11 +39,14 @@ controller.get("/", async (req, res) => {
 });
 
 //Get specific child
-controller.get('/:id', async (req, res) => {
+controller.get("/:id", async (req, res) => {
   try {
-    const child = await Children.findById(req.params.id).populate('guardian');
+    const { id } = req.params;
+    const child = await Children.findById(id).populate("guardian");
     if (!child) {
-      return res.status(404).json({ message: `Child with id ${req.params.id} was not found` });
+      return res
+        .status(404)
+        .json({ message: `Child with id ${id} was not found` });
     }
     res.status(200).json(child);
   } catch (e) {

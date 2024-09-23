@@ -5,10 +5,11 @@ const Babysitter = require("./babysitterModel");
 //Create babysitter
 controller.post("/", async (req, res) => {
   try {
-    const babysitter = await Babysitter.create(req.body);
+    const babysitter = new Babysitter(req.body);
+    const newBabysitter = await babysitter.save();
     res.status(201).json({
       message: `Successfully created babysitter!`,
-      babysitter,
+      newBabysitter,
     });
   } catch (e) {
     res.status(400).json({ error: e.message });
@@ -67,18 +68,19 @@ controller.put("/:id", async (req, res) => {
 // Partially update a babysitter
 
 controller.patch("/:id", async (req, res) => {
-
   try {
     const { id } = req.params;
 
     const updatedBabysitter = await Babysitter.findByIdAndUpdate(
       id,
       { $set: req.body },
-      { new: true, runValidators: true } 
+      { new: true, runValidators: true }
     );
 
     if (!updatedBabysitter) {
-      return res.status(404).json({ message: `Babysitter with id ${id} was not found` });
+      return res
+        .status(404)
+        .json({ message: `Babysitter with id ${id} was not found` });
     }
     res.status(200).json(updatedBabysitter);
   } catch (error) {
