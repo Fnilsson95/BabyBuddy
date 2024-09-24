@@ -31,7 +31,7 @@ controller.post("/", async (req, res) => {
 //Get all children
 controller.get("/", async (req, res) => {
   try {
-    const children = await Children.find().populate("guardian");
+    const children = await Children.find({}).populate("guardian");
     res.status(200).json(children);
   } catch (e) {
     res.status(500).json({ error: e.message });
