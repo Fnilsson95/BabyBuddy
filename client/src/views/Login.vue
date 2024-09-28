@@ -33,7 +33,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .sign-in-container {
   display: flex;
   flex-direction: column;
