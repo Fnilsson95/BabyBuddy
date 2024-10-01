@@ -61,7 +61,7 @@ controller.post("/", async (req, res) => {
       .status(201)
       .json({ message: "Successfully created booking", newBooking });
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.status(500).json({ error: error.message });
   }
 });
 
@@ -136,7 +136,7 @@ controller.put("/:id", async (req, res) => {
       updatedBooking,
     });
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.status(500).json({ error: error.message });
   }
 });
 

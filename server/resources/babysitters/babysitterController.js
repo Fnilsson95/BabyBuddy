@@ -12,7 +12,7 @@ controller.post("/", async (req, res) => {
       newBabysitter,
     });
   } catch (e) {
-    res.status(400).json({ error: e.message });
+    res.status(500).json({ error: e.message });
   }
 });
 
@@ -96,7 +96,7 @@ controller.put("/:id", async (req, res) => {
       updatedBabysitter,
     });
   } catch (e) {
-    res.status(400).json({ error: e.message });
+    res.status(500).json({ error: e.message });
   }
 });
 
@@ -119,7 +119,7 @@ controller.patch("/:id", async (req, res) => {
     }
     res.status(200).json(updatedBabysitter);
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.status(500).json({ error: error.message });
   }
 });
 

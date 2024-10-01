@@ -13,7 +13,7 @@ controller.post("/", async (req, res) => {
       .status(201)
       .json({ message: "Successfully created guardian!", newGuardian });
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.status(500).json({ error: error.message });
   }
 });
 
@@ -96,7 +96,7 @@ controller.put("/:id", async (req, res) => {
       });
     }
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.status(500).json({ error: error.message });
   }
 });
 
@@ -117,7 +117,7 @@ controller.patch("/:id", async (req, res) => {
       res.status(200).json(updateGuadian);
     }
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.status(500).json({ error: error.message });
   }
 });
 
