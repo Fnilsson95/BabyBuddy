@@ -15,14 +15,29 @@
 						{
 							"listen": "test",
 							"script": {
-								"type": "text/javascript",
 								"exec": [
 									"pm.test(\"Status code is 201\", function () {",
 									"    pm.response.to.have.status(201);",
 									"});",
 									"var jsonData = pm.response.json();",
 									"pm.environment.set(\"guardianId\", jsonData.newGuardian._id);"
-								]
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// Generate a random number to append to the email\r",
+									"const randomNumber = Math.floor(Math.random() * 10000);\r",
+									"\r",
+									"// Set the dynamically generated email as a Postman variable\r",
+									"pm.variables.set(\"randomEmail\", `user${randomNumber}@example.com`);"
+								],
+								"type": "text/javascript",
+								"packages": {}
 							}
 						}
 					],
@@ -37,7 +52,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"name\": {\n    \"firstName\": \"John\",\n    \"lastName\": \"Doe\"\n  },\n  \"email\": \"john.doe@example.com\",\n  \"phoneNumber\": \"1234567890\",\n  \"dateOfBirth\": \"1980-01-01T00:00:00.000Z\",\n  \"location\": {\n    \"city\": \"New York\",\n    \"country\": \"USA\",\n    \"address\": \"123 Broadway\"\n  }\n}",
+							"raw": "{\n  \"name\": {\n    \"firstName\": \"John\",\n    \"lastName\": \"Doe\"\n  },\n  \"email\": \"{{randomEmail}}\",\n  \"phoneNumber\": \"1234567890\",\n  \"dateOfBirth\": \"1980-01-01T00:00:00.000Z\",\n  \"location\": {\n    \"city\": \"New York\",\n    \"country\": \"USA\",\n    \"address\": \"123 Broadway\"\n  }\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -115,14 +130,30 @@
 						{
 							"listen": "test",
 							"script": {
-								"type": "text/javascript",
 								"exec": [
 									"pm.test(\"Status code is 201\", function () {",
 									"    pm.response.to.have.status(201);",
 									"});",
 									"var jsonData = pm.response.json();",
 									"pm.environment.set(\"babysitterId\", jsonData.newBabysitter._id);"
-								]
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// Generate a random number to append to the email\r",
+									"const randomNumber = Math.floor(Math.random() * 10000);\r",
+									"\r",
+									"// Set the dynamically generated email as a Postman variable\r",
+									"pm.variables.set(\"randomEmail\", `user${randomNumber}@example.com`);\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
 							}
 						}
 					],
@@ -137,7 +168,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"firstName\": \"Sarah\",\n  \"lastName\": \"Connor\",\n  \"email\": \"sarah.connor@example.com\",\n  \"dateOfBirth\": \"1995-08-29T00:00:00.000Z\",\n  \"phoneNumber\": \"0987654321\",\n  \"experience\": \"5 years of experience with children aged 1-6.\",\n  \"hourlyRate\": 100\n}",
+							"raw": "{\n  \"firstName\": \"Sarah\",\n  \"lastName\": \"Connor\",\n  \"email\": \"{{randomEmail}}\",\n  \"dateOfBirth\": \"1995-08-29T00:00:00.000Z\",\n  \"phoneNumber\": \"0987654321\",\n  \"experience\": \"5 years of experience with children aged 1-6.\",\n  \"hourlyRate\": 100\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -220,12 +251,28 @@
 						{
 							"listen": "test",
 							"script": {
-								"type": "text/javascript",
 								"exec": [
 									"pm.test(\"Status code is 201\", function () {",
 									"    pm.response.to.have.status(201);",
 									"});"
-								]
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// Generate a random number to append to the email\r",
+									"const randomNumber = Math.floor(Math.random() * 10000);\r",
+									"\r",
+									"// Set the dynamically generated email as a Postman variable\r",
+									"pm.variables.set(\"randomEmail\", `user${randomNumber}@example.com`);\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
 							}
 						}
 					],
@@ -240,7 +287,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"name\": {\n    \"firstName\": \"John\",\n    \"lastName\": \"Doe\"\n  },\n  \"email\": \"john.doe@example.com\",\n  \"phoneNumber\": \"1234567890\",\n  \"dateOfBirth\": \"1980-01-01T00:00:00.000Z\",\n  \"location\": {\n    \"city\": \"New York\",\n    \"country\": \"USA\",\n    \"address\": \"123 Broadway\"\n  }\n}",
+							"raw": "{\n  \"name\": {\n    \"firstName\": \"John\",\n    \"lastName\": \"Doe\"\n  },\n  \"email\": \"{{randomEmail}}\",\n  \"phoneNumber\": \"1234567890\",\n  \"dateOfBirth\": \"1980-01-01T00:00:00.000Z\",\n  \"location\": {\n    \"city\": \"New York\",\n    \"country\": \"USA\",\n    \"address\": \"123 Broadway\"\n  }\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -719,12 +766,28 @@
 						{
 							"listen": "test",
 							"script": {
-								"type": "text/javascript",
 								"exec": [
 									"pm.test(\"Status code is 201\", function () {",
 									"    pm.response.to.have.status(201);",
 									"});"
-								]
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// Generate a random number to append to the email\r",
+									"const randomNumber = Math.floor(Math.random() * 10000);\r",
+									"\r",
+									"// Set the dynamically generated email as a Postman variable\r",
+									"pm.variables.set(\"randomEmail\", `user${randomNumber}@example.com`);\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
 							}
 						}
 					],
@@ -739,7 +802,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"firstName\": \"Sarah\",\n  \"lastName\": \"Connor\",\n  \"email\": \"sarah.connor@example.com\",\n  \"dateOfBirth\": \"1995-08-29T00:00:00.000Z\",\n  \"phoneNumber\": \"0987654321\",\n  \"experience\": \"5 years of experience with children aged 1-6.\",\n  \"hourlyRate\": 100\n}",
+							"raw": "{\n  \"firstName\": \"Sarah\",\n  \"lastName\": \"Connor\",\n  \"email\": \"{{randomEmail}}\",\n  \"dateOfBirth\": \"1995-08-29T00:00:00.000Z\",\n  \"phoneNumber\": \"0987654321\",\n  \"experience\": \"5 years of experience with children aged 1-6.\",\n  \"hourlyRate\": 100\n}",
 							"options": {
 								"raw": {
 									"language": "json"

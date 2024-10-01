@@ -86,6 +86,14 @@ controller.put("/:id", async (req, res) => {
       runValidators: true,
     }).populate("children");
 
+    // Check if the email is being updated, and if it exists in another guardian
+    if (req.body.email && req.body.email !== guardian.email) {
+      const emailExists = await Guardian.findOne({ email: req.body.email });
+      if (emailExists) {
+        return res.status(400).json({ message: "Email already exists" });
+      }
+    }
+
     if (!guardian) {
       res.status(404).json({ message: `Guardian with id ${id} was not found` });
     } else {
@@ -109,6 +117,15 @@ controller.patch("/:id", async (req, res) => {
       runValidators: true,
     }).populate("children");
 
+
+    // Check if the email is being updated, and if it exists in another guardian
+    if (req.body.email && req.body.email !== guardian.email) {
+      const emailExists = await Guardian.findOne({ email: req.body.email });
+      if (emailExists) {
+        return res.status(400).json({ message: "Email already exists" });
+      }
+    }
+    
     if (!updateGuadian) {
       return res
         .status(404)

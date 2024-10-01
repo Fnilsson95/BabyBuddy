@@ -8,7 +8,13 @@ const bookingSchema = new mongoose.Schema(
     {
         startDateTime: { 
             type: Date, 
-            required: [true, "Start-date is required"]
+            required: [true, "Start-date is required"],
+            validate: {
+                validator: function (value) {
+                    return value > new Date();
+                },
+                message: "Start date must be in the future",
+            },
         },
         endDateTime: { 
             type: Date, 
@@ -22,12 +28,14 @@ const bookingSchema = new mongoose.Schema(
         location: {
             pickup_Location: { 
                 type: String, 
-                required: [true, "Pick-up location is required"]
+                required: [true, "Pick-up location is required"],
+                trim: true,
             },
             dropoff_Location: { 
                 type: String, 
-                required: [true, "Drop-off location is required"]
-            }
+                required: [true, "Drop-off location is required"],
+                trim: true,
+            },
         },
         guardian: { 
             type: Schema.Types.ObjectId, 

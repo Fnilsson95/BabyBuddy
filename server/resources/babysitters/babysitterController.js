@@ -78,19 +78,32 @@ controller.get("/:id", async (req, res) => {
   }
 });
 
-//Update babysitter
+// Update babysitter
 controller.put("/:id", async (req, res) => {
   try {
     const { id } = req.params;
 
-    const babysitter = await Babysitter.findByIdAndUpdate(id, req.body);
+    // Find the existing babysitter
+    const babysitter = await Babysitter.findById(id);
     if (!babysitter) {
-      return res
-        .status(404)
-        .json({ message: `Babysitter with id ${id} was not found` });
+      return res.status(404).json({ message: `Babysitter with id ${id} was not found` });
     }
 
-    const updatedBabysitter = await Babysitter.findById(id);
+    // Check if the email is being updated, and if it exists in another babysitter
+    if (req.body.email && req.body.email !== babysitter.email) {
+      const emailExists = await Babysitter.findOne({ email: req.body.email });
+      if (emailExists) {
+        return res.status(400).json({ message: "Email already exists" });
+      }
+    }
+
+    // Update the babysitter and return the updated babysitter
+    const updatedBabysitter = await Babysitter.findByIdAndUpdate(
+      id,
+      req.body,
+      { new: true, runValidators: true } // Ensure the new document is returned and validators are run
+    );
+
     res.status(200).json({
       message: `Successfully updated babysitter with id ${id}`,
       updatedBabysitter,
@@ -99,6 +112,7 @@ controller.put("/:id", async (req, res) => {
     res.status(500).json({ error: e.message });
   }
 });
+
 
 // Partially update a babysitter
 
@@ -117,6 +131,9 @@ controller.patch("/:id", async (req, res) => {
         .status(404)
         .json({ message: `Babysitter with id ${id} was not found` });
     }
+
+    
+
     res.status(200).json(updatedBabysitter);
   } catch (error) {
     res.status(500).json({ error: error.message });
