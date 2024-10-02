@@ -44,8 +44,7 @@ const bookingSchema = new mongoose.Schema(
         },
         babysitter: { 
             type: Schema.Types.ObjectId, 
-            ref: "Babysitter", 
-            required: [true, "A babysitter is required"]
+            ref: "Babysitter",
         },
         children: [{ 
             // Array for choice of multiple children
@@ -53,6 +52,12 @@ const bookingSchema = new mongoose.Schema(
             ref: "Children", 
             required: [true, "Atleast one child is required"]
         }], 
+        status: {
+            type: String,
+            required: true,
+            enum: ["Pending", "Confirmed"],
+            default: "Pending" // Default status when Guardian creates a booking
+        },
     },
     { timestamps: true}
 );

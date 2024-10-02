@@ -45,7 +45,7 @@ const babysitterSchema = mongoose.Schema(
       min: [50, "Minimum 50kr/h is required as minimum wage"],
     },
     bookings: [{
-      // Array for all bookings
+      // Array for all bookings confirmed by babysitter
       type: Schema.Types.ObjectId,
       ref: "Bookings",
     }],

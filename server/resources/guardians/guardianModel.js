@@ -61,7 +61,7 @@ const guardianSchema = new Schema(
             ref: "Children"
         }],
         bookings: [{
-            // Array for all bookings
+            // Array for all bookings created by specific Guardian
             type: Schema.Types.ObjectId,
             ref: "Bookings",
           }],
