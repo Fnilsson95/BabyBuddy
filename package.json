@@ -9,8 +9,5 @@
   "engines": {
     "npm": "9.x",
     "node": "18.x"
-  },
-  "dependencies": {
-    "mongoose-unique-validator": "^4.0.1"
   }
 }

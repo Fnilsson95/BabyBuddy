@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const uniqueValidator = require('mongoose-unique-validator');
 
 const babysitterSchema = mongoose.Schema(
   {
@@ -53,8 +52,6 @@ const babysitterSchema = mongoose.Schema(
   },
   { timestamps: true }
 );
-
-babysitterSchema.plugin(uniqueValidator, { message: "Email already exists" });
 
 const Babysitter = mongoose.model("Babysitter", babysitterSchema);
 

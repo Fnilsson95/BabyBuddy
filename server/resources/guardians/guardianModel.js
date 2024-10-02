@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 // Import Schema from Mongoose
 const Schema = mongoose.Schema;
-const uniqueValidator = require('mongoose-unique-validator');
 
 const guardianSchema = new Schema(
     {
@@ -69,9 +68,6 @@ const guardianSchema = new Schema(
     },
     { timestamps: true}
 );
-
-// Apply the uniqueValidator to the Guardian Schema
-guardianSchema.plugin(uniqueValidator, { message: "Email already exists" });
 
 const Guardian = mongoose.model('Guardian', guardianSchema);
 
