@@ -1,6 +1,9 @@
 const express = require("express");
 const controller = express.Router();
 const Babysitter = require("./babysitterModel");
+const Children = require("../children/childModel");
+const Bookings = require("../bookings/bookingModel");
+const Guardian = require("../guardians/guardianModel");
 
 //Create babysitter
 controller.post("/", async (req, res) => {
@@ -12,7 +15,7 @@ controller.post("/", async (req, res) => {
       newBabysitter,
     });
   } catch (e) {
-    res.status(400).json({ error: e.message });
+    res.status(500).json({ error: e.message });
   }
 });
 
@@ -78,27 +81,41 @@ controller.get("/:id", async (req, res) => {
   }
 });
 
-//Update babysitter
+// Update babysitter
 controller.put("/:id", async (req, res) => {
   try {
     const { id } = req.params;
 
-    const babysitter = await Babysitter.findByIdAndUpdate(id, req.body);
+    // Find the existing babysitter
+    const babysitter = await Babysitter.findById(id);
     if (!babysitter) {
-      return res
-        .status(404)
-        .json({ message: `Babysitter with id ${id} was not found` });
+      return res.status(404).json({ message: `Babysitter with id ${id} was not found` });
     }
 
-    const updatedBabysitter = await Babysitter.findById(id);
+    // Check if the email is being updated, and if it exists in another babysitter
+    if (req.body.email && req.body.email !== babysitter.email) {
+      const emailExists = await Babysitter.findOne({ email: req.body.email });
+      if (emailExists) {
+        return res.status(400).json({ message: "Email already exists" });
+      }
+    }
+
+    // Update the babysitter and return the updated babysitter
+    const updatedBabysitter = await Babysitter.findByIdAndUpdate(
+      id,
+      req.body,
+      { new: true, runValidators: true } // Ensure the new document is returned and validators are run
+    );
+
     res.status(200).json({
       message: `Successfully updated babysitter with id ${id}`,
       updatedBabysitter,
     });
   } catch (e) {
-    res.status(400).json({ error: e.message });
+    res.status(500).json({ error: e.message });
   }
 });
+
 
 // Partially update a babysitter
 
@@ -117,28 +134,195 @@ controller.patch("/:id", async (req, res) => {
         .status(404)
         .json({ message: `Babysitter with id ${id} was not found` });
     }
+
+    
+
     res.status(200).json(updatedBabysitter);
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.status(500).json({ error: error.message });
   }
 });
 
-//Delete babysitter
+// Delete babysitter
 controller.delete("/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const deletedBabysitter = await Babysitter.findByIdAndDelete(id);
 
-    if (!deletedBabysitter) {
-      return res
-        .status(404)
-        .json({ message: `Babysitter with id ${id} was not found` });
+    // Find the babysitter to delete
+    const babysitter = await Babysitter.findById(id);
+
+    // If babysitter does not exist, return 404
+    if (!babysitter) {
+      return res.status(404).json({ message: `Babysitter with id ${id} was not found` });
     }
-    res
-      .status(200)
-      .json({ message: `Successfully deleted babysitter with id ${id}` });
+
+    // Find all bookings where this babysitter is assigned
+    const affectedBookings = await Bookings.find({ babysitter: id });
+
+    // Update the bookings to remove the babysitter and set status to "Pending"
+    for (const booking of affectedBookings) {
+      await Bookings.findByIdAndUpdate(booking._id, {
+        babysitter: null,
+        status: "Pending"
+      });
+    }
+
+    // Delete the babysitter after updating the bookings
+    await Babysitter.findByIdAndDelete(id);
+
+    res.status(200).json({
+      message: `Successfully deleted babysitter with id ${id}`
+    });
   } catch (e) {
     res.status(500).json({ error: e.message });
+  }
+});
+
+
+
+// Get all bookings for a babysitter (All their confirmed bookings)
+controller.get("/:babysitterId/bookings", async (req, res) => {
+  try {
+    const { babysitterId } = req.params;
+
+    const babysitterExists = await Babysitter.findById(babysitterId);
+    if (!babysitterExists) {
+      return res.status(404).json({ message: `Babysitter with id ${babysitterId} was not found` });
+    }
+
+    const bookings = await Bookings.find({
+      babysitter: babysitterId,
+      status: "Confirmed"
+    })
+      .populate("guardian")
+      .populate("children");
+
+    if (bookings.length === 0) {
+      return res.status(404).json({ message: "No confirmed bookings found for this babysitter" });
+    }
+
+    res.status(200).json(bookings);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Get a specific booking for a babysitter
+controller.get("/:babysitterId/bookings/:bookingId", async (req, res) => {
+  try {
+    const { babysitterId, bookingId } = req.params;
+
+    const babysitterExists = await Babysitter.findById(babysitterId);
+    if (!babysitterExists) {
+      return res.status(404).json({ message: `Babysitter with id ${babysitterId} was not found` });
+    }
+
+    const booking = await Bookings.findOne({
+      _id: bookingId,
+      babysitter: babysitterId,
+      status: "Confirmed"
+    })
+      .populate("guardian")
+      .populate("children");
+
+    if (!booking) {
+      return res.status(404).json({ message: `Booking with id ${bookingId} was not found for this babysitter` });
+    }
+
+    res.status(200).json(booking);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Delete a specific booking for a babysitter
+// Also sets "Confirmed" status back to "Pending" for Guardians
+controller.delete("/:babysitterId/bookings/:bookingId", async (req, res) => {
+  try {
+    const { babysitterId, bookingId } = req.params;
+
+    const babysitterExists = await Babysitter.findById(babysitterId);
+    if (!babysitterExists) {
+      return res.status(404).json({ message: `Babysitter with id ${babysitterId} was not found` });
+    }
+
+    const booking = await Bookings.findOneAndUpdate(
+      { _id: bookingId, babysitter: babysitterId },
+      { babysitter: null, status: "Pending" }, // Set babysitter to null and status to "Pending"
+      { new: true }
+    );
+
+    if (!booking) {
+      return res.status(404).json({ message: `Booking with id ${bookingId} was not found for this babysitter` });
+    }
+
+    // Remove the booking from the babysitter's booking list
+    await Babysitter.findByIdAndUpdate(babysitterId, {
+      $pull: { bookings: bookingId }
+    });
+
+    res.status(200).json({ message: `Successfully removed booking'` });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Remove all bookings for a babysitter
+// Also sets "Confirmed" status back to "Pending" for Guardians
+controller.delete("/:babysitterId/bookings", async (req, res) => {
+  try {
+    const { babysitterId } = req.params;
+
+    const babysitterExists = await Babysitter.findById(babysitterId);
+    if (!babysitterExists) {
+      return res.status(404).json({ message: `Babysitter with id ${babysitterId} was not found` });
+    }
+
+    const bookings = await Bookings.find({ babysitter: babysitterId, status: "Confirmed" });
+
+    if (bookings.length === 0) {
+      return res.status(404).json({ message: "No confirmed bookings found for this babysitter" });
+    }
+
+    // Set babysitter to null and status to "Pending" for all bookings
+    await Bookings.updateMany(
+      { babysitter: babysitterId, status: "Confirmed" },
+      { babysitter: null, status: "Pending" }
+    );
+
+    // Remove all bookings from the babysitter's booking list
+    await Babysitter.findByIdAndUpdate(babysitterId, { bookings: [] });
+
+    res.status(200).json({ message: "Successfully removed all bookings'" });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+
+// Delete ALL babysitters
+// Use with caution
+controller.delete("/", async (req, res) => {
+  try {
+    // get all babysitters
+    const deleteAll = await Babysitter.deleteMany({});
+
+    if (deleteAll.deletedCount === 0) {
+      return res.status(404).json({ message: "No babysitters found to delete" });
+    }
+
+    // Set all bookings associated with the deleted babysitters to pending
+    await Bookings.updateMany(
+      { babysitter: { $in: deleteAll._id } },
+      { babysitter: null, status: "Pending" }
+    );
+
+    res.status(200).json({
+      message: "All babysitters successfully deleted",
+      deletedCount: deleteAll.deletedCount,
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
 });
 

@@ -7,37 +7,52 @@ const guardianSchema = new Schema(
         name: {
             firstName: { 
                 type: String, 
-                required: [true, "First name is required"]
+                required: [true, "First name is required"],
+                trim: true,
             },
             lastName: { 
                 type: String, 
-                required: [true, "Last name is required"]
+                required: [true, "Last name is required"],
+                trim: true,
             },
         },
         email: { 
             type: String, 
-            required: [true, "Email is required"]
+            required: [true, "Email is required"],
+            unique: true,
+            trim: true,
+            match: [/^[^\s@]+@[^\s@]+\.[^\s@]+$/, "Please provide a valid email address"],
         },
         phoneNumber: { 
             type: String, 
-            required: [true, "Phone-number is required"]
+            required: [true, "Phone-number is required"],
+            match: [/^\+?[0-9]\d{1,14}$/, "Please provide a valid phone number"],
         },
         dateOfBirth: { 
             type: Date, 
-            required: [true, "Date of birth is required"]
+            required: [true, "Date of birth is required"],
+            validate: {
+                validator: function (value) {
+                    return value <= new Date();
+                },
+                message: "Date of birth can't be in the future",
+            },
         },
         location: {
             city: { 
                 type: String, 
-                required: [true, "City is required"]
+                required: [true, "City is required"],
+                trim: true,
             },
             country: { 
                 type: String, 
-                required: [true, "Country is required"]
+                required: [true, "Country is required"],
+                trim: true,
             },
             address: { 
                 type: String, 
-                required: [true, "Address is required"]
+                required: [true, "Address is required"],
+                trim: true,
             },
         },
         children: [{ 
@@ -46,14 +61,13 @@ const guardianSchema = new Schema(
             ref: "Children"
         }],
         bookings: [{
-            // Array for all bookings
+            // Array for all bookings created by specific Guardian
             type: Schema.Types.ObjectId,
             ref: "Bookings",
           }],
     },
     { timestamps: true}
 );
-
 
 const Guardian = mongoose.model('Guardian', guardianSchema);
 
