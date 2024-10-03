@@ -1,7 +1,7 @@
 <template>
-<BButton>
-    <slot></slot>
-</BButton>
+    <BButton>
+        <slot></slot>
+    </BButton>
 </template>
 
 <script>
@@ -11,5 +11,3 @@ export default {
 </script>
 
 <style></style>
-
-

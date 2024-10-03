@@ -1,5 +1,5 @@
 <template>
-    <div class="pt-5">
+    <div class="pt-3">
         <BCardGroup deck>
             <BCard border-variant="primary" header="Booking for: Bonnie" header-bg-variant="primary"
                 header-text-variant="white" align="center">

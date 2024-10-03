@@ -6,8 +6,8 @@
         <BCol>
           <div class="pt-5">
             <h2>Book a babysitter</h2>
-            <Datepicker />
-            <Button to="/babysitter" class="d-inline-block">Find a babysitter</Button>
+            <h3></h3>
+            <Booking />
           </div>
         </BCol>
         <BCol>
@@ -30,7 +30,7 @@
 <script>
 import Button from '@/components/Button.vue'
 import Navbar from '@/components/Navbar.vue'
-import Datepicker from '@/components/Datepicker.vue'
+import Booking from '@/components/Booking.vue'
 import Upcoming from '@/components/Upcoming.vue'
 import Child from '@/components/Child.vue'
 import Modal from '@/components/Modal.vue'
@@ -39,7 +39,7 @@ export default {
   components: {
     Button,
     Navbar,
-    Datepicker,
+    Booking,
     Upcoming,
     Child,
     Modal
