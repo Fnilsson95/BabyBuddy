@@ -90,4 +90,31 @@ controller.delete("/:id", async (req, res) => {
   }
 });
 
+// Delete all children
+// Use with Caution!!
+controller.delete("/", async (req, res) => {
+  try {
+    // get all children
+    const deleteAll = await Children.deleteMany({});
+
+    if (deleteAll.deletedCount === 0) {
+      return res.status(404).json({ message: "No children found to delete" });
+    }
+
+    // Remove the reference to each child from their guardian's children array
+    await Guardian.updateMany(
+      { children: { $in: deleteAll._id } },
+      { $pull: { children: { $in: deleteAll._id } } }
+    );
+
+    res.status(200).json({
+      message: "All children successfully deleted",
+      deletedCount: deleteAll.deletedCount,
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+
 module.exports = controller;
