@@ -92,7 +92,7 @@ controller.get("/pending", async (req, res) => {
       .populate("babysitter"); // Babysitter Will be null initially
 
     if (pendingBookings.length === 0) {
-      return res.status(400).json({ message: "No pending bookings found" });
+      return res.status(404).json({ message: "No pending bookings found" });
     }
 
     res.status(200).json(pendingBookings);
