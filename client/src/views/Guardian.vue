@@ -3,14 +3,14 @@
     <Navbar></Navbar>
     <BContainer>
       <BRow>
-        <BCol>
+        <BCol lg="3">
           <div class="pt-5">
             <h2>Book a babysitter</h2>
             <h3></h3>
             <Booking />
           </div>
         </BCol>
-        <BCol>
+        <BCol lg="3">
           <div class="pt-5">
             <h2>Upcoming bookings</h2>
             <Upcoming />

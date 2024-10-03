@@ -1,59 +1,63 @@
 <template>
     <div class="pt-3">
         <BCardGroup deck>
-            <BCard title="Bonnie Gustavson Olmås" header-tag="header" footer-tag="footer">
+            <BCard v-for="child in children" :title="`${child.firstName} ${child.lastName}`" header-tag="header">
                 <template #header>
-                    <h6 class="mb-0">
-                        <BImg src="" fluid alt="Responsive image" />
-                    </h6>
+                    <div class="mb-0 img-container">
+                        <BImg class="img" src="src/assets/Gösta.jpeg" fluid alt="Responsive image" />
+                    </div>
                 </template>
                 <BCardText>
                     <div>
-                        5 months
+                        {{ child.birthDate.toDateString() }}
                     </div>
-                    <div>No allergies</div>
+                    <div>
+                        {{ child.specialNeed ? child.specialNeed : 'No special needs' }}
+                    </div>
                 </BCardText>
                 <Modal>
                     <template #content>
-                        <ChildForm />
+                        <ChildForm :child="child" />
                     </template>
-                    <template #button>Edit Bonnie</template>
+                    <template #button>Edit {{ child.firstName }}</template>
                 </Modal>
-                <template #footer>
-                    <em>Footer Slot</em>
-                </template>
-            </BCard>
-            <BCard title="Gösta Olmås" header-tag="header" footer-tag="footer">
-                <template #header>
-                    <h6 class="mb-0">
-                        <BImg src="src/assets/Gösta.jpeg" fluid alt="Responsive image" />
-                    </h6>
-                </template>
-                <BCardText>
-                    <div>
-                        4 years
-                    </div>
-                    <div>
-                        Allergic to men
-                    </div>
-                </BCardText>
-
-                <!-- <BButton href="#" variant="primary">Settings</BButton> -->
-                <Modal>
-                    <template #content>
-                        <ChildForm />
-                    </template>
-                    <template #button>Edit Gösta</template>
-                </Modal>
-                <template #footer>
-                    <em>Footer Slot</em>
-                </template>
             </BCard>
         </BCardGroup>
     </div>
 </template>
 
-<script>
+<style scoped>
+.img-container {
+    aspect-ratio: 1;
+    overflow: hidden;
+}
+
+.img {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+}
+</style>
+
+<script setup>
 import Modal from './Modal.vue'
 import ChildForm from '@/components/ChildForm.vue'
+import { ref } from 'vue'
+
+const children = ref([{
+    firstName: 'Bonnie',
+    lastName: 'Olmås',
+    birthDate: new Date("2024-05-02"),
+    specialNeed: '',
+    guardian: 'Emma',
+    profilePic: undefined
+},
+{
+    firstName: 'Gösta',
+    lastName: 'Olmås',
+    birthDate: new Date("2020-06-07"),
+    specialNeed: 'Afraid of dogs',
+    guardian: 'Emma',
+    profilePic: 'src/assets/Gösta.jpeg'
+}])
 </script>

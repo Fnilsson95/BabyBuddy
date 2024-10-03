@@ -3,7 +3,7 @@
         <slot name="button">Edit child</slot>
     </Button>
 
-    <BModal title="Overflowing Content" v-model="isOpen" :hide-footer="true">
+    <BModal title="Overflowing Content" v-model="isOpen" :hide-footer="true" id="child-modal">
         <slot name="content">Default content</slot>
     </BModal>
 </template>

@@ -9,26 +9,34 @@
 </template>
 
 <script setup>
-import { reactive } from 'vue'
+import { reactive, defineProps } from 'vue'
 import Button from '@/components/Button.vue'
+import { useModal } from 'bootstrap-vue-next'
+const { hide } = useModal("child-modal");
+
+const { child } = defineProps(['child'])
+console.log(child);
 
 const inputs = [
-    { label: 'First name', type: 'text', name: 'firstName' },
-    { label: 'Last name', type: 'text', name: 'lastName' },
-    { label: 'Birthdate', type: 'date', name: 'birthDate' },
-    { label: 'Special needs', type: 'text', name: 'specialNeeds' },
-    { label: 'Guardian', type: 'text', name: 'guardian' }
+    { label: 'First name', type: 'text', name: 'firstName', },
+    { label: 'Last name', type: 'text', name: 'lastName', },
+    { label: 'Birthdate', type: 'date', name: 'birthDate', },
+    { label: 'Special needs', type: 'text', name: 'specialNeed', },
+    { label: 'Guardian', type: 'text', name: 'guardian', }
 ]
 
 const form = reactive({
-    firstName: '',
-    lastName: '',
-    birthDate: null
+    firstName: child?.firstName,
+    lastName: child?.lastName,
+    birthDate: child?.birthDate,
+    specialNeed: child?.specialNeed,
+    guardian: child?.guardian,
 })
 
 const onSubmit = (event) => {
     event.preventDefault();
     console.log(JSON.stringify(form));
+    hide();
 }
 
 </script>
