@@ -1,15 +1,18 @@
-const Guardian = require('./guardianModel');
-const express = require('express');
+const Guardian = require("./guardianModel");
+const express = require("express");
 const controller = express.Router();
-const Child = require('../children/childModel');
+const Child = require("../children/childModel");
+const Children = require("../children/childModel");
 const Bookings = require("../bookings/bookingModel");
 
 // Create new guardian
-controller.post('/', async (req, res) => {
+controller.post("/", async (req, res) => {
   try {
     const guardian = new Guardian(req.body);
     const newGuardian = await guardian.save();
-    res.status(201).json({ message: "Successfully created guardian!", newGuardian });
+    res
+      .status(201)
+      .json({ message: "Successfully created guardian!", newGuardian });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -48,7 +51,7 @@ controller.post("/:guardianId/children", async (req, res) => {
 });
 
 // Get all guardians
-controller.get('/', async (req, res) => {
+controller.get("/", async (req, res) => {
   try {
     const guardians = await Guardian.find().populate("children");
     res.status(200).json(guardians);
@@ -65,7 +68,7 @@ controller.get("/:id", async (req, res) => {
 
     if (!guardian) {
       res.status(404).json({
-        message: `Guardian with id ${id} was not found`
+        message: `Guardian with id ${id} was not found`,
       });
     } else {
       res.status(200).json(guardian);
@@ -79,11 +82,10 @@ controller.get("/:id", async (req, res) => {
 controller.put("/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const guardian = await Guardian.findByIdAndUpdate(
-      id,
-      req.body,
-      { new: true, runValidators: true })
-      .populate("children");
+    const guardian = await Guardian.findByIdAndUpdate(id, req.body, {
+      new: true,
+      runValidators: true,
+    }).populate("children");
 
     // Check if the email is being updated, and if it exists in another guardian
     if (req.body.email && req.body.email !== guardian.email) {
@@ -97,7 +99,10 @@ controller.put("/:id", async (req, res) => {
       res.status(404).json({ message: `Guardian with id ${id} was not found` });
     } else {
       const updateGuardian = await Guardian.findById(id).populate("children");
-      res.status(200).json({ message: `Successfully updated guardian with id ${id}`, updateGuardian });
+      res.status(200).json({
+        message: `Successfully updated guardian with id ${id}`,
+        updateGuardian,
+      });
     }
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -123,7 +128,9 @@ controller.patch("/:id", async (req, res) => {
     }
 
     if (!updateGuadian) {
-      return res.status(404).json({ message: `Guardian with id ${id} was not found` });
+      return res
+        .status(404)
+        .json({ message: `Guardian with id ${id} was not found` });
     } else {
       res.status(200).json(updateGuadian);
     }
@@ -132,16 +139,15 @@ controller.patch("/:id", async (req, res) => {
   }
 });
 
-
 // Delete guardian by id
-controller.delete('/:id', async (req, res) => {
-  const id = req.params.id;
+controller.delete("/:id", async (req, res) => {
+  const { id } = req.params;
 
   try {
     const guardian = await Guardian.findByIdAndDelete(id);
     if (guardian) {
       res.status(200).json({
-        message: `deleted guardian: ${guardian}`
+        message: `deleted guardian: ${guardian}`,
       });
     } else {
       res.status(404).json({ error: `Guardian with id ${id} was not found` });
@@ -153,7 +159,7 @@ controller.delete('/:id', async (req, res) => {
 
 // Delete all guardians
 // Use with Caution!!
-controller.delete('/', async (req, res) => {
+controller.delete("/", async (req, res) => {
   try {
     const deleteAll = await Guardian.deleteMany({});
     if (deleteAll.deletedCount === 0) {
@@ -161,24 +167,23 @@ controller.delete('/', async (req, res) => {
     }
     res.status(200).json({
       message: "All guardians was successfully deleted!",
-      deletedCount: deleteAll.deletedCount
+      deletedCount: deleteAll.deletedCount,
     });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 });
 
-
-
 // Get all children of a specific guardian - /guardians/:guardianId/children
 controller.get("/:guardianId/children", async (req, res) => {
   try {
-    const guardianId = req.params.guardianId;
-
+    const { guardianId } = req.params;
     const guardian = await Guardian.findById(guardianId).populate("children");
 
     if (!guardian) {
-      return res.status(404).json({ message: `Guardian with id ${guardianId} were not found` });
+      return res
+        .status(404)
+        .json({ message: `Guardian with id ${guardianId} were not found` });
     }
     res.status(200).json(guardian.children);
   } catch (error) {
@@ -194,7 +199,9 @@ controller.get("/:guardianId/children/:childId", async (req, res) => {
     const child = await Child.findOne({ _id: childId, guardian: guardianId });
 
     if (!child) {
-      return res.status(404).json({ message: `Child with ${childId} not found for this guardian` });
+      return res
+        .status(404)
+        .json({ message: `Child with ${childId} not found for this guardian` });
     }
     res.status(200).json(child);
   } catch (error) {
@@ -207,10 +214,15 @@ controller.delete("/:guardianId/children/:childId", async (req, res) => {
   try {
     const { guardianId, childId } = req.params;
 
-    const child = await Child.findOneAndDelete({ _id: childId, guardian: guardianId });
+    const child = await Child.findOneAndDelete({
+      _id: childId,
+      guardian: guardianId,
+    });
 
     if (!child) {
-      return res.status(404).json({ message: `Child with ${childId} not found for this guardian` });
+      return res
+        .status(404)
+        .json({ message: `Child with ${childId} not found for this guardian` });
     }
 
     await Guardian.findByIdAndUpdate(guardianId, {
@@ -308,6 +320,7 @@ controller.delete("/:guardianId/bookings", async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
+
 
 // Export routes
 module.exports = controller;
