@@ -309,6 +309,5 @@ controller.delete("/:guardianId/bookings", async (req, res) => {
   }
 });
 
-
 // Export routes
 module.exports = controller;
