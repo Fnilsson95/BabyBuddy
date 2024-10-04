@@ -126,7 +126,7 @@ controller.patch("/:id", async (req, res) => {
         return res.status(400).json({ message: "Email already exists" });
       }
     }
-    
+
     if (!updateGuadian) {
       return res
         .status(404)
@@ -294,18 +294,18 @@ controller.delete("/:guardianId/bookings", async (req, res) => {
     const { guardianId } = req.params;
 
     // Find all bookings for the guardian
-    const guardianBookings = await Bookings.find ({ guardian: guardianId});
+    const guardianBookings = await Bookings.find({ guardian: guardianId });
     if (guardianBookings.length === 0) {
-      return res.status(400).json({ message: "No bookings found for this guardian"});
+      return res.status(400).json({ message: "No bookings found for this guardian" });
     }
 
     // For each booking
     // If a babysitter is assigned (booking confirmed)
     // Remove the booking from the babysitters bookings list
     for (const booking of guardianBookings) {
-      if(booking.babysitter) {
+      if (booking.babysitter) {
         await Babysitter.findByIdAndUpdate(booking.babysitter,
-           { $pull: { bookings: booking._id } });
+          { $pull: { bookings: booking._id } });
       }
     }
 
@@ -315,7 +315,7 @@ controller.delete("/:guardianId/bookings", async (req, res) => {
     // Clear the bookings array for guardian
     await Guardian.findByIdAndUpdate(guardianId, { $set: { bookings: [] } });
 
-    res.status(200).json({ message: "All bookings for this guardian have been successfully deleted"});
+    res.status(200).json({ message: "All bookings for this guardian have been successfully deleted" });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
