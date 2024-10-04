@@ -1,7 +1,7 @@
 <template>
   <div class="job-details">
     <div class="grid-container">
-      <p style="font-weight: 600; font-size: 20px; margin: 0">Date</p>
+      <p class="sectionTitle">Date</p>
       <div class="grid-item">
         <div class="dates">
           <p class="label">Start Date:</p>
@@ -18,7 +18,7 @@
           </div>
         </div>
       </div>
-      <p style="font-weight: 600; font-size: 20px; margin: 0">Location</p>
+      <p class="sectionTitle">Location</p>
       <div class="grid-item">
         <div>
           <p class="label">Pickup Location:</p>
@@ -37,7 +37,7 @@
           </div>
         </div>
       </div>
-      <p style="font-weight: 600; font-size: 20px; margin: 0">Guardian</p>
+      <p class="sectionTitle">Guardian</p>
       <div class="guardianContainer">
         <p style="font-size: 18px; font-weight: 600; margin: 0">
           {{ booking.guardian.name.firstName }}
@@ -58,13 +58,7 @@
           {{ booking.children.length }}
         </p>
       </div>
-      <div
-        style="
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-        "
-      >
+      <div class="bookingStatus">
         <p>
           Status:
           <span style="font-weight: 600">{{ booking.status }}</span>
@@ -100,7 +94,6 @@ export default {
     async handleConfirmBooking(bookingId, babysitterId) {
       try {
         bookingApi.confirmBooking(bookingId, '66ff1821d6c0fea82a7301ae')
-
         this.$emit('apply-and-close')
       } catch (error) {
         console.error('Error confirming booking:', error)
@@ -119,8 +112,7 @@ export default {
 .textContainer {
   font-size: 16;
   font-weight: 600;
-  border: 0.3px solid #c3c3c3;
-  border-radius: 5px;
+
   padding: 6px 8px;
   background-color: white;
   margin: 0;
@@ -159,6 +151,18 @@ export default {
   align-items: flex-start;
   justify-content: flex-start;
   margin-bottom: 10px;
+}
+
+.sectionTitle {
+  font-weight: 600;
+  font-size: 20px;
+  margin: 0;
+}
+
+.bookingStatus {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .apply-button-container {
