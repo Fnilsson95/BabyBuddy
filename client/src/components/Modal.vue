@@ -1,15 +1,28 @@
 <template>
-    <Button variant="primary" @click="isOpen = !isOpen">
-        <slot name="button">Edit child</slot>
-    </Button>
+  <Button variant="primary" @click="isOpen = !isOpen">
+    <slot name="button">Edit child</slot>
+  </Button>
 
-    <BModal title="Overflowing Content" v-model="isOpen" :hide-footer="true" id="child-modal">
-        <slot name="content">Default content</slot>
-    </BModal>
+  <BModal title="Overflowing Content" v-model="isOpen" :hide-footer="true">
+    <slot name="content">Default content</slot>
+  </BModal>
 </template>
 
-<script setup>
+<script>
 import { ref } from 'vue'
-import Button from '@/components/Button.vue'
-const isOpen = ref(false)
+
+export default {
+  setup() {
+    const isOpen = ref(false)
+
+    const closeModal = () => {
+      isOpen.value = false
+    }
+
+    return {
+      isOpen,
+      closeModal
+    }
+  }
+}
 </script>
