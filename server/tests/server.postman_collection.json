@@ -491,13 +491,9 @@
 									"listen": "test",
 									"script": {
 										"exec": [
-											"if (pm.environment.get(\"RUN_TEARDOWN\") === \"true\") {",
-											"    pm.test(\"Status code is 200\", function () {",
-											"        pm.response.to.have.status(200);",
-											"    });",
-											"} else {",
-											"    console.log(\"Teardown skipped.\");",
-											"}"
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});"
 										],
 										"type": "text/javascript",
 										"packages": {}
@@ -1046,13 +1042,9 @@
 									"listen": "test",
 									"script": {
 										"exec": [
-											"if (pm.environment.get(\"RUN_TEARDOWN\") === \"true\") {",
-											"    pm.test(\"Status code is 200\", function () {",
-											"        pm.response.to.have.status(200);",
-											"    });",
-											"} else {",
-											"    console.log(\"Teardown skipped.\");",
-											"}"
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});"
 										],
 										"type": "text/javascript",
 										"packages": {}
@@ -1859,13 +1851,9 @@
 									"listen": "test",
 									"script": {
 										"exec": [
-											"if (pm.environment.get(\"RUN_TEARDOWN\") === \"true\") {",
-											"    pm.test(\"Status code is 200\", function () {",
-											"        pm.response.to.have.status(200);",
-											"    });",
-											"} else {",
-											"    console.log(\"Teardown skipped.\");",
-											"}"
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});"
 										],
 										"type": "text/javascript",
 										"packages": {}
@@ -2907,6 +2895,60 @@
 							"response": []
 						},
 						{
+							"name": "Get all booking for babysitter (PAGI/SORT)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3001/api/babysitters/{{babysitterId}}/bookings?page=1&limit=10&sort=startDateTime&order=asc",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3001",
+									"path": [
+										"api",
+										"babysitters",
+										"{{babysitterId}}",
+										"bookings"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "limit",
+											"value": "10"
+										},
+										{
+											"key": "sort",
+											"value": "startDateTime"
+										},
+										{
+											"key": "order",
+											"value": "asc"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "Get specific booking for babysitter",
 							"event": [
 								{
@@ -3283,6 +3325,913 @@
 							"path": [
 								"api",
 								"babysitters"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Buildup",
+			"item": [
+				{
+					"name": "Create Guardian 1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"var jsonData = pm.response.json();",
+									"pm.environment.set(\"guardianId\", jsonData.newGuardian._id);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// Generate a random number to append to the email\r",
+									"const randomNumber = Math.floor(Math.random() * 10000);\r",
+									"\r",
+									"// Set the dynamically generated email as a Postman variable\r",
+									"pm.variables.set(\"randomEmail\", `user${randomNumber}@example.com`);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": {\n    \"firstName\": \"John\",\n    \"lastName\": \"Doe\"\n  },\n  \"email\": \"{{randomEmail}}\",\n  \"phoneNumber\": \"1234567890\",\n  \"dateOfBirth\": \"1980-01-01T00:00:00.000Z\",\n  \"location\": {\n    \"city\": \"New York\",\n    \"country\": \"USA\",\n    \"address\": \"123 Broadway\"\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/guardians",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"guardians"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Guardian 2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"var jsonData = pm.response.json();",
+									"pm.environment.set(\"guardianId\", jsonData.newGuardian._id);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// Generate a random number to append to the email\r",
+									"const randomNumber = Math.floor(Math.random() * 10000);\r",
+									"\r",
+									"// Set the dynamically generated email as a Postman variable\r",
+									"pm.variables.set(\"randomEmail\", `user${randomNumber}@example.com`);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": {\n    \"firstName\": \"Christian\",\n    \"lastName\": \"Dior\"\n  },\n  \"email\": \"{{randomEmail}}\",\n  \"phoneNumber\": \"1234567890\",\n  \"dateOfBirth\": \"1980-01-01T00:00:00.000Z\",\n  \"location\": {\n    \"city\": \"New York\",\n    \"country\": \"USA\",\n    \"address\": \"123 Broadway\"\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/guardians",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"guardians"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Guardian 3",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"var jsonData = pm.response.json();",
+									"pm.environment.set(\"guardianId\", jsonData.newGuardian._id);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// Generate a random number to append to the email\r",
+									"const randomNumber = Math.floor(Math.random() * 10000);\r",
+									"\r",
+									"// Set the dynamically generated email as a Postman variable\r",
+									"pm.variables.set(\"randomEmail\", `user${randomNumber}@example.com`);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": {\n    \"firstName\": \"Felicia\",\n    \"lastName\": \"Dobre\"\n  },\n  \"email\": \"{{randomEmail}}\",\n  \"phoneNumber\": \"1234567890\",\n  \"dateOfBirth\": \"1980-01-01T00:00:00.000Z\",\n  \"location\": {\n    \"city\": \"New York\",\n    \"country\": \"USA\",\n    \"address\": \"123 Broadway\"\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/guardians",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"guardians"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Child 1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"var jsonData = pm.response.json();",
+									"pm.environment.set(\"childId\", jsonData.newChild._id);"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": {\n    \"firstName\": \"Emily\",\n    \"lastName\": \"Smith\"\n  },\n  \"dateOfBirth\": \"2010-02-15T00:00:00.000Z\",\n  \"specialNeeds\": \"None\",\n  \"guardian\": \"{{guardianId}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/children",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"children"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Child 2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"var jsonData = pm.response.json();",
+									"pm.environment.set(\"childId\", jsonData.newChild._id);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": {\n    \"firstName\": \"Peter\",\n    \"lastName\": \"Parker\"\n  },\n  \"dateOfBirth\": \"2010-02-15T00:00:00.000Z\",\n  \"specialNeeds\": \"None\",\n  \"guardian\": \"{{guardianId}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/children",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"children"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Child 3",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"var jsonData = pm.response.json();",
+									"pm.environment.set(\"childId\", jsonData.newChild._id);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": {\n    \"firstName\": \"Anel\",\n    \"lastName\": \"Filipovic\"\n  },\n  \"dateOfBirth\": \"2010-02-15T00:00:00.000Z\",\n  \"specialNeeds\": \"None\",\n  \"guardian\": \"{{guardianId}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/children",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"children"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Child 4",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"var jsonData = pm.response.json();",
+									"pm.environment.set(\"childId\", jsonData.newChild._id);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": {\n    \"firstName\": \"Fredrik\",\n    \"lastName\": \"Vlahovic\"\n  },\n  \"dateOfBirth\": \"2010-02-15T00:00:00.000Z\",\n  \"specialNeeds\": \"None\",\n  \"guardian\": \"{{guardianId}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/children",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"children"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Babysitter 1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"var jsonData = pm.response.json();",
+									"pm.environment.set(\"babysitterId\", jsonData.newBabysitter._id);",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// Generate a random number to append to the email\r",
+									"const randomNumber = Math.floor(Math.random() * 10000);\r",
+									"\r",
+									"// Set the dynamically generated email as a Postman variable\r",
+									"pm.variables.set(\"randomEmail\", `user${randomNumber}@example.com`);\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"firstName\": \"Sarah\",\n  \"lastName\": \"Connor\",\n  \"email\": \"{{randomEmail}}\",\n  \"dateOfBirth\": \"1995-08-29T00:00:00.000Z\",\n  \"phoneNumber\": \"0987654321\",\n  \"experience\": \"5 years of experience with children aged 1-6.\",\n  \"hourlyRate\": 100\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/babysitters",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"babysitters"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Babysitter 2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"var jsonData = pm.response.json();",
+									"pm.environment.set(\"babysitterId\", jsonData.newBabysitter._id);",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// Generate a random number to append to the email\r",
+									"const randomNumber = Math.floor(Math.random() * 10000);\r",
+									"\r",
+									"// Set the dynamically generated email as a Postman variable\r",
+									"pm.variables.set(\"randomEmail\", `user${randomNumber}@example.com`);\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"firstName\": \"Jessica\",\n  \"lastName\": \"Peterson\",\n  \"email\": \"{{randomEmail}}\",\n  \"dateOfBirth\": \"1995-08-29T00:00:00.000Z\",\n  \"phoneNumber\": \"0987654321\",\n  \"experience\": \"5 years of experience with children aged 1-6.\",\n  \"hourlyRate\": 100\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/babysitters",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"babysitters"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Babysitter 3",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"var jsonData = pm.response.json();",
+									"pm.environment.set(\"babysitterId\", jsonData.newBabysitter._id);",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// Generate a random number to append to the email\r",
+									"const randomNumber = Math.floor(Math.random() * 10000);\r",
+									"\r",
+									"// Set the dynamically generated email as a Postman variable\r",
+									"pm.variables.set(\"randomEmail\", `user${randomNumber}@example.com`);\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"firstName\": \"Petter\",\n  \"lastName\": \"Carlsson\",\n  \"email\": \"{{randomEmail}}\",\n  \"dateOfBirth\": \"1995-08-29T00:00:00.000Z\",\n  \"phoneNumber\": \"0987654321\",\n  \"experience\": \"5 years of experience with children aged 1-6.\",\n  \"hourlyRate\": 100\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/babysitters",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"babysitters"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Booking Pending",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"var jsonData = pm.response.json();",
+									"pm.environment.set(\"bookingId\", jsonData.newBooking._id);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"packages": {},
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"startDateTime\": \"2024-12-01T14:00:00.000Z\",\n  \"endDateTime\": \"2024-12-01T18:00:00.000Z\",\n  \"totalCost\": 10,\n  \"location\": {\n    \"pickup_Location\": \"School\",\n    \"dropoff_Location\": \"Home\"\n  },\n  \"guardian\": \"{{guardianId}}\",\n  \"children\": [\n    \"{{childId}}\"\n  ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/bookings",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"bookings"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Booking Confirmed",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"var jsonData = pm.response.json();",
+									"pm.environment.set(\"bookingId\", jsonData.newBooking._id);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"startDateTime\": \"2024-12-01T14:00:00.000Z\",\n  \"endDateTime\": \"2024-12-01T18:00:00.000Z\",\n  \"totalCost\": 100,\n  \"location\": {\n    \"pickup_Location\": \"Home\",\n    \"dropoff_Location\": \"Gothenburg University\"\n  },\n  \"guardian\": \"{{guardianId}}\",\n  \"children\": [\n    \"{{childId}}\"\n  ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/bookings",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"bookings"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Confirm booking for babysitter",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"startDateTime\": \"2024-12-01T14:00:00.000Z\",\r\n  \"endDateTime\": \"2024-12-01T18:00:00.000Z\",\r\n  \"totalCost\": 400,\r\n  \"location\": {\r\n    \"pickup_Location\": \"School\",\r\n    \"dropoff_Location\": \"Home\"\r\n  },\r\n  \"guardian\": \"{{guardianId}}\",\r\n  \"babysitter\": \"{{babysitterId}}\",\r\n  \"children\": [\r\n    \"{{childId}}\"\r\n  ],\r\n  \"status\": \"Confirmed\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/bookings/{{bookingId}}/confirm/{{babysitterId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"bookings",
+								"{{bookingId}}",
+								"confirm",
+								"{{babysitterId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Booking Expired",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"var jsonData = pm.response.json();",
+									"pm.environment.set(\"bookingId\", jsonData.newBooking._id);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"startDateTime\": \"2024-12-01T14:00:00.000Z\",\n  \"endDateTime\": \"2024-12-01T18:00:00.000Z\",\n  \"totalCost\": 400,\n  \"location\": {\n    \"pickup_Location\": \"Universeum\",\n    \"dropoff_Location\": \"Home\"\n  },\n  \"guardian\": \"{{guardianId}}\",\n  \"children\": [\n    \"{{childId}}\"\n  ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/bookings",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"bookings"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Booking Completed",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"var jsonData = pm.response.json();",
+									"pm.environment.set(\"bookingId\", jsonData.newBooking._id);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"startDateTime\": \"2024-12-01T14:00:00.000Z\",\n  \"endDateTime\": \"2024-12-01T18:00:00.000Z\",\n  \"totalCost\": 1500,\n  \"location\": {\n    \"pickup_Location\": \"Gym\",\n    \"dropoff_Location\": \"Landvetter Airport\"\n  },\n  \"guardian\": \"{{guardianId}}\",\n  \"children\": [\n    \"{{childId}}\"\n  ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/bookings",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"bookings"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Confirm booking for babysitter Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"startDateTime\": \"2024-12-01T14:00:00.000Z\",\r\n  \"endDateTime\": \"2024-12-01T18:00:00.000Z\",\r\n  \"totalCost\": 400,\r\n  \"location\": {\r\n    \"pickup_Location\": \"School\",\r\n    \"dropoff_Location\": \"Home\"\r\n  },\r\n  \"guardian\": \"{{guardianId}}\",\r\n  \"babysitter\": \"{{babysitterId}}\",\r\n  \"children\": [\r\n    \"{{childId}}\"\r\n  ],\r\n  \"status\": \"Confirmed\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/bookings/{{bookingId}}/confirm/{{babysitterId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"bookings",
+								"{{bookingId}}",
+								"confirm",
+								"{{babysitterId}}"
 							]
 						}
 					},
