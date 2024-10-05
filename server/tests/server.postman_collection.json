@@ -925,12 +925,13 @@
 								{
 									"listen": "test",
 									"script": {
-										"type": "text/javascript",
 										"exec": [
 											"pm.test(\"Status code is 200\", function () {",
 											"    pm.response.to.have.status(200);",
 											"});"
-										]
+										],
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -938,7 +939,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:3001/api/children",
+									"raw": "http://localhost:3001/api/children?limit=10&sort=lastName&order=asc&page=1",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -947,6 +948,29 @@
 									"path": [
 										"api",
 										"children"
+									],
+									"query": [
+										{
+											"key": "limit",
+											"value": "10"
+										},
+										{
+											"key": "sort",
+											"value": "lastName"
+										},
+										{
+											"key": "order",
+											"value": "asc"
+										},
+										{
+											"key": "",
+											"value": "",
+											"disabled": true
+										},
+										{
+											"key": "page",
+											"value": "1"
+										}
 									]
 								}
 							},
@@ -1240,12 +1264,13 @@
 								{
 									"listen": "test",
 									"script": {
-										"type": "text/javascript",
 										"exec": [
 											"pm.test(\"Status code is 200\", function () {",
 											"    pm.response.to.have.status(200);",
 											"});"
-										]
+										],
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -1253,7 +1278,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:3001/api/babysitters",
+									"raw": "http://localhost:3001/api/babysitters?page=1&limit=15&sort=hourlyRate&order=asc",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -1262,6 +1287,24 @@
 									"path": [
 										"api",
 										"babysitters"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "limit",
+											"value": "15"
+										},
+										{
+											"key": "sort",
+											"value": "hourlyRate"
+										},
+										{
+											"key": "order",
+											"value": "asc"
+										}
 									]
 								}
 							},
@@ -1733,12 +1776,13 @@
 								{
 									"listen": "test",
 									"script": {
-										"type": "text/javascript",
 										"exec": [
 											"pm.test(\"Status code is 200\", function () {",
 											"    pm.response.to.have.status(200);",
 											"});"
-										]
+										],
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -1746,7 +1790,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:3001/api/bookings",
+									"raw": "http://localhost:3001/api/bookings?sort=startDateTime&order=asc&sort=totalCost&order=desc\n\n\n\n",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -1755,6 +1799,24 @@
 									"path": [
 										"api",
 										"bookings"
+									],
+									"query": [
+										{
+											"key": "sort",
+											"value": "startDateTime"
+										},
+										{
+											"key": "order",
+											"value": "asc"
+										},
+										{
+											"key": "sort",
+											"value": "totalCost"
+										},
+										{
+											"key": "order",
+											"value": "desc\n\n\n\n"
+										}
 									]
 								}
 							},
@@ -2485,7 +2547,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:3001/api/guardians/{{guardianId}}/bookings",
+									"raw": "http://localhost:3001/api/guardians/{{guardianId}}/bookings?page=1&limit=10&sort=startDateTime&order=desc",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -2496,6 +2558,24 @@
 										"guardians",
 										"{{guardianId}}",
 										"bookings"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "limit",
+											"value": "10"
+										},
+										{
+											"key": "sort",
+											"value": "startDateTime"
+										},
+										{
+											"key": "order",
+											"value": "desc"
+										}
 									]
 								}
 							},
@@ -2732,7 +2812,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:3001/api/bookings/pending",
+									"raw": "http://localhost:3001/api/bookings/pending?page=1&limit=10&sort=startDateTime&order=asc",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -2742,6 +2822,24 @@
 										"api",
 										"bookings",
 										"pending"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "limit",
+											"value": "10"
+										},
+										{
+											"key": "sort",
+											"value": "startDateTime"
+										},
+										{
+											"key": "order",
+											"value": "asc"
+										}
 									]
 								}
 							},

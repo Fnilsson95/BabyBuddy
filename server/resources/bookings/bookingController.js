@@ -64,16 +64,28 @@ controller.post("/", async (req, res) => {
   }
 });
 
-// Get all bookings
-// Pagination Example for test
-// /api/bookings?page=2&limit=10
+// Get all bookings with pagination and sorting options
+// Example: /api/bookings?sort=startDateTime&order=asc&sort=totalCost&order=desc
 controller.get("/", async (req, res) => {
   const page = parseInt(req.query.page) || 1;
   const limit = parseInt(req.query.limit) || 20;
   const skip = (page - 1) * limit;
 
+  // Handle invalid page or limit values
+  if (isNaN(page) || page < 1) {
+    return res.status(400).json({ message: "Invalid page parameter. Must be a positive number." });
+  }
+  if (isNaN(limit) || limit < 1) {
+    return res.status(400).json({ message: "Invalid limit parameter. Must be a positive number." });
+  }
+
+  // Sorting options
+  const sortField = req.query.sort || "startDateTime"; // Default sort by startDate
+  const sortOrder = req.query.order === "asc" ? 1 : -1; // Default order is descending
+
   try {
     const bookings = await Booking.find()
+      .sort({ [sortField]: sortOrder })
       .skip(skip)
       .limit(limit)
       .populate("guardian")
@@ -92,8 +104,28 @@ controller.get("/", async (req, res) => {
 
 // Get all bookings with status "Pending" (List for Booking Page)
 controller.get("/pending", async (req, res) => {
+  
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 20;
+  const skip = (page - 1) * limit;
+
+  // Handle invalid page or limit values
+  if (isNaN(page) || page < 1) {
+    return res.status(400).json({ message: "Invalid page parameter. Must be a positive number." });
+  }
+  if (isNaN(limit) || limit < 1) {
+    return res.status(400).json({ message: "Invalid limit parameter. Must be a positive number." });
+  }
+  
+  const sortField = req.query.sort || "startDateTime" // Default sort by startDate
+  const sortOrder = req.query.order === "asc" ? 1 : -1; // Default order by asc
+
+  
   try {
     const pendingBookings = await Booking.find({ status: "Pending" })
+      .sort({ [sortField]: sortOrder })
+      .skip(skip)
+      .limit(limit)
       .populate("guardian")
       .populate("children")
       .populate("babysitter"); // Babysitter Will be null initially
@@ -106,7 +138,14 @@ controller.get("/pending", async (req, res) => {
       return res.status(404).json({ message: "No pending bookings found" });
     }
 
-    res.status(200).json(updatedBookings);
+    const total = await Booking.countDocuments({ status: "Pending" });
+
+    res.status(200).json({
+      total, 
+      page,
+      limit, 
+      bookings: updatedBookings,
+    });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

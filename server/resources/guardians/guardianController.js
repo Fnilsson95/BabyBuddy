@@ -239,12 +239,37 @@ controller.delete("/:guardianId/children/:childId", async (req, res) => {
 });
 
 // Get all bookings for a specific guardian
+// With pagination and Sorting option
+// Example: /api/guardians/:guardianId/bookings?page=2&limit=10&sort=startDateTime&order=desc
+
 controller.get("/:guardianId/bookings", async (req, res) => {
   try {
     const { guardianId } = req.params;
+    const { page = 1, limit = 20, sort = "startDateTime", order = "asc" } = req.query;
+
+    // Pagination and Sorting parameters and validation
+    const pages = parseInt(page, 10);
+    const limits = parseInt(limit, 10);
+    const skip = (pages - 1) * limits;
+
+    // Handle invalid page or limit values
+    if (isNaN(pages) || pages < 1) {
+      return res.status(400).json({ message: "Invalid page parameter. Must be a positive number." });
+    }
+    if (isNaN(limits) || limits < 1) {
+      return res.status(400).json({ message: "Invalid limit parameter. Must be a positive number." });
+    }
+    
+    const validOrders = ["asc", "desc"];
+    const sortOrder = validOrders.includes(order) ? (order === "asc" ? 1 : -1) : 1;
+    const sortOption = { [sort]: sortOrder};
+    
 
     // Find all bookings associated with the guardian
     const guardianBookings = await Bookings.find({ guardian: guardianId })
+      .sort(sortOption)
+      .skip(skip)
+      .limit(limits)
       .populate("guardian")
       .populate("children")
       .populate("babysitter"); // Babysitter may be null if booking is still pending
@@ -257,7 +282,12 @@ controller.get("/:guardianId/bookings", async (req, res) => {
       return res.status(400).json({ message: "No bookings found for this guardian" });
     }
 
-    res.status(200).json(updatedBookings);
+    res.status(200).json({
+      page: pages,
+      limit: limits,
+      totalBookings: updatedBookings.length,
+      bookings: updatedBookings,
+    });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
