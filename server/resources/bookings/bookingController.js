@@ -12,7 +12,7 @@ const updateBookingStatus = require("../bookings/bookingHelpers");
 controller.post("/", async (req, res) => {
   try {
     
-    const { startDateTime, endDateTime, guardian, children, location, totalCost } = req.body;
+    const { startDateTime, endDateTime, guardian, children, location, totalCost, description, additionalInformation } = req.body;
 
     // Validate dates
     if (new Date(startDateTime) >= new Date(endDateTime)) {
@@ -45,7 +45,9 @@ controller.post("/", async (req, res) => {
       children,
       location,
       totalCost,
-      status: "Pending" // Set to Pending initially
+      status: "Pending", // Set to Pending initially
+      description,
+      additionalInformation
     });
     await newBooking.save();
 

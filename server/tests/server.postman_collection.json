@@ -220,7 +220,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"startDateTime\": \"2024-12-01T14:00:00.000Z\",\n  \"endDateTime\": \"2024-12-01T18:00:00.000Z\",\n  \"totalCost\": 400,\n  \"location\": {\n    \"pickup_Location\": \"School\",\n    \"dropoff_Location\": \"Home\"\n  },\n  \"guardian\": \"{{guardianId}}\",\n  \"children\": [\n    \"{{childId}}\"\n  ]\n}",
+							"raw": "{\n  \"startDateTime\": \"2024-12-01T14:00:00.000Z\",\n  \"endDateTime\": \"2024-12-01T18:00:00.000Z\",\n  \"totalCost\": 400,\n  \"location\": {\n    \"pickup_Location\": \"School\",\n    \"dropoff_Location\": \"Home\"\n  },\n  \"guardian\": \"{{guardianId}}\",\n  \"children\": [\n    \"{{childId}}\"\n  ],\n  \"description\": \"Hello there, this is a test\",\n  \"additionalInformation\": \"If needed\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1705,7 +1705,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"startDateTime\": \"2024-12-01T14:00:00.000Z\",\n  \"endDateTime\": \"2024-12-01T18:00:00.000Z\",\n  \"totalCost\": 400,\n  \"location\": {\n    \"pickup_Location\": \"School\",\n    \"dropoff_Location\": \"Home\"\n  },\n  \"guardian\": \"{{guardianId}}\",\n  \"children\": [\n    \"{{childId}}\"\n  ],\n  \"status\": \"Pending\"\n}",
+									"raw": "{\n  \"startDateTime\": \"2024-12-01T14:00:00.000Z\",\n  \"endDateTime\": \"2024-12-01T18:00:00.000Z\",\n  \"totalCost\": 400,\n  \"location\": {\n    \"pickup_Location\": \"School\",\n    \"dropoff_Location\": \"Home\"\n  },\n  \"guardian\": \"{{guardianId}}\",\n  \"children\": [\n    \"{{childId}}\"\n  ],\n  \"description\": \"Hello there, this is a test\",\n  \"additionalInformation\": \"If needed\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1953,7 +1953,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"startDateTime\": \"2024-12-01T14:00:00.000Z\",\n  \"endDateTime\": \"2024-12-01T18:00:00.000Z\",\n  \"totalCost\": 400,\n  \"location\": {\n    \"pickup_Location\": \"School\",\n    \"dropoff_Location\": \"Home\"\n  },\n  \"guardian\": \"{{guardianId}}\",\n  \"children\": [\n    \"{{childId}}\"\n  ],\n  \"status\": \"Pending\"\n}",
+									"raw": "{\n  \"startDateTime\": \"2024-12-01T14:00:00.000Z\",\n  \"endDateTime\": \"2024-12-01T18:00:00.000Z\",\n  \"totalCost\": 400,\n  \"location\": {\n    \"pickup_Location\": \"School\",\n    \"dropoff_Location\": \"Home\"\n  },\n  \"guardian\": \"{{guardianId}}\",\n  \"children\": [\n    \"{{childId}}\"\n  ],\n  \"description\": \"Hello there, this is a test\",\n  \"additionalInformation\": \"If needed\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -2443,7 +2443,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"startDateTime\": \"2024-12-01T14:00:00.000Z\",\n  \"endDateTime\": \"2024-12-01T18:00:00.000Z\",\n  \"totalCost\": 400,\n  \"location\": {\n    \"pickup_Location\": \"School\",\n    \"dropoff_Location\": \"Home\"\n  },\n  \"guardian\": \"{{guardianId}}\",\n  \"children\": [\n    \"{{childId}}\"\n  ],\n  \"status\": \"Pending\"\n}",
+									"raw": "{\n  \"startDateTime\": \"2024-12-01T14:00:00.000Z\",\n  \"endDateTime\": \"2024-12-01T18:00:00.000Z\",\n  \"totalCost\": 400,\n  \"location\": {\n    \"pickup_Location\": \"School\",\n    \"dropoff_Location\": \"Home\"\n  },\n  \"guardian\": \"{{guardianId}}\",\n  \"children\": [\n    \"{{childId}}\"\n  ],\n  \"description\": \"Hello there, this is a test\",\n  \"additionalInformation\": \"If needed\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -2467,6 +2467,42 @@
 						},
 						{
 							"name": "Get all bookings for Guardian",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3001/api/guardians/{{guardianId}}/bookings",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3001",
+									"path": [
+										"api",
+										"guardians",
+										"{{guardianId}}",
+										"bookings"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get specific booking for Guardian",
 							"event": [
 								{
 									"listen": "test",
@@ -2567,7 +2603,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"startDateTime\": \"2024-12-01T14:00:00.000Z\",\n  \"endDateTime\": \"2024-12-01T18:00:00.000Z\",\n  \"totalCost\": 400,\n  \"location\": {\n    \"pickup_Location\": \"School\",\n    \"dropoff_Location\": \"Home\"\n  },\n  \"guardian\": \"{{guardianId}}\",\n  \"children\": [\n    \"{{childId}}\"\n  ],\n  \"status\": \"Pending\"\n}",
+									"raw": "{\n  \"startDateTime\": \"2024-12-01T14:00:00.000Z\",\n  \"endDateTime\": \"2024-12-01T18:00:00.000Z\",\n  \"totalCost\": 400,\n  \"location\": {\n    \"pickup_Location\": \"School\",\n    \"dropoff_Location\": \"Home\"\n  },\n  \"guardian\": \"{{guardianId}}\",\n  \"children\": [\n    \"{{childId}}\"\n  ],\n  \"description\": \"Hello there, this is a test\",\n  \"additionalInformation\": \"If needed\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -2654,7 +2690,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"startDateTime\": \"2024-12-01T14:00:00.000Z\",\n  \"endDateTime\": \"2024-12-01T18:00:00.000Z\",\n  \"totalCost\": 400,\n  \"location\": {\n    \"pickup_Location\": \"School\",\n    \"dropoff_Location\": \"Home\"\n  },\n  \"guardian\": \"{{guardianId}}\",\n  \"children\": [\n    \"{{childId}}\"\n  ],\n  \"status\": \"Pending\"\n}",
+									"raw": "{\n  \"startDateTime\": \"2024-12-01T14:00:00.000Z\",\n  \"endDateTime\": \"2024-12-01T18:00:00.000Z\",\n  \"totalCost\": 400,\n  \"location\": {\n    \"pickup_Location\": \"School\",\n    \"dropoff_Location\": \"Home\"\n  },\n  \"guardian\": \"{{guardianId}}\",\n  \"children\": [\n    \"{{childId}}\"\n  ],\n  \"description\": \"Hello there, this is a test\",\n  \"additionalInformation\": \"If needed\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -3954,8 +3990,11 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"packages": {},
-								"type": "text/javascript"
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
 							}
 						}
 					],
@@ -3970,7 +4009,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"startDateTime\": \"2024-12-01T14:00:00.000Z\",\n  \"endDateTime\": \"2024-12-01T18:00:00.000Z\",\n  \"totalCost\": 10,\n  \"location\": {\n    \"pickup_Location\": \"School\",\n    \"dropoff_Location\": \"Home\"\n  },\n  \"guardian\": \"{{guardianId}}\",\n  \"children\": [\n    \"{{childId}}\"\n  ]\n}",
+							"raw": "{\n  \"startDateTime\": \"2024-12-05T19:32:00.000Z\",\n  \"endDateTime\": \"2024-12-05T19:35:00.000Z\",\n  \"totalCost\": 10,\n  \"location\": {\n    \"pickup_Location\": \"School\",\n    \"dropoff_Location\": \"Home\"\n  },\n  \"guardian\": \"{{guardianId}}\",\n  \"children\": [\n    \"{{childId}}\"\n  ],\n  \"description\": \"Hello there, this is a test\",\n  \"additionalInformation\": \"If needed\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -4021,7 +4060,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"startDateTime\": \"2024-12-01T14:00:00.000Z\",\n  \"endDateTime\": \"2024-12-01T18:00:00.000Z\",\n  \"totalCost\": 100,\n  \"location\": {\n    \"pickup_Location\": \"Home\",\n    \"dropoff_Location\": \"Gothenburg University\"\n  },\n  \"guardian\": \"{{guardianId}}\",\n  \"children\": [\n    \"{{childId}}\"\n  ]\n}",
+							"raw": "{\n  \"startDateTime\": \"2024-12-01T14:00:00.000Z\",\n  \"endDateTime\": \"2024-12-01T18:00:00.000Z\",\n  \"totalCost\": 100,\n  \"location\": {\n    \"pickup_Location\": \"Home\",\n    \"dropoff_Location\": \"Gothenburg University\"\n  },\n  \"guardian\": \"{{guardianId}}\",\n  \"children\": [\n    \"{{childId}}\"\n  ],\n  \"description\": \"Hello there, this is a test\",\n  \"additionalInformation\": \"If needed\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -4118,7 +4157,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"startDateTime\": \"2024-12-01T14:00:00.000Z\",\n  \"endDateTime\": \"2024-12-01T18:00:00.000Z\",\n  \"totalCost\": 400,\n  \"location\": {\n    \"pickup_Location\": \"Universeum\",\n    \"dropoff_Location\": \"Home\"\n  },\n  \"guardian\": \"{{guardianId}}\",\n  \"children\": [\n    \"{{childId}}\"\n  ]\n}",
+							"raw": "{\n  \"startDateTime\": \"2024-12-01T14:00:00.000Z\",\n  \"endDateTime\": \"2024-12-01T18:00:00.000Z\",\n  \"totalCost\": 400,\n  \"location\": {\n    \"pickup_Location\": \"Universeum\",\n    \"dropoff_Location\": \"Home\"\n  },\n  \"guardian\": \"{{guardianId}}\",\n  \"children\": [\n    \"{{childId}}\"\n  ],\n  \"description\": \"Hello there, this is a test\",\n  \"additionalInformation\": \"If needed\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -4169,7 +4208,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"startDateTime\": \"2024-12-01T14:00:00.000Z\",\n  \"endDateTime\": \"2024-12-01T18:00:00.000Z\",\n  \"totalCost\": 1500,\n  \"location\": {\n    \"pickup_Location\": \"Gym\",\n    \"dropoff_Location\": \"Landvetter Airport\"\n  },\n  \"guardian\": \"{{guardianId}}\",\n  \"children\": [\n    \"{{childId}}\"\n  ]\n}",
+							"raw": "{\n  \"startDateTime\": \"2024-12-01T14:00:00.000Z\",\n  \"endDateTime\": \"2024-12-01T18:00:00.000Z\",\n  \"totalCost\": 1500,\n  \"location\": {\n    \"pickup_Location\": \"Gym\",\n    \"dropoff_Location\": \"Landvetter Airport\"\n  },\n  \"guardian\": \"{{guardianId}}\",\n  \"children\": [\n    \"{{childId}}\"\n  ],\n  \"description\": \"Hello there, this is a test\",\n  \"additionalInformation\": \"If needed\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
