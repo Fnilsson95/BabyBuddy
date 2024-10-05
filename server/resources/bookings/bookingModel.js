@@ -55,8 +55,23 @@ const bookingSchema = new mongoose.Schema(
         status: {
             type: String,
             required: true,
-            enum: ["Pending", "Confirmed"],
+            enum: ["Pending", "Confirmed", "Completed", "Expired"],
             default: "Pending" // Default status when Guardian creates a booking
+        },
+        description: {
+            type: String,
+            trim: true,
+            validate: {
+                validator: function (value) {
+                    // Split the string into words and check the word count
+                    return value.split(/\s+/).filter(Boolean).length <= 20;
+                },
+                message: "Description must be 20 words or less",
+            },
+        },
+        additionalInformation: {
+            type: String,
+            trim: true
         },
     },
     { timestamps: true}
