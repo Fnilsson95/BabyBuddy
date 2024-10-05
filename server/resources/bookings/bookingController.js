@@ -6,27 +6,7 @@ const Booking = require("./bookingModel");
 const Guardian = require("../guardians/guardianModel");
 const Babysitter = require("../babysitters/babysitterModel");
 const Children = require("../children/childModel");
-
-// Helper function to update booking statuses based on the current time
-const updateBookingStatus = async (bookings) => {
-  const currentDate = new Date();
-
-  for (const booking of bookings) {
-    // If the status is "Pending" and startDateTime has passed --> "Expired"
-    if (booking.status === "Pending" && booking.startDateTime < currentDate) {
-      await Booking.findByIdAndUpdate(booking._id, { status: "Expired" });
-      booking.status = "Expired";
-    }
-
-    // If the status is "Confirmed" and endDateTimes has passed --> "Completed"
-    else if (booking.status === "Confirmed" && booking.endDateTime < currentDate) {
-      await Booking.findByIdAndUpdate(booking._id, { status: "Completed" });
-      booking.status = "Completed";
-    }
-  }
-  // Return the updated array of bookings
-  return bookings;
-};
+const updateBookingStatus = require("../bookings/bookingHelpers");
 
 // Create a new booking
 controller.post("/", async (req, res) => {
@@ -97,8 +77,12 @@ controller.get("/", async (req, res) => {
       .populate("guardian")
       .populate("babysitter")
       .populate("children");
+
+    // Update booking statuses before returning (if any)
+    const updatedBookings = await updateBookingStatus (bookings);
+
     const total = await Booking.countDocuments();
-    res.status(200).json({ total, page, limit, bookings });
+    res.status(200).json({ total, page, limit, bookings: updatedBookings });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -112,11 +96,15 @@ controller.get("/pending", async (req, res) => {
       .populate("children")
       .populate("babysitter"); // Babysitter Will be null initially
 
-    if (pendingBookings.length === 0) {
+
+    // Update booking statuses before returning (if any)
+    const updatedBookings = await updateBookingStatus(pendingBookings);
+
+    if (updatedBookings.length === 0) {
       return res.status(404).json({ message: "No pending bookings found" });
     }
 
-    res.status(200).json(pendingBookings);
+    res.status(200).json(updatedBookings);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -130,12 +118,18 @@ controller.get("/:id", async (req, res) => {
       .populate("guardian")
       .populate("babysitter")
       .populate("children");
+
     if (!booking) {
       return res
         .status(404)
         .json({ message: `Booking with id ${id} was not found` });
     }
-    res.status(200).json(booking);
+
+    // Update booking statuses before returning (if any)
+    // Return as an array with index 0 to unpack the array and extract single booking object
+    const updatedBooking = await updateBookingStatus([booking])
+
+    res.status(200).json(updatedBooking[0]);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -246,10 +240,9 @@ controller.patch("/:id", async (req, res) => {
 });
 
 // Confirm booking / Update Booking Status to Confirmed (Babysitter)
-// Confirm booking / Update Booking Status to Confirmed (Babysitter)
 controller.put("/:bookingId/confirm/:babysitterId", async (req, res) => {
   try {
-    const { bookingId, babysitterId } = req.params; // Retrieve both bookingId and babysitterId from the params
+    const { bookingId, babysitterId } = req.params;
 
     // Check if the babysitter exists
     const babysitter = await Babysitter.findById(babysitterId);

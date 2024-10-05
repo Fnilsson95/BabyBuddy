@@ -3,7 +3,7 @@ const controller = express.Router();
 const Babysitter = require("./babysitterModel");
 const Children = require("../children/childModel");
 const Bookings = require("../bookings/bookingModel");
-const Guardian = require("../guardians/guardianModel");
+const updateBookingStatus = require("../bookings/bookingHelpers");
 
 //Create babysitter
 controller.post("/", async (req, res) => {
@@ -180,28 +180,50 @@ controller.delete("/:id", async (req, res) => {
 
 
 
-// Get all bookings for a babysitter (All their confirmed bookings)
+// Get all bookings for a babysitter (All their confirmed and completed bookings)
+// Pagination and Sorting option
 controller.get("/:babysitterId/bookings", async (req, res) => {
   try {
     const { babysitterId } = req.params;
+    const { status = ["Confirmed", "Completed"], page = 1, limit = 20, sort = "startDateTime", order = "asc" } = req.query;
+
 
     const babysitterExists = await Babysitter.findById(babysitterId);
     if (!babysitterExists) {
       return res.status(404).json({ message: `Babysitter with id ${babysitterId} was not found` });
     }
 
+    // Pagination and Sorting logic
+    const pages = parseInt(page, 10);
+    const limits = parseInt(limit,10);
+    const skip = (pages - 1) * limits;
+    const validOrders = ["asc", "desc"];
+    const sortOrder = validOrders.includes(order) ? (order === "asc" ? 1 : -1) : 1;
+    const sortOption = { [sort]: sortOrder };
+
     const bookings = await Bookings.find({
       babysitter: babysitterId,
-      status: "Confirmed"
+      status: { $in: Array.isArray(status) ? status : [status] }, // Handle single or multiple statuses
     })
+      .sort(sortOption)
+      .skip(skip)
+      .limit(limits)
       .populate("guardian")
       .populate("children");
 
-    if (bookings.length === 0) {
-      return res.status(404).json({ message: "No confirmed bookings found for this babysitter" });
+    // Update booking statuses before returning (if any)  
+    const updatedBookings = await updateBookingStatus(bookings);
+
+    if (updatedBookings.length === 0) {
+      return res.status(404).json({ message: "No bookings found for this babysitter with specified status(es)" });
     }
 
-    res.status(200).json(bookings);
+    res.status(200).json({
+      page: pages,
+      limit, limits,
+      totalBookings: updatedBookings.length,
+      bookings: updatedBookings,
+    });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -229,7 +251,11 @@ controller.get("/:babysitterId/bookings/:bookingId", async (req, res) => {
       return res.status(404).json({ message: `Booking with id ${bookingId} was not found for this babysitter` });
     }
 
-    res.status(200).json(booking);
+    // Update booking statuses before returning (if any)
+    // Return as an array with index 0 to unpack the array and extract single booking object
+    const updatedBooking = await updateBookingStatus([booking]);
+
+    res.status(200).json(updatedBooking[0]);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
