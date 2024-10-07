@@ -3,33 +3,100 @@
     <div class="navbar">Navbar</div>
     <div class="sign-in-box">
       <div class="header-box">
-      <h2>Welcome back!</h2>
+        <h2>Welcome back!</h2>
       </div>
-      <form>
+      <form @submit.prevent="handleLogin">
         <h3>Sign In</h3>
         <div class="register">
           <div class="input-group">
             <label for="email">Email</label>
-            <input type="email" placeholder="Enter your Email" id="email" />
+            <input
+              type="email"
+              placeholder="Enter your Email"
+              id="email"
+              v-model="email"
+              required
+            />
           </div>
           <div class="input-group">
             <label for="password">Password</label>
-            <input type="password" placeholder="Enter your Password" id="password" />
+            <input
+              type="password"
+              placeholder="Enter your Password"
+              id="password"
+              v-model="password"
+              required
+            />
           </div>
           <button type="submit">Sign In</button>
-          <hr class ="line"/>
-          <br>
+
+          <hr class="line" />
+          <br />
           <h5>Forgot your password?</h5>
         </div>
       </form>
+
+      <!-- Error message -->
+      <transition name="slide-fade">
+        <div v-if="errorMessage" class="error-message">{{ errorMessage }}</div>
+      </transition>
+
+      <!-- Redirect to signup -->
+      <div class="create-account">
+        <span>Don't have an account?</span>
+        <router-link to="/signup">Create Account</router-link>
+      </div>
     </div>
     <div class="footer">Footer</div>
   </div>
 </template>
 
 <script>
+import { useRouter } from 'vue-router'
+import { loginApi } from '@/api/login'
+
 export default {
-  name: 'login'
+  name: 'login',
+  data() {
+    return {
+      email: '',
+      password: '',
+      errorMessage: null
+    }
+  },
+  setup() {
+    const router = useRouter()
+
+    return {
+      router
+    }
+  },
+  methods: {
+    async handleLogin() {
+      try {
+        // Create login payload
+        const payload = {
+          email: this.email,
+          password: this.password
+        }
+
+        // Send login request to the API
+        const response = await loginApi.login(payload)
+
+        // Check role and redirect accordingly
+        if (response.role === 'guardian') {
+          this.$router.push('/guardian')
+        } else if (response.role === 'babysitter') {
+          this.$router.push('/babysitter')
+        } else {
+          throw new Error('Invalid role')
+        }
+      } catch (error) {
+        this.errorMessage = 'Invalid email or password. Please try again.'
+        console.error(error)
+      }
+    }
+  }
 }
 </script>
 
@@ -43,7 +110,8 @@ export default {
   background-color: #e0f7e9;
 }
 
-.navbar, .footer {
+.navbar,
+.footer {
   background-color: #3c5c5e;
   color: white;
   width: 100%;
@@ -87,7 +155,7 @@ label {
   margin-bottom: 0.5rem;
 }
 
-input{
+input {
   width: 100%;
   padding: 0.5rem;
   border-radius: 20px;
@@ -108,4 +176,25 @@ button:hover {
   background-color: #2d4749;
 }
 
+.error-message {
+  background-color: #f8d7da;
+  color: #721c24;
+  padding: 1rem;
+  border-radius: 5px;
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.create-account {
+  margin-top: 10px;
+}
+
+.create-account span {
+  margin-right: 10px;
+}
+
+.router-link {
+  color: #3c5c5e;
+  font-weight: bold;
+}
 </style>

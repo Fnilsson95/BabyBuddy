@@ -5,7 +5,10 @@
       <div class="header-box">
         <h5>Welcome to Baby Buddy!</h5>
       </div>
-      <h3>Create Account</h3>
+      <div class="header-options">
+        <h3>Create Account</h3>
+        <router-link to="/login" class="link-to-other-page">Sign In</router-link>
+      </div>
       <div class="choice-box">
         <h6>Choose your role!</h6>
         <div class="radio-group">
@@ -180,21 +183,17 @@ export default {
   methods: {
     async handleSignup() {
       try {
-        // Clone the userDetails object to remove Vue's proxy wrapper
         const payload = JSON.parse(JSON.stringify(this.userDetails))
         console.log('Cleaned payload being sent:', payload)
 
-        // Convert phoneNumber to string
         if (typeof payload.phoneNumber !== 'string') {
           payload.phoneNumber = String(payload.phoneNumber)
         }
 
-        // Remove `hourlyRate` if the role is 'guardian'
         if (this.role === 'guardian') {
           delete payload.hourlyRate
         }
 
-        // Call the appropriate API based on the role
         if (this.role === 'babysitter') {
           await babysitterAPI.createBabysitter(payload)
         } else if (this.role === 'guardian') {
@@ -203,11 +202,8 @@ export default {
           throw new Error('Please select a role!')
         }
 
-        // Set success message
         this.successMessage = `Account created successfully as a ${this.role}!`
         this.errorMessage = null
-
-        // Clear form after successful submission
         this.resetForm()
       } catch (error) {
         this.errorMessage = 'Error creating account. Please try again.'
@@ -266,6 +262,24 @@ export default {
   text-align: center;
   position: relative;
   z-index: 10;
+}
+
+.header-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.link-to-other-page {
+  color: #3c5c5e;
+  text-decoration: none;
+  font-size: 14px;
+  margin-top: 15px;
+  cursor: pointer;
+}
+
+.link-to-other-page:hover {
+  text-decoration: underline;
 }
 
 .sign-in-container {

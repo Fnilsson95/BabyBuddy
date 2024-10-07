@@ -10,11 +10,12 @@ const bookingController = require('./resources/bookings/bookingController');
 const babysitterController = require("./resources/babysitters/babysitterController");
 const childrenController = require("./resources/children/childController");
 const guardianController = require('./resources/guardians/guardianController');
+const loginController = require("./resources/logins/loginController");
 
 // Variables
 // mongoURI - MongoDB connection string MONGODB_URI or default local instance
 var mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/animalDevelopmentDB';
-var port = process.env.PORT || 3000;
+var port = process.env.PORT || 3001;
 
 // Connect to MongoDB
 mongoose
@@ -51,6 +52,7 @@ app.use('/api/bookings', bookingController);
 app.use('/api/guardians', guardianController);
 app.use("/api/babysitters", babysitterController);
 app.use("/api/children", childrenController);
+app.use("/api/login", loginController);
 
 // Error handling
 // Catch all non-error handler for api (i.e., 404 Not Found)

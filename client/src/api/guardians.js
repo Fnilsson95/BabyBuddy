@@ -24,6 +24,7 @@ export const guardianApi = {
         body: JSON.stringify(guardianData)
       })
       if (!response.ok) {
+        console.log(await response.text())
         throw new Error('Failed to create guardian')
       }
       return await response.json()
