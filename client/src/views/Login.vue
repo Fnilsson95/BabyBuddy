@@ -74,7 +74,6 @@ export default {
   methods: {
     async handleLogin() {
       try {
-        // Create login payload
         const payload = {
           email: this.email,
           password: this.password
@@ -83,11 +82,17 @@ export default {
         // Send login request to the API
         const response = await loginApi.login(payload)
 
-        // Check role and redirect accordingly
-        if (response.role === 'guardian') {
-          this.$router.push('/guardian')
-        } else if (response.role === 'babysitter') {
-          this.$router.push('/babysitter')
+        // Extract user ID and role from the response
+        const { userId, role } = response
+
+        // Map userId to id for easier routing
+        const id = userId
+
+        // Check role and redirect accordingly, including the user ID in the URL
+        if (role === 'guardian') {
+          this.$router.push({ name: 'guardian', params: { id } })
+        } else if (role === 'babysitter') {
+          this.$router.push({ name: 'babysitter', params: { id } })
         } else {
           throw new Error('Invalid role')
         }
