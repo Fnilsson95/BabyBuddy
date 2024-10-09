@@ -11,8 +11,16 @@ const updateBookingStatus = require("../bookings/bookingHelpers");
 // Create a new booking
 controller.post("/", async (req, res) => {
   try {
-    
-    const { startDateTime, endDateTime, guardian, children, location, totalCost, description, additionalInformation } = req.body;
+    const {
+      startDateTime,
+      endDateTime,
+      guardian,
+      children,
+      location,
+      totalCost,
+      description,
+      additionalInformation,
+    } = req.body;
 
     // Validate dates
     if (new Date(startDateTime) >= new Date(endDateTime)) {
@@ -47,7 +55,7 @@ controller.post("/", async (req, res) => {
       totalCost,
       status: "Pending", // Set to Pending initially
       description,
-      additionalInformation
+      additionalInformation,
     });
     await newBooking.save();
 
@@ -67,36 +75,48 @@ controller.post("/", async (req, res) => {
 // Get all bookings with pagination and sorting options
 // Example: /api/bookings?sort=startDateTime&order=asc&sort=totalCost&order=desc
 controller.get("/", async (req, res) => {
-  const page = parseInt(req.query.page) || 1;
-  const limit = parseInt(req.query.limit) || 20;
-  const skip = (page - 1) * limit;
+  //Destructure query params
+  const { page, limit, sort, order } = req.query;
+
+  const pageNum = parseInt(page) || 1;
+  const limitNum = parseInt(limit) || 20;
+  const skip = (pageNum - 1) * limitNum;
 
   // Handle invalid page or limit values
-  if (isNaN(page) || page < 1) {
-    return res.status(400).json({ message: "Invalid page parameter. Must be a positive number." });
+  if (isNaN(pageNum) || pageNum < 1) {
+    return res
+      .status(400)
+      .json({ message: "Invalid page parameter. Must be a positive number." });
   }
-  if (isNaN(limit) || limit < 1) {
-    return res.status(400).json({ message: "Invalid limit parameter. Must be a positive number." });
+  if (isNaN(limitNum) || limitNum < 1) {
+    return res
+      .status(400)
+      .json({ message: "Invalid limit parameter. Must be a positive number." });
   }
 
   // Sorting options
-  const sortField = req.query.sort || "startDateTime"; // Default sort by startDate
-  const sortOrder = req.query.order === "asc" ? 1 : -1; // Default order is descending
+  const sortField = sort || "startDateTime"; // Default sort by startDate
+  const sortOrder = order === "asc" ? 1 : -1; // Default order is descending
 
   try {
     const bookings = await Booking.find()
       .sort({ [sortField]: sortOrder })
       .skip(skip)
-      .limit(limit)
+      .limit(limitNum)
       .populate("guardian")
       .populate("babysitter")
       .populate("children");
 
     // Update booking statuses before returning (if any)
-    const updatedBookings = await updateBookingStatus (bookings);
+    const updatedBookings = await updateBookingStatus(bookings);
 
     const total = await Booking.countDocuments();
-    res.status(200).json({ total, page, limit, bookings: updatedBookings });
+    res.status(200).json({
+      total,
+      page: pageNum,
+      limit: limitNum,
+      bookings: updatedBookings,
+    });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -104,32 +124,36 @@ controller.get("/", async (req, res) => {
 
 // Get all bookings with status "Pending" (List for Booking Page)
 controller.get("/pending", async (req, res) => {
-  
-  const page = parseInt(req.query.page) || 1;
-  const limit = parseInt(req.query.limit) || 20;
-  const skip = (page - 1) * limit;
+  //Destructure query params
+  const { page, limit, sort, order } = req.query;
+
+  const pageNum = parseInt(page) || 1;
+  const limitNum = parseInt(limit) || 20;
+  const skip = (pageNum - 1) * limitNum;
 
   // Handle invalid page or limit values
-  if (isNaN(page) || page < 1) {
-    return res.status(400).json({ message: "Invalid page parameter. Must be a positive number." });
+  if (isNaN(pageNum) || pageNum < 1) {
+    return res
+      .status(400)
+      .json({ message: "Invalid page parameter. Must be a positive number." });
   }
-  if (isNaN(limit) || limit < 1) {
-    return res.status(400).json({ message: "Invalid limit parameter. Must be a positive number." });
+  if (isNaN(limitNum) || limitNum < 1) {
+    return res
+      .status(400)
+      .json({ message: "Invalid limit parameter. Must be a positive number." });
   }
-  
-  const sortField = req.query.sort || "startDateTime" // Default sort by startDate
-  const sortOrder = req.query.order === "asc" ? 1 : -1; // Default order by asc
 
-  
+  const sortField = sort || "startDateTime"; // Default sort by startDate
+  const sortOrder = order === "asc" ? 1 : -1; // Default order by asc
+
   try {
     const pendingBookings = await Booking.find({ status: "Pending" })
       .sort({ [sortField]: sortOrder })
       .skip(skip)
-      .limit(limit)
+      .limit(limitNum)
       .populate("guardian")
       .populate("children")
       .populate("babysitter"); // Babysitter Will be null initially
-
 
     // Update booking statuses before returning (if any)
     const updatedBookings = await updateBookingStatus(pendingBookings);
@@ -141,9 +165,9 @@ controller.get("/pending", async (req, res) => {
     const total = await Booking.countDocuments({ status: "Pending" });
 
     res.status(200).json({
-      total, 
-      page,
-      limit, 
+      total,
+      page: pageNum,
+      limit: limitNum,
       bookings: updatedBookings,
     });
   } catch (error) {
@@ -168,7 +192,7 @@ controller.get("/:id", async (req, res) => {
 
     // Update booking statuses before returning (if any)
     // Return as an array with index 0 to unpack the array and extract single booking object
-    const updatedBooking = await updateBookingStatus([booking])
+    const updatedBooking = await updateBookingStatus([booking]);
 
     res.status(200).json(updatedBooking[0]);
   } catch (error) {
@@ -315,14 +339,10 @@ controller.put("/:bookingId/confirm/:babysitterId", async (req, res) => {
 
     // Return the updated booking
     res.status(200).json({ message: "Booking confirmed", updatedBooking });
-
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 });
-
-
-
 
 // Save/Export the controller
 module.exports = controller;
