@@ -15,7 +15,7 @@
 <script>
 import { BRow, BCol } from 'bootstrap-vue-next'
 
-import { bookingApi } from '@/api/bookings'
+import { bookingApi } from '@/api/v1/bookings'
 import { calculateDuration, formatDate } from '@/helpers'
 
 export default {

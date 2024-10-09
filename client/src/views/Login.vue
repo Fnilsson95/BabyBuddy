@@ -53,7 +53,7 @@
 
 <script>
 import { useRouter } from 'vue-router'
-import { loginApi } from '@/api/login'
+import { loginApi } from '@/api/v1/login'
 
 export default {
   name: 'login',

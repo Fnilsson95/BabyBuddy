@@ -50,11 +50,12 @@ app.get('/api', function(req, res) {
 
 
 // Mount Booking Routes onto baseline /api
-app.use('/api/bookings', bookingController);
-app.use('/api/guardians', guardianController);
-app.use("/api/babysitters", babysitterController);
-app.use("/api/children", childrenController);
-app.use("/api/login", loginController);
+// API Version 1 - v1
+app.use('/api/v1/bookings', bookingController);
+app.use('/api/v1/guardians', guardianController);
+app.use("/api/v1/babysitters", babysitterController);
+app.use("/api/v1/children", childrenController);
+app.use("/api/v1/login", loginController);
 
 // Error handling
 // Catch all non-error handler for api (i.e., 404 Not Found)
