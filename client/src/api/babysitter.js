@@ -28,12 +28,13 @@ export const babysitterAPI = {
         body: JSON.stringify(babysitterData)
       })
       if (!response.ok) {
-        console.log(await response.text())
-        throw new Error('Failed to create babysitter')
+        const errorData = await response.json()
+        throw new Error(errorData.error || 'Failed to create babysitter')
       }
       return await response.json()
     } catch (error) {
       console.error('Error creating babysitter: ', error)
+      throw error
     }
   }
 }
