@@ -7,27 +7,19 @@
       </div>
       <div class="header-options">
         <h3>Create Account</h3>
-        <router-link to="/login" class="link-to-other-page">Sign In</router-link>
+        <router-link to="/login" class="link-to-other-page"
+          >Sign In</router-link
+        >
       </div>
       <div class="choice-box">
         <h6>Choose your role!</h6>
         <div class="radio-group">
           <label>
-            <input
-              type="radio"
-              name="role"
-              value="guardian"
-              v-model="role"
-            />
+            <input type="radio" name="role" value="guardian" v-model="role" />
             Guardian
           </label>
           <label>
-            <input
-              type="radio"
-              name="role"
-              value="babysitter"
-              v-model="role"
-            />
+            <input type="radio" name="role" value="babysitter" v-model="role" />
             Babysitter
           </label>
         </div>
@@ -147,7 +139,9 @@
         <div v-if="errorMessage" class="error-message">{{ errorMessage }}</div>
       </transition>
       <!-- Success Message -->
-      <div v-if="successMessage" class="success-message">{{ successMessage }}</div>
+      <div v-if="successMessage" class="success-message">
+        {{ successMessage }}
+      </div>
     </div>
     <div class="footer_holder">Footer</div>
   </div>
@@ -161,7 +155,7 @@ export default {
   name: 'signup',
   data() {
     return {
-      role: '',
+      role: null,
       userDetails: {
         email: '',
         password: '',
@@ -184,29 +178,26 @@ export default {
     async handleSignup() {
       try {
         const payload = JSON.parse(JSON.stringify(this.userDetails))
-        console.log('Cleaned payload being sent:', payload)
 
         if (typeof payload.phoneNumber !== 'string') {
           payload.phoneNumber = String(payload.phoneNumber)
         }
 
-        if (this.role === 'guardian') {
-          delete payload.hourlyRate
-        }
-
+        let result
         if (this.role === 'babysitter') {
-          await babysitterAPI.createBabysitter(payload)
+          result = await babysitterAPI.createBabysitter(payload)
         } else if (this.role === 'guardian') {
-          await guardianApi.createGuardian(payload)
+          delete payload.hourlyRate
+          result = await guardianApi.createGuardian(payload)
         } else {
           throw new Error('Please select a role!')
         }
 
-        this.successMessage = `Account created successfully as a ${this.role}!`
+        this.successMessage = result.message
         this.errorMessage = null
         this.resetForm()
       } catch (error) {
-        this.errorMessage = 'Error creating account. Please try again.'
+        this.errorMessage = error || 'Error creating account. Please try again.'
         this.successMessage = null
         console.error(error)
       }
@@ -233,11 +224,13 @@ export default {
 </script>
 
 <style scoped>
-.slide-fade-enter-active, .slide-fade-leave-active {
+.slide-fade-enter-active,
+.slide-fade-leave-active {
   transition: all 0.5s ease;
 }
 
-.slide-fade-enter, .slide-fade-leave-to {
+.slide-fade-enter,
+.slide-fade-leave-to {
   transform: translateY(-20px);
   opacity: 0;
 }
@@ -335,7 +328,7 @@ export default {
   margin-right: 1rem;
 }
 
-.radio-group input[type="radio"] {
+.radio-group input[type='radio'] {
   margin-right: 0.5rem;
 }
 
