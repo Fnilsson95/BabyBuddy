@@ -83,10 +83,7 @@ export default {
         const response = await loginApi.login(payload)
 
         // Extract user ID and role from the response
-        const { userId, role } = response
-
-        // Map userId to id for easier routing
-        const id = userId
+        const { userId: id, role } = response
 
         // Check role and redirect accordingly, including the user ID in the URL
         if (role === 'guardian') {
@@ -97,7 +94,8 @@ export default {
           throw new Error('Invalid role')
         }
       } catch (error) {
-        this.errorMessage = 'Invalid email or password. Please try again.'
+        this.errorMessage =
+          error || 'Invalid email or password. Please try again.'
         console.error(error)
       }
     }
