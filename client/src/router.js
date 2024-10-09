@@ -10,7 +10,7 @@ const routes = [
   { path: '/', name: 'home', component: Home },
   { path: '/signup', name: 'signup', component: Signup },
   { path: '/login', name: 'login', component: Login },
-  { path: '/guardian', name: 'guardian', component: Guardian },
+  { path: '/:id/guardian', name: 'guardian', component: Guardian },
   {
     path: '/guardian/dashboard',
     name: 'guardianDashboard',
@@ -31,7 +31,7 @@ const routes = [
     name: 'guardianBookingHistory',
     component: {}
   },
-  { path: '/babysitter', name: 'babysitter', component: Babysitter },
+  { path: '/:id/babysitter', name: 'babysitter', component: Babysitter },
   {
     path: '/babysitter/dashboard',
     name: 'babysitterDashboard',

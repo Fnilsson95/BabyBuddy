@@ -4,17 +4,19 @@ var morgan = require('morgan');
 var path = require('path');
 var cors = require('cors');
 var history = require('connect-history-api-fallback');
+var methodOverride = require('method-override');
 
 // Import booking routes
 const bookingController = require('./resources/bookings/bookingController');
 const babysitterController = require("./resources/babysitters/babysitterController");
 const childrenController = require("./resources/children/childController");
 const guardianController = require('./resources/guardians/guardianController');
+const loginController = require("./resources/logins/loginController");
 
 // Variables
 // mongoURI - MongoDB connection string MONGODB_URI or default local instance
 var mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/animalDevelopmentDB';
-var port = process.env.PORT || 3000;
+var port = process.env.PORT || 3001;
 
 // Connect to MongoDB
 mongoose
@@ -38,6 +40,7 @@ app.use(morgan("dev"));
 // Enable cross-origin resource sharing for frontend must be registered before api
 app.options("*", cors());
 app.use(cors());
+app.use(methodOverride('_method'));
 
 // Import routes
 // Sets up simple route /api 
@@ -51,6 +54,7 @@ app.use('/api/bookings', bookingController);
 app.use('/api/guardians', guardianController);
 app.use("/api/babysitters", babysitterController);
 app.use("/api/children", childrenController);
+app.use("/api/login", loginController);
 
 // Error handling
 // Catch all non-error handler for api (i.e., 404 Not Found)

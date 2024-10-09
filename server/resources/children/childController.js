@@ -28,11 +28,47 @@ controller.post("/", async (req, res) => {
   }
 });
 
-//Get all children
+// Get all children with pagination and Sorting option
+// Example: api/children?page=1&limit=10&sort=lastName&order=asc
+
 controller.get("/", async (req, res) => {
   try {
-    const children = await Children.find({}).populate("guardian");
-    res.status(200).json(children);
+
+    const { page = 1, limit = 20, sort = "firstName", order = "asc" } = req.query;
+
+    // Pagination values
+    const pages = parseInt(page, 10);
+    const limits = parseInt(limit, 10);
+    const skip = (pages - 1) * limits;
+
+    // Handle invalid page or limit values
+    if (isNaN(pages) || pages < 1) {
+      return res.status(400).json({ message: "Invalid page parameter. Must be a positive number." });
+    }
+    if (isNaN(limits) || limits < 1) {
+      return res.status(400).json({ message: "Invalid limit parameter. Must be a positive number." });
+    }
+
+    // Validate sorting order and set option
+    const validOrders = ["asc", "desc"];
+    const sortOrder = validOrders.includes(order) ? (order === "asc" ? 1 : -1) : 1;
+    const sortOption = { [sort]: sortOrder};
+
+    const children = await Children.find({})
+    .sort(sortOption)
+    .skip(skip)
+    .limit(limits)
+    .populate("guardian");
+
+    // Get total number of children documents
+    const totalChildren = await Children.countDocuments();
+
+    res.status(200).json({
+      total: totalChildren,
+      page: pages,
+      limit: limits,
+      children,
+    });
   } catch (e) {
     res.status(500).json({ error: e.message });
   }

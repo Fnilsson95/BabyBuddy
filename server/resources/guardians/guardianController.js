@@ -4,6 +4,7 @@ const controller = express.Router();
 const Child = require("../children/childModel");
 const Children = require("../children/childModel");
 const Bookings = require("../bookings/bookingModel");
+const updateBookingStatus = require("../bookings/bookingHelpers");
 
 // Create new guardian
 controller.post("/", async (req, res) => {
@@ -238,21 +239,82 @@ controller.delete("/:guardianId/children/:childId", async (req, res) => {
 });
 
 // Get all bookings for a specific guardian
+// With pagination and Sorting option
+// Example: /api/guardians/:guardianId/bookings?page=2&limit=10&sort=startDateTime&order=desc
+
 controller.get("/:guardianId/bookings", async (req, res) => {
   try {
     const { guardianId } = req.params;
+    const { page = 1, limit = 20, sort = "startDateTime", order = "asc" } = req.query;
+
+    // Pagination and Sorting parameters and validation
+    const pages = parseInt(page, 10);
+    const limits = parseInt(limit, 10);
+    const skip = (pages - 1) * limits;
+
+    // Handle invalid page or limit values
+    if (isNaN(pages) || pages < 1) {
+      return res.status(400).json({ message: "Invalid page parameter. Must be a positive number." });
+    }
+    if (isNaN(limits) || limits < 1) {
+      return res.status(400).json({ message: "Invalid limit parameter. Must be a positive number." });
+    }
+    
+    const validOrders = ["asc", "desc"];
+    const sortOrder = validOrders.includes(order) ? (order === "asc" ? 1 : -1) : 1;
+    const sortOption = { [sort]: sortOrder};
+    
 
     // Find all bookings associated with the guardian
     const guardianBookings = await Bookings.find({ guardian: guardianId })
+      .sort(sortOption)
+      .skip(skip)
+      .limit(limits)
       .populate("guardian")
       .populate("children")
       .populate("babysitter"); // Babysitter may be null if booking is still pending
 
-    if (guardianBookings.length === 0) {
+
+    // Update booking statuses before returning (if any)
+    const updatedBookings = await updateBookingStatus(guardianBookings);  
+    
+    if (updatedBookings.length === 0) {
       return res.status(400).json({ message: "No bookings found for this guardian" });
     }
 
-    res.status(200).json(guardianBookings);
+    res.status(200).json({
+      page: pages,
+      limit: limits,
+      totalBookings: updatedBookings.length,
+      bookings: updatedBookings,
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+
+// Get a specific booking for a guardian
+controller.get("/:guardianId/bookings/:bookingId", async (req, res) => {
+  try {
+    const { guardianId, bookingId } = req.params;
+
+    // Find the booking and ensure it belongs to the guardian
+    const booking = await Bookings.findOne({ _id: bookingId, guardian: guardianId })
+      .populate("guardian")
+      .populate("children")
+      .populate("babysitter"); // Babysitter may be null if booking is still pending
+
+    if (!booking) {
+      return res.status(404).json({ message: `Booking with id ${bookingId} not found for this guardian` });
+    }
+
+    // Update the status before returning
+    // Return as an array with index 0 to unpack the array and extract single booking object
+
+    const updatedBooking = await updateBookingStatus([booking]);
+
+    res.status(200).json(updatedBooking[0]);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
