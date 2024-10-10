@@ -148,8 +148,8 @@
 </template>
 
 <script>
-import { guardianApi } from '@/api/guardians'
-import { babysitterAPI } from '@/api/babysitter'
+import { guardianApi } from '@/api/v1/guardians'
+import { babysitterAPI } from '@/api/v1/babysitter'
 
 export default {
   name: 'signup',

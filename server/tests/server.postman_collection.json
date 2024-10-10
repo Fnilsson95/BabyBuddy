@@ -60,7 +60,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3001/api/guardians",
+							"raw": "http://localhost:3001/api/v1/guardians",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -68,6 +68,7 @@
 							"port": "3001",
 							"path": [
 								"api",
+								"v1",
 								"guardians"
 							]
 						}
@@ -80,14 +81,15 @@
 						{
 							"listen": "test",
 							"script": {
-								"type": "text/javascript",
 								"exec": [
 									"pm.test(\"Status code is 201\", function () {",
 									"    pm.response.to.have.status(201);",
 									"});",
 									"var jsonData = pm.response.json();",
 									"pm.environment.set(\"childId\", jsonData.newChild._id);"
-								]
+								],
+								"type": "text/javascript",
+								"packages": {}
 							}
 						}
 					],
@@ -110,7 +112,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3001/api/children",
+							"raw": "http://localhost:3001/api/v1/children",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -118,6 +120,7 @@
 							"port": "3001",
 							"path": [
 								"api",
+								"v1",
 								"children"
 							]
 						}
@@ -177,7 +180,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3001/api/babysitters",
+							"raw": "http://localhost:3001/api/v1/babysitters",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -185,6 +188,7 @@
 							"port": "3001",
 							"path": [
 								"api",
+								"v1",
 								"babysitters"
 							]
 						}
@@ -228,7 +232,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3001/api/bookings",
+							"raw": "http://localhost:3001/api/v1/bookings",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -236,6 +240,7 @@
 							"port": "3001",
 							"path": [
 								"api",
+								"v1",
 								"bookings"
 							]
 						}
@@ -256,12 +261,13 @@
 								{
 									"listen": "test",
 									"script": {
-										"type": "text/javascript",
 										"exec": [
 											"pm.test(\"Status code is 200\", function () {",
 											"    pm.response.to.have.status(200);",
 											"});"
-										]
+										],
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -269,7 +275,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:3001/api/guardians",
+									"raw": "http://localhost:3001/api/v1/guardians",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -277,6 +283,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"guardians"
 									]
 								}
@@ -289,12 +296,23 @@
 								{
 									"listen": "test",
 									"script": {
-										"type": "text/javascript",
 										"exec": [
 											"pm.test(\"Status code is 200\", function () {",
 											"    pm.response.to.have.status(200);",
 											"});"
-										]
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -302,7 +320,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:3001/api/guardians/{{guardianId}}",
+									"raw": "http://localhost:3001/api/v1/guardians/{{guardianId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -310,6 +328,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"guardians",
 										"{{guardianId}}"
 									]
@@ -323,12 +342,13 @@
 								{
 									"listen": "test",
 									"script": {
-										"type": "text/javascript",
 										"exec": [
 											"pm.test(\"Status code is 200\", function () {",
 											"    pm.response.to.have.status(200);",
 											"});"
-										]
+										],
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -351,7 +371,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:3001/api/guardians/{{guardianId}}",
+									"raw": "http://localhost:3001/api/v1/guardians/{{guardianId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -359,6 +379,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"guardians",
 										"{{guardianId}}"
 									]
@@ -401,7 +422,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:3001/api/guardians/{{guardianId}}",
+									"raw": "http://localhost:3001/api/v1/guardians/{{guardianId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -409,6 +430,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"guardians",
 										"{{guardianId}}"
 									]
@@ -470,7 +492,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:3001/api/guardians",
+									"raw": "http://localhost:3001/api/v1/guardians",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -478,6 +500,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"guardians"
 									]
 								}
@@ -504,7 +527,7 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:3001/api/guardians/{{guardianId}}",
+									"raw": "http://localhost:3001/api/v1/guardians/{{guardianId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -512,6 +535,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"guardians",
 										"{{guardianId}}"
 									]
@@ -539,7 +563,7 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:3001/api/guardians",
+									"raw": "http://localhost:3001/api/v1/guardians",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -547,6 +571,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"guardians"
 									]
 								}
@@ -573,7 +598,7 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:3001/api/children",
+									"raw": "http://localhost:3001/api/v1/children",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -581,6 +606,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"children"
 									]
 								}
@@ -641,7 +667,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:3001/api/guardians",
+									"raw": "http://localhost:3001/api/v1/guardians",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -649,6 +675,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"guardians"
 									]
 								}
@@ -702,7 +729,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:3001/api/guardians/{{guardianId}}/children",
+									"raw": "http://localhost:3001/api/v1/guardians/{{guardianId}}/children",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -710,6 +737,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"guardians",
 										"{{guardianId}}",
 										"children"
@@ -724,12 +752,13 @@
 								{
 									"listen": "test",
 									"script": {
-										"type": "text/javascript",
 										"exec": [
 											"pm.test(\"Status code is 200\", function () {",
 											"    pm.response.to.have.status(200);",
 											"});"
-										]
+										],
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -737,7 +766,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:3001/api/guardians/{{guardianId}}/children",
+									"raw": "http://localhost:3001/api/v1/guardians/{{guardianId}}/children",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -745,6 +774,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"guardians",
 										"{{guardianId}}",
 										"children"
@@ -785,7 +815,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:3001/api/guardians/{{guardianId}}/children/{{childId}}",
+									"raw": "http://localhost:3001/api/v1/guardians/{{guardianId}}/children/{{childId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -793,6 +823,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"guardians",
 										"{{guardianId}}",
 										"children",
@@ -820,8 +851,11 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"packages": {},
-										"type": "text/javascript"
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -838,7 +872,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:3001/api/guardians/{{guardianId}}/children/{{childId}}",
+									"raw": "http://localhost:3001/api/v1/guardians/{{guardianId}}/children/{{childId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -846,6 +880,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"guardians",
 										"{{guardianId}}",
 										"children",
@@ -881,8 +916,11 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"packages": {},
-										"type": "text/javascript"
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -905,7 +943,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:3001/api/children",
+									"raw": "http://localhost:3001/api/v1/children",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -913,6 +951,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"children"
 									]
 								}
@@ -939,7 +978,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:3001/api/children?limit=10&sort=lastName&order=asc&page=1",
+									"raw": "http://localhost:3001/api/v1/children?limit=10&sort=lastName&order=asc&page=1",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -947,6 +986,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"children"
 									],
 									"query": [
@@ -982,12 +1022,13 @@
 								{
 									"listen": "test",
 									"script": {
-										"type": "text/javascript",
 										"exec": [
 											"pm.test(\"Status code is 200\", function () {",
 											"    pm.response.to.have.status(200);",
 											"});"
-										]
+										],
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -995,7 +1036,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:3001/api/children/{{childId}}",
+									"raw": "http://localhost:3001/api/v1/children/{{childId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -1003,6 +1044,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"children",
 										"{{childId}}"
 									]
@@ -1016,12 +1058,13 @@
 								{
 									"listen": "test",
 									"script": {
-										"type": "text/javascript",
 										"exec": [
 											"pm.test(\"Status code is 200\", function () {",
 											"    pm.response.to.have.status(200);",
 											"});"
-										]
+										],
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -1044,7 +1087,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:3001/api/children/{{childId}}",
+									"raw": "http://localhost:3001/api/v1/children/{{childId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -1052,6 +1095,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"children",
 										"{{childId}}"
 									]
@@ -1079,7 +1123,7 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:3001/api/children/{{childId}}",
+									"raw": "http://localhost:3001/api/v1/children/{{childId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -1087,6 +1131,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"children",
 										"{{childId}}"
 									]
@@ -1115,8 +1160,11 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"packages": {},
-										"type": "text/javascript"
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -1139,7 +1187,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:3001/api/children",
+									"raw": "http://localhost:3001/api/v1/children",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -1147,6 +1195,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"children"
 									]
 								}
@@ -1173,7 +1222,7 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:3001/api/children",
+									"raw": "http://localhost:3001/api/v1/children",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -1181,6 +1230,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"children"
 									]
 								}
@@ -1244,7 +1294,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:3001/api/babysitters",
+									"raw": "http://localhost:3001/api/v1/babysitters",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -1252,6 +1302,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"babysitters"
 									]
 								}
@@ -1278,7 +1329,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:3001/api/babysitters?page=1&limit=15&sort=hourlyRate&order=asc",
+									"raw": "http://localhost:3001/api/v1/babysitters?page=1&limit=15&sort=hourlyRate&order=asc",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -1286,6 +1337,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"babysitters"
 									],
 									"query": [
@@ -1316,12 +1368,13 @@
 								{
 									"listen": "test",
 									"script": {
-										"type": "text/javascript",
 										"exec": [
 											"pm.test(\"Status code is 200\", function () {",
 											"    pm.response.to.have.status(200);",
 											"});"
-										]
+										],
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -1329,7 +1382,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:3001/api/babysitters/{{babysitterId}}",
+									"raw": "http://localhost:3001/api/v1/babysitters/{{babysitterId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -1337,6 +1390,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"babysitters",
 										"{{babysitterId}}"
 									]
@@ -1394,7 +1448,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:3001/api/babysitters/{{babysitterId}}",
+									"raw": "http://localhost:3001/api/v1/babysitters/{{babysitterId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -1402,6 +1456,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"babysitters",
 										"{{babysitterId}}"
 									]
@@ -1454,7 +1509,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:3001/api/babysitters/{{babysitterId}}",
+									"raw": "http://localhost:3001/api/v1/babysitters/{{babysitterId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -1462,6 +1517,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"babysitters",
 										"{{babysitterId}}"
 									]
@@ -1475,12 +1531,13 @@
 								{
 									"listen": "test",
 									"script": {
-										"type": "text/javascript",
 										"exec": [
 											"pm.test(\"Status code is 200\", function () {",
 											"    pm.response.to.have.status(200);",
 											"});"
-										]
+										],
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -1488,7 +1545,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:3001/api/babysitters?page=1&limit=15&sort=hourlyRate&order=asc",
+									"raw": "http://localhost:3001/api/v1/babysitters?page=1&limit=15&sort=hourlyRate&order=asc",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -1496,6 +1553,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"babysitters"
 									],
 									"query": [
@@ -1526,12 +1584,13 @@
 								{
 									"listen": "test",
 									"script": {
-										"type": "text/javascript",
 										"exec": [
 											"pm.test(\"Status code is 200\", function () {",
 											"    pm.response.to.have.status(200);",
 											"});"
-										]
+										],
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -1539,7 +1598,7 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:3001/api/babysitters/{{babysitterId}}",
+									"raw": "http://localhost:3001/api/v1/babysitters/{{babysitterId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -1547,6 +1606,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"babysitters",
 										"{{babysitterId}}"
 									]
@@ -1574,7 +1634,7 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:3001/api/babysitters",
+									"raw": "http://localhost:3001/api/v1/babysitters",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -1582,6 +1642,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"babysitters"
 									]
 								}
@@ -1644,7 +1705,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:3001/api/guardians",
+									"raw": "http://localhost:3001/api/v1/guardians",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -1652,6 +1713,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"guardians"
 									]
 								}
@@ -1664,14 +1726,15 @@
 								{
 									"listen": "test",
 									"script": {
-										"type": "text/javascript",
 										"exec": [
 											"pm.test(\"Status code is 201\", function () {",
 											"    pm.response.to.have.status(201);",
 											"});",
 											"var jsonData = pm.response.json();",
 											"pm.environment.set(\"childId\", jsonData.newChild._id);"
-										]
+										],
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -1694,7 +1757,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:3001/api/children",
+									"raw": "http://localhost:3001/api/v1/children",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -1702,6 +1765,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"children"
 									]
 								}
@@ -1756,7 +1820,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:3001/api/bookings",
+									"raw": "http://localhost:3001/api/v1/bookings",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -1764,6 +1828,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"bookings"
 									]
 								}
@@ -1790,7 +1855,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:3001/api/bookings?sort=startDateTime&order=asc&sort=totalCost&order=desc\n\n\n\n",
+									"raw": "http://localhost:3001/api/v1/bookings?sort=startDateTime&order=asc&sort=totalCost&order=desc\n\n\n\n",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -1798,6 +1863,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"bookings"
 									],
 									"query": [
@@ -1828,12 +1894,13 @@
 								{
 									"listen": "test",
 									"script": {
-										"type": "text/javascript",
 										"exec": [
 											"pm.test(\"Status code is 200\", function () {",
 											"    pm.response.to.have.status(200);",
 											"});"
-										]
+										],
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -1841,7 +1908,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:3001/api/bookings/{{bookingId}}",
+									"raw": "http://localhost:3001/api/v1/bookings/{{bookingId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -1849,6 +1916,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"bookings",
 										"{{bookingId}}"
 									]
@@ -1891,7 +1959,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:3001/api/bookings/{{bookingId}}",
+									"raw": "http://localhost:3001/api/v1/bookings/{{bookingId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -1899,6 +1967,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"bookings",
 										"{{bookingId}}"
 									]
@@ -1926,7 +1995,7 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:3001/api/bookings/{{bookingId}}",
+									"raw": "http://localhost:3001/api/v1/bookings/{{bookingId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -1934,6 +2003,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"bookings",
 										"{{bookingId}}"
 									]
@@ -1961,7 +2031,7 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:3001/api/bookings",
+									"raw": "http://localhost:3001/api/v1/bookings",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -1969,6 +2039,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"bookings"
 									]
 								}
@@ -2023,7 +2094,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:3001/api/bookings",
+									"raw": "http://localhost:3001/api/v1/bookings",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -2031,6 +2102,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"bookings"
 									]
 								}
@@ -2043,12 +2115,13 @@
 								{
 									"listen": "test",
 									"script": {
-										"type": "text/javascript",
 										"exec": [
 											"pm.test(\"Status code is 200\", function () {",
 											"    pm.response.to.have.status(200);",
 											"});"
-										]
+										],
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -2071,7 +2144,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:3001/api/bookings/{{bookingId}}",
+									"raw": "http://localhost:3001/api/v1/bookings/{{bookingId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -2079,6 +2152,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"bookings",
 										"{{bookingId}}"
 									]
@@ -2106,7 +2180,7 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:3001/api/bookings",
+									"raw": "http://localhost:3001/api/v1/bookings",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -2114,6 +2188,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"bookings"
 									]
 								}
@@ -2173,7 +2248,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:3001/api/babysitters",
+									"raw": "http://localhost:3001/api/v1/babysitters",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -2181,6 +2256,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"babysitters"
 									]
 								}
@@ -2207,7 +2283,7 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:3001/api/babysitters",
+									"raw": "http://localhost:3001/api/v1/babysitters",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -2215,6 +2291,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"babysitters"
 									]
 								}
@@ -2241,7 +2318,7 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:3001/api/children",
+									"raw": "http://localhost:3001/api/v1/children",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -2249,6 +2326,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"children"
 									]
 								}
@@ -2275,7 +2353,7 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:3001/api/guardians",
+									"raw": "http://localhost:3001/api/v1/guardians",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -2283,6 +2361,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"guardians"
 									]
 								}
@@ -2345,7 +2424,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:3001/api/guardians",
+									"raw": "http://localhost:3001/api/v1/guardians",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -2353,6 +2432,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"guardians"
 									]
 								}
@@ -2365,14 +2445,15 @@
 								{
 									"listen": "test",
 									"script": {
-										"type": "text/javascript",
 										"exec": [
 											"pm.test(\"Status code is 201\", function () {",
 											"    pm.response.to.have.status(201);",
 											"});",
 											"var jsonData = pm.response.json();",
 											"pm.environment.set(\"childId\", jsonData.newChild._id);"
-										]
+										],
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -2395,7 +2476,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:3001/api/children",
+									"raw": "http://localhost:3001/api/v1/children",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -2403,6 +2484,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"children"
 									]
 								}
@@ -2462,7 +2544,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:3001/api/babysitters",
+									"raw": "http://localhost:3001/api/v1/babysitters",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -2470,6 +2552,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"babysitters"
 									]
 								}
@@ -2513,7 +2596,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:3001/api/bookings",
+									"raw": "http://localhost:3001/api/v1/bookings",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -2521,6 +2604,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"bookings"
 									]
 								}
@@ -2547,7 +2631,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:3001/api/guardians/{{guardianId}}/bookings?page=1&limit=10&sort=startDateTime&order=desc",
+									"raw": "http://localhost:3001/api/v1/guardians/{{guardianId}}/bookings?page=1&limit=10&sort=startDateTime&order=desc",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -2555,6 +2639,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"guardians",
 										"{{guardianId}}",
 										"bookings"
@@ -2601,7 +2686,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:3001/api/guardians/{{guardianId}}/bookings",
+									"raw": "http://localhost:3001/api/v1/guardians/{{guardianId}}/bookings",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -2609,6 +2694,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"guardians",
 										"{{guardianId}}",
 										"bookings"
@@ -2637,7 +2723,7 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:3001/api/guardians/{{guardianId}}/bookings/{{bookingId}}",
+									"raw": "http://localhost:3001/api/v1/guardians/{{guardianId}}/bookings/{{bookingId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -2645,6 +2731,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"guardians",
 										"{{guardianId}}",
 										"bookings",
@@ -2691,7 +2778,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:3001/api/bookings",
+									"raw": "http://localhost:3001/api/v1/bookings",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -2699,6 +2786,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"bookings"
 									]
 								}
@@ -2725,7 +2813,7 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:3001/api/guardians/{{guardianId}}/bookings",
+									"raw": "http://localhost:3001/api/v1/guardians/{{guardianId}}/bookings",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -2733,6 +2821,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"guardians",
 										"{{guardianId}}",
 										"bookings"
@@ -2778,7 +2867,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:3001/api/bookings",
+									"raw": "http://localhost:3001/api/v1/bookings",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -2786,6 +2875,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"bookings"
 									]
 								}
@@ -2812,7 +2902,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:3001/api/bookings/pending?page=1&limit=10&sort=startDateTime&order=asc",
+									"raw": "http://localhost:3001/api/v1/bookings/pending?page=1&limit=10&sort=startDateTime&order=asc",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -2820,6 +2910,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"bookings",
 										"pending"
 									],
@@ -2865,7 +2956,7 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:3001/api/babysitters",
+									"raw": "http://localhost:3001/api/v1/babysitters",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -2873,6 +2964,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"babysitters"
 									]
 								}
@@ -2932,7 +3024,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:3001/api/babysitters",
+									"raw": "http://localhost:3001/api/v1/babysitters",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -2940,6 +3032,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"babysitters"
 									]
 								}
@@ -2975,7 +3068,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:3001/api/bookings/{{bookingId}}/confirm/{{babysitterId}}",
+									"raw": "http://localhost:3001/api/v1/bookings/{{bookingId}}/confirm/{{babysitterId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -2983,6 +3076,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"bookings",
 										"{{bookingId}}",
 										"confirm",
@@ -3012,7 +3106,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:3001/api/babysitters/{{babysitterId}}/bookings",
+									"raw": "http://localhost:3001/api/v1/babysitters/{{babysitterId}}/bookings",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -3020,6 +3114,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"babysitters",
 										"{{babysitterId}}",
 										"bookings"
@@ -3048,7 +3143,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:3001/api/babysitters/{{babysitterId}}/bookings?page=1&limit=10&sort=startDateTime&order=asc",
+									"raw": "http://localhost:3001/api/v1/babysitters/{{babysitterId}}/bookings?page=1&limit=10&sort=startDateTime&order=asc",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -3056,6 +3151,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"babysitters",
 										"{{babysitterId}}",
 										"bookings"
@@ -3102,7 +3198,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:3001/api/babysitters/{{babysitterId}}/bookings/{{bookingId}}",
+									"raw": "http://localhost:3001/api/v1/babysitters/{{babysitterId}}/bookings/{{bookingId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -3110,6 +3206,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"babysitters",
 										"{{babysitterId}}",
 										"bookings",
@@ -3139,7 +3236,7 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:3001/api/babysitters/{{babysitterId}}/bookings/{{bookingId}}",
+									"raw": "http://localhost:3001/api/v1/babysitters/{{babysitterId}}/bookings/{{bookingId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -3147,6 +3244,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"babysitters",
 										"{{babysitterId}}",
 										"bookings",
@@ -3209,7 +3307,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:3001/api/babysitters",
+									"raw": "http://localhost:3001/api/v1/babysitters",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -3217,6 +3315,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"babysitters"
 									]
 								}
@@ -3252,7 +3351,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:3001/api/bookings/{{bookingId}}/confirm/{{babysitterId}}",
+									"raw": "http://localhost:3001/api/v1/bookings/{{bookingId}}/confirm/{{babysitterId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -3260,6 +3359,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"bookings",
 										"{{bookingId}}",
 										"confirm",
@@ -3289,7 +3389,7 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:3001/api/babysitters/{{babysitterId}}/bookings",
+									"raw": "http://localhost:3001/api/v1/babysitters/{{babysitterId}}/bookings",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -3297,6 +3397,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"babysitters",
 										"{{babysitterId}}",
 										"bookings"
@@ -3336,7 +3437,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3001/api/guardians",
+							"raw": "http://localhost:3001/api/v1/guardians",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -3344,6 +3445,7 @@
 							"port": "3001",
 							"path": [
 								"api",
+								"v1",
 								"guardians"
 							]
 						}
@@ -3374,7 +3476,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3001/api/children",
+							"raw": "http://localhost:3001/api/v1/children",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -3382,6 +3484,7 @@
 							"port": "3001",
 							"path": [
 								"api",
+								"v1",
 								"children"
 							]
 						}
@@ -3412,7 +3515,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3001/api/bookings",
+							"raw": "http://localhost:3001/api/v1/bookings",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -3420,6 +3523,7 @@
 							"port": "3001",
 							"path": [
 								"api",
+								"v1",
 								"bookings"
 							]
 						}
@@ -3450,7 +3554,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3001/api/babysitters",
+							"raw": "http://localhost:3001/api/v1/babysitters",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -3458,6 +3562,7 @@
 							"port": "3001",
 							"path": [
 								"api",
+								"v1",
 								"babysitters"
 							]
 						}
@@ -3520,7 +3625,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3001/api/guardians",
+							"raw": "http://localhost:3001/api/v1/guardians",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -3528,6 +3633,7 @@
 							"port": "3001",
 							"path": [
 								"api",
+								"v1",
 								"guardians"
 							]
 						}
@@ -3585,7 +3691,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3001/api/guardians",
+							"raw": "http://localhost:3001/api/v1/guardians",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -3593,6 +3699,7 @@
 							"port": "3001",
 							"path": [
 								"api",
+								"v1",
 								"guardians"
 							]
 						}
@@ -3650,7 +3757,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3001/api/guardians",
+							"raw": "http://localhost:3001/api/v1/guardians",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -3658,6 +3765,7 @@
 							"port": "3001",
 							"path": [
 								"api",
+								"v1",
 								"guardians"
 							]
 						}
@@ -3670,14 +3778,15 @@
 						{
 							"listen": "test",
 							"script": {
-								"type": "text/javascript",
 								"exec": [
 									"pm.test(\"Status code is 201\", function () {",
 									"    pm.response.to.have.status(201);",
 									"});",
 									"var jsonData = pm.response.json();",
 									"pm.environment.set(\"childId\", jsonData.newChild._id);"
-								]
+								],
+								"type": "text/javascript",
+								"packages": {}
 							}
 						}
 					],
@@ -3700,7 +3809,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3001/api/children",
+							"raw": "http://localhost:3001/api/v1/children",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -3708,6 +3817,7 @@
 							"port": "3001",
 							"path": [
 								"api",
+								"v1",
 								"children"
 							]
 						}
@@ -3751,7 +3861,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3001/api/children",
+							"raw": "http://localhost:3001/api/v1/children",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -3759,6 +3869,7 @@
 							"port": "3001",
 							"path": [
 								"api",
+								"v1",
 								"children"
 							]
 						}
@@ -3802,7 +3913,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3001/api/children",
+							"raw": "http://localhost:3001/api/v1/children",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -3810,6 +3921,7 @@
 							"port": "3001",
 							"path": [
 								"api",
+								"v1",
 								"children"
 							]
 						}
@@ -3853,7 +3965,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3001/api/children",
+							"raw": "http://localhost:3001/api/v1/children",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -3861,6 +3973,7 @@
 							"port": "3001",
 							"path": [
 								"api",
+								"v1",
 								"children"
 							]
 						}
@@ -3920,7 +4033,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3001/api/babysitters",
+							"raw": "http://localhost:3001/api/v1/babysitters",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -3928,6 +4041,7 @@
 							"port": "3001",
 							"path": [
 								"api",
+								"v1",
 								"babysitters"
 							]
 						}
@@ -3987,7 +4101,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3001/api/babysitters",
+							"raw": "http://localhost:3001/api/v1/babysitters",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -3995,6 +4109,7 @@
 							"port": "3001",
 							"path": [
 								"api",
+								"v1",
 								"babysitters"
 							]
 						}
@@ -4054,7 +4169,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3001/api/babysitters",
+							"raw": "http://localhost:3001/api/v1/babysitters",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -4062,6 +4177,7 @@
 							"port": "3001",
 							"path": [
 								"api",
+								"v1",
 								"babysitters"
 							]
 						}
@@ -4115,7 +4231,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3001/api/bookings",
+							"raw": "http://localhost:3001/api/v1/bookings",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -4123,6 +4239,7 @@
 							"port": "3001",
 							"path": [
 								"api",
+								"v1",
 								"bookings"
 							]
 						}
@@ -4166,7 +4283,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3001/api/bookings",
+							"raw": "http://localhost:3001/api/v1/bookings",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -4174,6 +4291,7 @@
 							"port": "3001",
 							"path": [
 								"api",
+								"v1",
 								"bookings"
 							]
 						}
@@ -4209,7 +4327,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3001/api/bookings/{{bookingId}}/confirm/{{babysitterId}}",
+							"raw": "http://localhost:3001/api/v1/bookings/{{bookingId}}/confirm/{{babysitterId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -4217,6 +4335,7 @@
 							"port": "3001",
 							"path": [
 								"api",
+								"v1",
 								"bookings",
 								"{{bookingId}}",
 								"confirm",
@@ -4263,7 +4382,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3001/api/bookings",
+							"raw": "http://localhost:3001/api/v1/bookings",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -4271,6 +4390,7 @@
 							"port": "3001",
 							"path": [
 								"api",
+								"v1",
 								"bookings"
 							]
 						}
@@ -4314,7 +4434,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3001/api/bookings",
+							"raw": "http://localhost:3001/api/v1/bookings",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -4322,6 +4442,7 @@
 							"port": "3001",
 							"path": [
 								"api",
+								"v1",
 								"bookings"
 							]
 						}
@@ -4357,7 +4478,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3001/api/bookings/{{bookingId}}/confirm/{{babysitterId}}",
+							"raw": "http://localhost:3001/api/v1/bookings/{{bookingId}}/confirm/{{babysitterId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -4365,6 +4486,7 @@
 							"port": "3001",
 							"path": [
 								"api",
+								"v1",
 								"bookings",
 								"{{bookingId}}",
 								"confirm",
@@ -4425,7 +4547,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3001/api/guardians",
+							"raw": "http://localhost:3001/api/v1/guardians",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -4433,6 +4555,7 @@
 							"port": "3001",
 							"path": [
 								"api",
+								"v1",
 								"guardians"
 							]
 						}
@@ -4457,8 +4580,11 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"packages": {},
-								"type": "text/javascript"
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
 							}
 						}
 					],
@@ -4475,7 +4601,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3001/api/login",
+							"raw": "http://localhost:3001/api/v1/login",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -4483,6 +4609,7 @@
 							"port": "3001",
 							"path": [
 								"api",
+								"v1",
 								"login"
 							]
 						}
@@ -4542,7 +4669,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3001/api/babysitters",
+							"raw": "http://localhost:3001/api/v1/babysitters",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -4550,6 +4677,7 @@
 							"port": "3001",
 							"path": [
 								"api",
+								"v1",
 								"babysitters"
 							]
 						}
@@ -4585,7 +4713,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3001/api/login",
+							"raw": "http://localhost:3001/api/v1/login",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -4593,6 +4721,7 @@
 							"port": "3001",
 							"path": [
 								"api",
+								"v1",
 								"login"
 							]
 						}
@@ -4619,7 +4748,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3001/api/guardians/{{guardianId}}",
+							"raw": "http://localhost:3001/api/v1/guardians/{{guardianId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -4627,6 +4756,7 @@
 							"port": "3001",
 							"path": [
 								"api",
+								"v1",
 								"guardians",
 								"{{guardianId}}"
 							]
@@ -4640,12 +4770,13 @@
 						{
 							"listen": "test",
 							"script": {
-								"type": "text/javascript",
 								"exec": [
 									"pm.test(\"Status code is 200\", function () {",
 									"    pm.response.to.have.status(200);",
 									"});"
-								]
+								],
+								"type": "text/javascript",
+								"packages": {}
 							}
 						}
 					],
@@ -4653,7 +4784,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3001/api/babysitters/{{babysitterId}}",
+							"raw": "http://localhost:3001/api/v1/babysitters/{{babysitterId}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -4661,6 +4792,7 @@
 							"port": "3001",
 							"path": [
 								"api",
+								"v1",
 								"babysitters",
 								"{{babysitterId}}"
 							]

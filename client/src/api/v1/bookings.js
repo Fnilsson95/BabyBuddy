@@ -1,4 +1,4 @@
-const BASE_URL = 'http://localhost:3001/api'
+const BASE_URL = 'http://localhost:3001/api/v1'
 
 // http://localhost:3000/api/bookings?page=1&limit=1
 
