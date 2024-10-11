@@ -19,7 +19,9 @@ const routes = [
   { path: '/login', name: 'login', component: Login },
   { path: '/:id/guardian', name: 'guardian', component: Guardian },
   { path: '/:id/babysitter', name: 'babysitter', component: Babysitter },
-  { path: '/bookings', name: 'bookings', component: Bookings }
+  { path: '/:id/guardian/bookings', name: 'guardian-bookings', component: Bookings },
+  { path: '/:id/babysitter/bookings', name: 'babysitter-bookings', component: Bookings }
+  /* { path: '/bookings', name: 'bookings', component: Bookings } */
 ]
 
 const router = createRouter({
