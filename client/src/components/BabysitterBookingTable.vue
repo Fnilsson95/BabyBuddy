@@ -26,8 +26,8 @@
       <template #cell(dropoffLocation)="row">
         {{ row.item.location.dropoff_Location }}
       </template>
-      <template #cell(babysitter)="row">
-        {{ row.item.babysitter ? row.item.babysitter.firstName : 'Unassigned' }}
+      <template #cell(guardian)="row">
+        {{ row.item.guardian.firstName }}
       </template>
       <template #cell(children)="row">
         {{ row.item.children.length }}
@@ -92,7 +92,7 @@ export default {
       { key: 'totalCost', label: 'Total Cost' },
       { key: 'pickupLocation', label: 'Pickup Location' },
       { key: 'dropoffLocation', label: 'Dropoff Location' },
-      { key: 'babysitter', label: 'Babysitter' },
+      { key: 'guardian', label: 'Guardian' },
       { key: 'children', label: 'Children' },
       { key: 'status', label: 'Status', sortable: true },
       { key: 'description', label: 'Description' },
@@ -108,7 +108,7 @@ export default {
 
     const fetchBookings = async () => {
       try {
-        const data = await bookingApi.getAllGuardianBookings(currentPage.value, perPage.value)
+        const data = await bookingApi.getAllBabysitterBookings(currentPage.value, perPage.value)
         bookings.value = data.bookings
         totalRows.value = data.total
       } catch (error) {

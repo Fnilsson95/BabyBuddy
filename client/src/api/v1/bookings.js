@@ -38,10 +38,10 @@ export const bookingApi = {
     }
   },
 
-  async getAllBookings(page = 1, limit = 10, sort = 'startDateTime', order = 'asc') {
+  async getAllGuardianBookings(guardianId, page = 1, limit = 10, sort = 'startDateTime', order = 'asc') {
     try {
       const response = await fetch(
-        `${BASE_URL}/bookings?page=${page}&limit=${limit}&sort=${sort}&order=${order}`
+        `${BASE_URL}/guardians/${guardianId}/bookings?page=${page}&limit=${limit}&sort=${sort}&order=${order}`
       )
       if (!response.ok) {
         throw new Error('Network response was not ok')
@@ -50,6 +50,24 @@ export const bookingApi = {
       return await response.json()
     } catch (error) {
       console.error('Error fetching bookings:', error)
+      throw error
+    }
+  },
+
+  async getAllBabysitterBookings(
+    babysitterId, page = 1, limit = 10, sort = 'startDateTime', order = 'asc') {
+    try {
+      const response = await fetch(
+          `${BASE_URL}/babysitters/${babysitterId}/bookings?page=${page}&limit=${limit}&sort=${sort}&order=${order}`
+      )
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok')
+      }
+
+      return await response.json()
+    } catch (error) {
+      console.error('Error fetching bookings: ', error)
       throw error
     }
   }
