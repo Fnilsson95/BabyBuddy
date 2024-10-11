@@ -36,5 +36,21 @@ export const bookingApi = {
       console.error('Error fetching users:', error)
       throw error
     }
+  },
+
+  async getAllBookings(page = 1, limit = 10, sort = 'startDateTime', order = 'asc') {
+    try {
+      const response = await fetch(
+        `${BASE_URL}/bookings?page=${page}&limit=${limit}&sort=${sort}&order=${order}`
+      )
+      if (!response.ok) {
+        throw new Error('Network response was not ok')
+      }
+
+      return await response.json()
+    } catch (error) {
+      console.error('Error fetching bookings:', error)
+      throw error
+    }
   }
 }
