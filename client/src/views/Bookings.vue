@@ -1,16 +1,16 @@
 <template>
   <div>
-    <BookingsTable />
+    <GuardianBookingTable />
   </div>
 </template>
 
 <script>
-import BookingsTable from '@/components/BookingsTable.vue'
+import GuardianBookingTable from '@/components/GuardianBookingTable.vue'
 
 export default {
   name: 'Booking',
   components: {
-    BookingsTable
+    GuardianBookingTable
   }
 }
 </script>
