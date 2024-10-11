@@ -8,8 +8,8 @@
   >
     <template #header>
       <span>
-        {{ booking.guardian.name.firstName }}
-        {{ booking.guardian.name.lastName }}</span
+        {{ booking.guardian.firstName }}
+        {{ booking.guardian.lastName }}</span
       >
     </template>
 

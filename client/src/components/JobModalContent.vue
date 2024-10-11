@@ -40,8 +40,8 @@
       <p class="sectionTitle">Guardian</p>
       <div class="guardianContainer">
         <p style="font-size: 18px; font-weight: 600; margin: 0">
-          {{ booking.guardian.name.firstName }}
-          {{ booking.guardian.name.lastName }}
+          {{ booking.guardian.firstName }}
+          {{ booking.guardian.lastName }}
         </p>
 
         <p style="font-size: 14px; margin: 0">

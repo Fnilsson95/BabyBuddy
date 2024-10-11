@@ -33,7 +33,7 @@ export default {
     try {
       const bookings = await bookingApi.getAllPendingBookings()
 
-      this.structuredBookings = bookings.map((booking) => {
+      this.structuredBookings = bookings.bookings.map((booking) => {
         return {
           id: booking._id,
           createdAt: booking.createdAt,
@@ -45,7 +45,8 @@ export default {
           ),
           location: booking.location,
           guardian: {
-            name: booking.guardian.name,
+            firstName: booking.guardian.firstName,
+            lastName: booking.guardian.lastName,
             email: booking.guardian.email,
             phoneNumber: booking.guardian.phoneNumber
           },
@@ -54,7 +55,9 @@ export default {
           totalCost: booking.totalCost
         }
       })
-    } catch (error) {}
+    } catch (error) {
+      console.error('Error fetching bookings:', error)
+    }
   },
   methods: {
     formatDate,
