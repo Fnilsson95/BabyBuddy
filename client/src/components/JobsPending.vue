@@ -36,6 +36,7 @@ export default {
       this.structuredBookings = bookings.bookings.map((booking) => {
         return {
           id: booking._id,
+          description: booking.description,
           createdAt: booking.createdAt,
           startDateTime: formatDate(booking.startDateTime),
           endDateTime: formatDate(booking.endDateTime),

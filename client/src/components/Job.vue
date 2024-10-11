@@ -15,7 +15,7 @@
 
     <BCardText>
       <div class="cardRow">
-        <p>Can someone take care of my cat</p>
+        <p>{{ booking.description }}</p>
       </div>
       <div class="cardRow">
         <p class="label">Earning:</p>
