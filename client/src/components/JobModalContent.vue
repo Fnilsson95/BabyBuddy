@@ -92,8 +92,9 @@ export default {
   },
   methods: {
     async handleConfirmBooking(bookingId, babysitterId) {
+      const { id } = this.$route.params
       try {
-        bookingApi.confirmBooking(bookingId, '66ff1821d6c0fea82a7301ae')
+        bookingApi.confirmBooking(bookingId, id)
         this.$emit('apply-and-close')
       } catch (error) {
         console.error('Error confirming booking:', error)
