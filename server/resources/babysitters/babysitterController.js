@@ -196,7 +196,7 @@ controller.get("/:babysitterId/bookings", async (req, res) => {
 
     // Pagination and Sorting logic
     const pages = parseInt(page, 10);
-    const limits = parseInt(limit,10);
+    const limits = parseInt(limit, 10);
     const skip = (pages - 1) * limits;
 
     // Handle invalid page or limit values
@@ -210,6 +210,11 @@ controller.get("/:babysitterId/bookings", async (req, res) => {
     const validOrders = ["asc", "desc"];
     const sortOrder = validOrders.includes(order) ? (order === "asc" ? 1 : -1) : 1;
     const sortOption = { [sort]: sortOrder };
+
+    const totalBookings = await Bookings.countDocuments({
+      babysitter: babysitterId,
+      status: { $in: Array.isArray(status) ? status : [status] }
+    });
 
     const bookings = await Bookings.find({
       babysitter: babysitterId,
@@ -230,8 +235,9 @@ controller.get("/:babysitterId/bookings", async (req, res) => {
 
     res.status(200).json({
       page: pages,
-      limit, limits,
-      totalBookings: updatedBookings.length,
+      limit: limits,
+      totalBookings,
+      totalPages: Math.ceil(totalBookings / limits),
       bookings: updatedBookings,
     });
   } catch (error) {
