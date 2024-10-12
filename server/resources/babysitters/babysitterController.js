@@ -198,7 +198,7 @@ controller.get("/:babysitterId/bookings", async (req, res) => {
     const pages = parseInt(page, 10);
     const limits = parseInt(limit, 10);
     const skip = (pages - 1) * limits;
-
+    
     // Handle invalid page or limit values
     if (isNaN(pages) || pages < 1) {
       return res.status(400).json({ message: "Invalid page parameter. Must be a positive number." });

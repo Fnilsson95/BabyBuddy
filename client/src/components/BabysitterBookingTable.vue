@@ -1,6 +1,5 @@
 <template>
   <BContainer class="py-5">
-    <!-- Row for sorting options -->
     <BRow class="mb-3">
       <BCol lg="12" class="d-flex justify-content-end">
         <BFormGroup
@@ -32,19 +31,15 @@
       </BCol>
     </BRow>
 
-    <!-- Main table element -->
     <BTable
       :items="sortedItems"
       :fields="fields"
-      :current-page="currentPage"
-      :per-page="perPage"
       responsive="sm"
       hover
       striped
       bordered
       small
     >
-      <!-- Other fields remain unchanged -->
       <template #cell(startDateTime)="row">
         {{ row.item.startDateTime }}
       </template>
@@ -63,7 +58,6 @@
       <template #cell(guardian)="row">
         {{ row.item.guardian.firstName }}
       </template>
-      <!-- Display the children names instead of the full JSON object -->
       <template #cell(children)="row">
         {{ row.item.children.map(children => children.name.firstName).join(', ') }}
       </template>
@@ -78,8 +72,6 @@
           {{ row.detailsShowing ? 'Hide Details' : 'Show Details' }}
         </BButton>
       </template>
-
-      <!-- Row Details (Additional Information) -->
       <template #row-details="row">
         <BCard class="p-2">
           <p> {{ row.item.additionalInformation }} </p>
@@ -145,7 +137,8 @@ const fetchBookings = async () => {
 // Call the fetchBookings function when the component is mounted
 onMounted(fetchBookings)
 
-// Watch the reactive values (currentPage, perPage, sortByKey, sortOrder) and trigger fetchBookings on change
+// Reactive values (currentPage, perPage, sortByKey, sortOrder) and trigger fetchBookings
+// For dynamic updating
 watch([currentPage, perPage, sortByKey, sortOrder], fetchBookings)
 
 // Fields for the table (same as before)
@@ -162,15 +155,15 @@ const fields = ref([
   { key: 'additionalInformation', label: 'Additional Information' }
 ])
 
-// Sorting options (same as before)
+// Sorting options
 const sortOptions = [
   { value: 'startDateTime', text: 'Start Date' },
   { value: 'status', text: 'Status' }
 ]
 
-// Computed: Sorting logic (this is applied on the backend, not the frontend)
+// Sorting logic (this is applied on the backend, not the frontend)
 const sortedItems = computed(() => {
-  return items.value // No sorting needed here as the backend handles it
+  return items.value
 })
 
 // Options for rows per page
