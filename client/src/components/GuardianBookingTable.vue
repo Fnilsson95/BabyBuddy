@@ -69,9 +69,9 @@
         {{ row.item.description }}
       </template>
       <template #cell(additionalInformation)="row">
-        <BButton size="sm" @click="row.toggleDetails">
-          {{ row.detailsShowing ? 'Hide Details' : 'Show Details' }}
-        </BButton>
+      <BButton size="sm" class="custom-button" @click="row.toggleDetails">
+        {{ row.detailsShowing ? 'Hide Details' : 'Show Details' }}
+       </BButton>
       </template>
       <template #row-details="row">
         <BCard class="p-2">
@@ -183,5 +183,23 @@ const perPageOptions = [
 
 .mt-3 {
   margin-top: 1.5rem;
+}
+.custom-button {
+  margin-top: 0.5rem;
+  background-color: #3c5c5e;
+  color: white;
+  border-radius: 15px;
+  border: none;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.custom-button:hover {
+  background-color: #2d4749;
+}
+.text-center {
+  text-align: center;
 }
 </style>
