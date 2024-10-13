@@ -1,11 +1,13 @@
 <template>
   <div>
+    <Navbar/>
     <GuardianBookingTable v-if="role === 'guardian'" :guardianId="id" />
     <BabysitterBookingTable v-if="role === 'babysitter'" :babysitterId="id" />
   </div>
 </template>
 
 <script>
+import Navbar from '@/components/Navbar.vue'
 import GuardianBookingTable from '@/components/GuardianBookingTable.vue'
 import BabysitterBookingTable from '@/components/BabysitterBookingTable.vue'
 
