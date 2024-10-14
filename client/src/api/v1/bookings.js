@@ -36,5 +36,41 @@ export const bookingApi = {
       console.error('Error fetching users:', error)
       throw error
     }
+  },
+
+  async getAllGuardianBookings(guardianId, page = 1, limit = 10, sort = 'startDateTime', order = 'asc') {
+    try {
+      const response = await fetch(
+        `${BASE_URL}/guardians/${guardianId}/bookings?page=${page}&limit=${limit}&sort=${sort}&order=${order}`
+      )
+      if (!response.ok) {
+        const errorData = await response.json()
+        throw new Error(errorData.error || 'Failed to get all bookings')
+      }
+
+      return await response.json()
+    } catch (error) {
+      console.error('Error fetching bookings:', error)
+      throw error
+    }
+  },
+
+  async getAllBabysitterBookings(
+    babysitterId, page = 1, limit = 10, sort = 'startDateTime', order = 'asc') {
+    try {
+      const response = await fetch(
+          `${BASE_URL}/babysitters/${babysitterId}/bookings?page=${page}&limit=${limit}&sort=${sort}&order=${order}`
+      )
+
+      if (!response.ok) {
+        const errorData = await response.json()
+        throw new Error(errorData.error || 'Failed to get all bookings')
+      }
+
+      return await response.json()
+    } catch (error) {
+      console.error('Error fetching bookings: ', error)
+      throw error
+    }
   }
 }

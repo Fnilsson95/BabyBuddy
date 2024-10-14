@@ -1,11 +1,11 @@
 <template>
     <BNavbar toggleable="lg" variant="primary" v-b-color-mode="'dark'">
-        <BNavbarBrand to="/guardian">BabyBuddy</BNavbarBrand>
+        <BNavbarBrand :to="homeRoute">BabyBuddy</BNavbarBrand> <!-- Dynamic Home Route -->
         <BNavbarToggle target="nav-collapse" />
         <BCollapse id="nav-collapse" is-nav>
             <BNavbarNav>
-                <BNavItem to="/guardian">Home</BNavItem>
-                <BNavItem to="#" disabled>Bookings</BNavItem>
+                <BNavItem :to="homeRoute">Home</BNavItem> <!-- Adjusted Home Link -->
+                <BNavItem :to="bookingsRoute">Bookings</BNavItem>
             </BNavbarNav>
             <!-- Right aligned nav items -->
             <BNavbarNav class="ms-auto mb-2 mb-lg-0">
@@ -19,7 +19,32 @@
                     <BDropdownItem to="/login">Sign Out</BDropdownItem>
                 </BNavItemDropdown>
             </BNavbarNav>
-            <BAvatar to="/guardian" size="3em" />
+            <BAvatar :to="homeRoute" size="3em" />
         </BCollapse>
     </BNavbar>
 </template>
+
+<script>
+import { useRoute } from 'vue-router'
+import { computed } from 'vue'
+
+export default {
+  setup() {
+    const route = useRoute()
+
+    const userId = route.params.id
+    const role = computed(() => (route.path.includes('guardian') ? 'guardian' : 'babysitter'))
+
+    // Dynamic Home Route based on role and userId
+    const homeRoute = computed(() => `/${userId}/${role.value}`)
+
+    // Dynamic Bookings Route based on role and userId
+    const bookingsRoute = computed(() => `/${userId}/${role.value}/bookings-history`)
+
+    return {
+      homeRoute,
+      bookingsRoute
+    }
+  }
+}
+</script>

@@ -263,8 +263,10 @@ controller.get("/:guardianId/bookings", async (req, res) => {
     const validOrders = ["asc", "desc"];
     const sortOrder = validOrders.includes(order) ? (order === "asc" ? 1 : -1) : 1;
     const sortOption = { [sort]: sortOrder};
-    
 
+    // Get the total number of bookings for the guardian
+    const totalBookings = await Bookings.countDocuments({ guardian: guardianId });
+    
     // Find all bookings associated with the guardian
     const guardianBookings = await Bookings.find({ guardian: guardianId })
       .sort(sortOption)
@@ -285,7 +287,8 @@ controller.get("/:guardianId/bookings", async (req, res) => {
     res.status(200).json({
       page: pages,
       limit: limits,
-      totalBookings: updatedBookings.length,
+      totalBookings,
+      totalPages: Math.ceil(totalBookings / limits),
       bookings: updatedBookings,
     });
   } catch (error) {
