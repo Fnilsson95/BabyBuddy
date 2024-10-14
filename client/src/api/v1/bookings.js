@@ -44,7 +44,8 @@ export const bookingApi = {
         `${BASE_URL}/guardians/${guardianId}/bookings?page=${page}&limit=${limit}&sort=${sort}&order=${order}`
       )
       if (!response.ok) {
-        throw new Error('Network response was not ok')
+        const errorData = await response.json()
+        throw new Error(errorData.error || 'Failed to get all bookings')
       }
 
       return await response.json()
@@ -62,7 +63,8 @@ export const bookingApi = {
       )
 
       if (!response.ok) {
-        throw new Error('Network response was not ok')
+        const errorData = await response.json()
+        throw new Error(errorData.error || 'Failed to get all bookings')
       }
 
       return await response.json()
