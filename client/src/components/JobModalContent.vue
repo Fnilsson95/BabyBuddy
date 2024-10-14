@@ -70,18 +70,12 @@
         </p>
       </div>
     </div>
-    <div class="apply-button-container">
-      <button class="apply-button" @click="handleConfirmBooking(booking.id)">
-        Apply
-      </button>
-    </div>
+    <slot name="button"></slot>
   </div>
 </template>
 
 <script setup>
-import { bookingApi } from '@/api/v1/bookings'
 import { formatDate } from '@/helpers'
-import { useRoute } from 'vue-router'
 
 defineProps({
   booking: {
@@ -89,20 +83,6 @@ defineProps({
     required: true
   }
 })
-
-const emit = defineEmits(['booking-updated', 'update:modalRef'])
-const route = useRoute()
-
-const handleConfirmBooking = async (bookingId) => {
-  const { id } = route.params
-  try {
-    await bookingApi.confirmBooking(bookingId, id)
-    emit('update:modalRef', false)
-    emit('booking-updated')
-  } catch (error) {
-    console.error('Error confirming booking:', error)
-  }
-}
 </script>
 
 <style scoped>
