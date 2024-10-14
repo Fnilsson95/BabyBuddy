@@ -41,10 +41,10 @@
       small
     >
       <template #cell(startDateTime)="row">
-        {{ row.item.startDateTime }}
+        {{ formatDate(row.item.startDateTime) }}
       </template>
       <template #cell(endDateTime)="row">
-        {{ row.item.endDateTime }}
+        {{ formatDate(row.item.endDateTime) }}
       </template>
       <template #cell(totalCost)="row">
         ${{ row.item.totalCost }}
@@ -104,6 +104,7 @@
 import { ref, computed, onMounted, watch } from 'vue'
 import { bookingApi } from '../api/v1/bookings'
 import { useRoute } from 'vue-router'
+import { formatDate } from '../helpers'
 
 // State variables
 const items = ref([]) // Initially empty; data will be fetched from the API
