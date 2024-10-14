@@ -39,7 +39,7 @@ export default {
     const homeRoute = computed(() => `/${userId}/${role.value}`)
 
     // Dynamic Bookings Route based on role and userId
-    const bookingsRoute = computed(() => `/${userId}/${role.value}/bookings`)
+    const bookingsRoute = computed(() => `/${userId}/${role.value}/bookings-history`)
 
     return {
       homeRoute,

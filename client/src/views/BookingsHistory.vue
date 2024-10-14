@@ -26,7 +26,7 @@ import GuardianBookingTable from '@/components/GuardianBookingTable.vue'
 import BabysitterBookingTable from '@/components/BabysitterBookingTable.vue'
 
 export default {
-  name: 'Bookings',
+  name: 'BookingsHistory',
   data() {
     return {
       role: null, // Define the role (guardian or babysitter)

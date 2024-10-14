@@ -5,7 +5,7 @@ import Signup from './views/Signup.vue'
 import Login from './views/Login.vue'
 import Guardian from './views/Guardian.vue'
 import Babysitter from './views/Babysitter.vue'
-import Bookings from './views/Bookings.vue'
+import BookingsHistory from './views/BookingsHistory.vue'
 
 const routes = [
   { path: '/', redirect: '/login' },
@@ -19,9 +19,8 @@ const routes = [
   { path: '/login', name: 'login', component: Login },
   { path: '/:id/guardian', name: 'guardian', component: Guardian },
   { path: '/:id/babysitter', name: 'babysitter', component: Babysitter },
-  { path: '/:id/guardian/bookings', name: 'guardian-bookings', component: Bookings },
-  { path: '/:id/babysitter/bookings', name: 'babysitter-bookings', component: Bookings }
-  /* { path: '/bookings', name: 'bookings', component: Bookings } */
+  { path: '/:id/guardian/bookings-history', name: 'guardian-bookings-history', component: BookingsHistory },
+  { path: '/:id/babysitter/bookings-history', name: 'babysitter-bookings-history', component: BookingsHistory }
 ]
 
 const router = createRouter({
