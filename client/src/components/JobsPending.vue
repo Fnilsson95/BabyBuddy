@@ -9,18 +9,28 @@
     >
       <BookingCard :booking="booking" :key="booking._id">
         <template #button>
-          <button
-            class="apply-button-container apply-button apply-button:hover"
-            @click="modal = !modal"
-          >
-            View Details
-          </button>
+          <div class="button-container">
+            <button class="button button:hover" @click="modal = !modal">
+              View Details
+            </button>
+          </div>
           <BModal v-model="modal" title="Booking Information" hide-footer>
             <JobModalContent
               :booking="booking"
               @booking-updated="$emit('booking-updated')"
-              @update:modalRef="modal = $event"
-          /></BModal>
+            >
+              <template #button>
+                <div class="button-container">
+                  <button
+                    class="button button:hover"
+                    @click="handleConfirmBooking(booking.id)"
+                  >
+                    Apply
+                  </button>
+                </div>
+              </template>
+            </JobModalContent>
+          </BModal>
         </template>
       </BookingCard>
     </BCol>
@@ -32,10 +42,18 @@ import { ref, onMounted } from 'vue'
 import { bookingApi } from '@/api/v1/bookings'
 import { calculateDuration, formatDate } from '@/helpers'
 import BookingCard from './BookingCard.vue'
+import { useRoute } from 'vue-router'
 
+// Initial References
 const structuredBookings = ref([])
 const modal = ref(false)
 
+// Emits
+const emit = defineEmits(['booking-updated'])
+
+const route = useRoute()
+
+// Function that refreshes bookings
 const refreshBookings = async () => {
   try {
     const bookings = await bookingApi.getAllPendingBookings()
@@ -68,11 +86,28 @@ const refreshBookings = async () => {
   }
 }
 
+// Function that confirms a booking
+const handleConfirmBooking = async (bookingId) => {
+  const { id } = route.params
+  try {
+    await bookingApi.confirmBooking(bookingId, id)
+    modal.value = false
+    emit('booking-updated')
+  } catch (error) {
+    console.error('Error confirming booking:', error)
+  }
+}
+
 onMounted(refreshBookings)
 </script>
 
 <style scoped>
-.apply-button {
+.button-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.button {
   background-color: #2f4f4f;
   color: #f5f5f5;
   border: none;
@@ -83,7 +118,7 @@ onMounted(refreshBookings)
   border-radius: 5px;
 }
 
-.apply-button:hover {
+.button:hover {
   background-color: rgba(47, 79, 79, 0.5);
   transform: scale(1.05);
 }
