@@ -8,7 +8,8 @@ export const babysitterAPI = {
       )
 
       if (!response.ok) {
-        throw new Error('Network response was not ok')
+        const errorData = response.json()
+        throw new Error(errorData.error)
       }
 
       return await response.json()
