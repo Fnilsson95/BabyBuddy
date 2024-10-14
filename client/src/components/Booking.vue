@@ -14,6 +14,7 @@
 <script setup>
 import { reactive } from 'vue'
 import Button from '@/components/Button.vue'
+import { bookingApi } from '@/api/bookings'
 
 const dates = [
     { label: 'Start date and time', type: 'datetime-local', name: 'startDate' },

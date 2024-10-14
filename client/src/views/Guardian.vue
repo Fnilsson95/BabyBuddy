@@ -3,6 +3,11 @@
     <Navbar></Navbar>
     <BContainer>
       <BRow>
+        <BCol>
+          <h1>Hello {{ store.guardian.name.firstName }} {{ store.guardian.name.lastName }}</h1>
+        </BCol>
+      </BRow>
+      <BRow>
         <BCol lg="3">
           <div class="pt-5">
             <h2>Book a babysitter</h2>
@@ -16,7 +21,7 @@
             <Upcoming />
           </div>
         </BCol>
-        <BCol>
+        <BCol lg="6">
           <div class="pt-5">
             <h2>My children</h2>
             <Child />
@@ -34,6 +39,8 @@ import Booking from '@/components/Booking.vue'
 import Upcoming from '@/components/Upcoming.vue'
 import Child from '@/components/Child.vue'
 import Modal from '@/components/Modal.vue'
+import { guardianApi } from '@/api/guardians'
+import { store } from '@/stores/guardianStore'
 export default {
   name: 'guardian',
   components: {
@@ -43,6 +50,19 @@ export default {
     Upcoming,
     Child,
     Modal
+  },
+  setup() {
+    return { store }
+  },
+  async mounted() {
+    const guardianID = "66f155b3a06011d345d4d627"
+    const guardian = await guardianApi.getGuardian(guardianID);
+
+    console.log("guardian:", guardian);
+
+
+    store.setGuardian(guardian);
+    store.name = "Johannes";
   }
 }
 

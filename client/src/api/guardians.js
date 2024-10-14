@@ -1,4 +1,4 @@
-const BASE_URL = 'http://localhost:3001/api'
+const BASE_URL = 'http://localhost:3000/api'
 
 export const guardianApi = {
   async getGuardian(id) {
@@ -10,7 +10,7 @@ export const guardianApi = {
 
       return await response.json()
     } catch (error) {
-      console.error('Error fetching users:', error)
+      console.error('Error fetching guardian:', error)
       throw error
     }
   }

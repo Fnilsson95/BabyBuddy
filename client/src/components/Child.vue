@@ -1,7 +1,14 @@
 <template>
     <div class="pt-3">
+        <button
+            @click="store.updateGuardian({ name: { firstName: 'Johannes', lastName: store.guardian.name.lastName } })">Change
+            name on
+            {{
+                store.guardian.name.firstName
+            }} from the Child component</button>
         <BCardGroup deck>
-            <BCard v-for="child in children" :title="`${child.firstName} ${child.lastName}`" header-tag="header">
+            <BCard v-for="child in store.guardian.children" :title="`${child.name.firstName} ${child.name.lastName}`"
+                header-tag="header" :key="child._id">
                 <template #header>
                     <div class="mb-0 img-container">
                         <BImg class="img" src="src/assets/Gösta.jpeg" fluid alt="Responsive image" />
@@ -9,10 +16,11 @@
                 </template>
                 <BCardText>
                     <div>
-                        {{ child.birthDate.toDateString() }}
+                        <!-- {{ child.dateOfBirth.toDateString() }} -->
+                        {{ child.dateOfBirth }}
                     </div>
                     <div>
-                        {{ child.specialNeed ? child.specialNeed : 'No special needs' }}
+                        {{ child.specialNeeds ? child.specialNeeds : 'No special needs' }}
                     </div>
                 </BCardText>
                 <Modal>
@@ -42,22 +50,7 @@
 <script setup>
 import Modal from './Modal.vue'
 import ChildForm from '@/components/ChildForm.vue'
-import { ref } from 'vue'
+import { guardianApi } from '@/api/guardians'
+import { store } from '@/stores/guardianStore'
 
-const children = ref([{
-    firstName: 'Bonnie',
-    lastName: 'Olmås',
-    birthDate: new Date("2024-05-02"),
-    specialNeed: '',
-    guardian: 'Emma',
-    profilePic: undefined
-},
-{
-    firstName: 'Gösta',
-    lastName: 'Olmås',
-    birthDate: new Date("2020-06-07"),
-    specialNeed: 'Afraid of dogs',
-    guardian: 'Emma',
-    profilePic: 'src/assets/Gösta.jpeg'
-}])
 </script>

@@ -296,7 +296,7 @@ controller.delete("/:guardianId/bookings", async (req, res) => {
     // Find all bookings for the guardian
     const guardianBookings = await Bookings.find({ guardian: guardianId });
     if (guardianBookings.length === 0) {
-      return res.status(400).json({ message: "No bookings found for this guardian" });
+      return res.status(404).json({ message: "No bookings found for this guardian" });
     }
 
     // For each booking

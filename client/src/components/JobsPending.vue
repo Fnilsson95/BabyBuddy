@@ -1,12 +1,6 @@
 <template>
   <BRow>
-    <BCol
-      xs="12"
-      md="6"
-      class="mb-3"
-      v-for="(booking, index) in structuredBookings"
-      :key="index"
-    >
+    <BCol xs="12" md="6" class="mb-3" v-for="(booking, index) in structuredBookings" :key="index">
       <Job :booking="booking" />
     </BCol>
   </BRow>
@@ -14,7 +8,6 @@
 
 <script>
 import { BRow, BCol } from 'bootstrap-vue-next'
-
 import { bookingApi } from '@/api/bookings'
 import { calculateDuration, formatDate } from '@/helpers'
 
@@ -54,7 +47,7 @@ export default {
           totalCost: booking.totalCost
         }
       })
-    } catch (error) {}
+    } catch (error) { }
   },
   methods: {
     formatDate,
