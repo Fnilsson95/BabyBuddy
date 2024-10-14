@@ -52,7 +52,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"name\": {\n    \"firstName\": \"John\",\n    \"lastName\": \"Doe\"\n  },\n  \"email\": \"{{randomEmail}}\",\n  \"phoneNumber\": \"1234567890\",\n  \"dateOfBirth\": \"1980-01-01T00:00:00.000Z\",\n  \"location\": {\n    \"city\": \"New York\",\n    \"country\": \"USA\",\n    \"address\": \"123 Broadway\"\n  }\n}",
+							"raw": "{\n    \"firstName\": \"John\",\n    \"lastName\": \"Doe\",\n  \"email\": \"{{randomEmail}}\",\n  \"phoneNumber\": \"1234567890\",\n  \"dateOfBirth\": \"1980-01-01T00:00:00.000Z\",\n  \"location\": {\n    \"city\": \"New York\",\n    \"country\": \"USA\",\n    \"address\": \"123 Broadway\"\n  },\n  \"password\": \"RandomPassword\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -60,7 +60,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3001/api/guardians",
+							"raw": "http://localhost:3001/api/v1/guardians",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -68,6 +68,7 @@
 							"port": "3001",
 							"path": [
 								"api",
+								"v1",
 								"guardians"
 							]
 						}
@@ -80,14 +81,15 @@
 						{
 							"listen": "test",
 							"script": {
-								"type": "text/javascript",
 								"exec": [
 									"pm.test(\"Status code is 201\", function () {",
 									"    pm.response.to.have.status(201);",
 									"});",
 									"var jsonData = pm.response.json();",
 									"pm.environment.set(\"childId\", jsonData.newChild._id);"
-								]
+								],
+								"type": "text/javascript",
+								"packages": {}
 							}
 						}
 					],
@@ -110,7 +112,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3001/api/children",
+							"raw": "http://localhost:3001/api/v1/children",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -118,6 +120,7 @@
 							"port": "3001",
 							"path": [
 								"api",
+								"v1",
 								"children"
 							]
 						}
@@ -169,7 +172,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"firstName\": \"Sarah\",\n  \"lastName\": \"Connor\",\n  \"email\": \"{{randomEmail}}\",\n  \"dateOfBirth\": \"1995-08-29T00:00:00.000Z\",\n  \"phoneNumber\": \"0987654321\",\n  \"experience\": \"5 years of experience with children aged 1-6.\",\n  \"hourlyRate\": 100\n}",
+							"raw": "{\n  \"firstName\": \"Sarah\",\n  \"lastName\": \"Connor\",\n  \"email\": \"{{randomEmail}}\",\n  \"dateOfBirth\": \"1995-08-29T00:00:00.000Z\",\n  \"phoneNumber\": \"0987654321\",\n  \"experience\": \"5 years of experience with children aged 1-6.\",\n  \"hourlyRate\": 100,\n  \"password\": \"AlsoRandomPassword\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -177,7 +180,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3001/api/babysitters",
+							"raw": "http://localhost:3001/api/v1/babysitters",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -185,6 +188,7 @@
 							"port": "3001",
 							"path": [
 								"api",
+								"v1",
 								"babysitters"
 							]
 						}
@@ -220,7 +224,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"startDateTime\": \"2024-12-01T14:00:00.000Z\",\n  \"endDateTime\": \"2024-12-01T18:00:00.000Z\",\n  \"totalCost\": 400,\n  \"location\": {\n    \"pickup_Location\": \"School\",\n    \"dropoff_Location\": \"Home\"\n  },\n  \"guardian\": \"{{guardianId}}\",\n  \"children\": [\n    \"{{childId}}\"\n  ]\n}",
+							"raw": "{\n  \"startDateTime\": \"2024-12-01T14:00:00.000Z\",\n  \"endDateTime\": \"2024-12-01T18:00:00.000Z\",\n  \"totalCost\": 400,\n  \"location\": {\n    \"pickup_Location\": \"School\",\n    \"dropoff_Location\": \"Home\"\n  },\n  \"guardian\": \"{{guardianId}}\",\n  \"children\": [\n    \"{{childId}}\"\n  ],\n  \"description\": \"Hello there, this is a test\",\n  \"additionalInformation\": \"If needed\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -228,7 +232,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3001/api/bookings",
+							"raw": "http://localhost:3001/api/v1/bookings",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -236,6 +240,7 @@
 							"port": "3001",
 							"path": [
 								"api",
+								"v1",
 								"bookings"
 							]
 						}
@@ -256,12 +261,13 @@
 								{
 									"listen": "test",
 									"script": {
-										"type": "text/javascript",
 										"exec": [
 											"pm.test(\"Status code is 200\", function () {",
 											"    pm.response.to.have.status(200);",
 											"});"
-										]
+										],
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -269,7 +275,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:3001/api/guardians",
+									"raw": "http://localhost:3001/api/v1/guardians",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -277,6 +283,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"guardians"
 									]
 								}
@@ -289,12 +296,23 @@
 								{
 									"listen": "test",
 									"script": {
-										"type": "text/javascript",
 										"exec": [
 											"pm.test(\"Status code is 200\", function () {",
 											"    pm.response.to.have.status(200);",
 											"});"
-										]
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -302,7 +320,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:3001/api/guardians/{{guardianId}}",
+									"raw": "http://localhost:3001/api/v1/guardians/{{guardianId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -310,6 +328,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"guardians",
 										"{{guardianId}}"
 									]
@@ -323,12 +342,13 @@
 								{
 									"listen": "test",
 									"script": {
-										"type": "text/javascript",
 										"exec": [
 											"pm.test(\"Status code is 200\", function () {",
 											"    pm.response.to.have.status(200);",
 											"});"
-										]
+										],
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -351,7 +371,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:3001/api/guardians/{{guardianId}}",
+									"raw": "http://localhost:3001/api/v1/guardians/{{guardianId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -359,6 +379,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"guardians",
 										"{{guardianId}}"
 									]
@@ -401,7 +422,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:3001/api/guardians/{{guardianId}}",
+									"raw": "http://localhost:3001/api/v1/guardians/{{guardianId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -409,6 +430,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"guardians",
 										"{{guardianId}}"
 									]
@@ -462,7 +484,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"name\": {\n    \"firstName\": \"John\",\n    \"lastName\": \"Doe\"\n  },\n  \"email\": \"{{randomEmail}}\",\n  \"phoneNumber\": \"1234567890\",\n  \"dateOfBirth\": \"1980-01-01T00:00:00.000Z\",\n  \"location\": {\n    \"city\": \"New York\",\n    \"country\": \"USA\",\n    \"address\": \"123 Broadway\"\n  }\n}",
+									"raw": "{\n    \"firstName\": \"John\",\n    \"lastName\": \"Doe\",\n  \"email\": \"{{randomEmail}}\",\n  \"phoneNumber\": \"1234567890\",\n  \"dateOfBirth\": \"1980-01-01T00:00:00.000Z\",\n  \"location\": {\n    \"city\": \"New York\",\n    \"country\": \"USA\",\n    \"address\": \"123 Broadway\"\n  },\n  \"password\": \"RandomPassword\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -470,7 +492,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:3001/api/guardians",
+									"raw": "http://localhost:3001/api/v1/guardians",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -478,6 +500,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"guardians"
 									]
 								}
@@ -491,13 +514,9 @@
 									"listen": "test",
 									"script": {
 										"exec": [
-											"if (pm.environment.get(\"RUN_TEARDOWN\") === \"true\") {",
-											"    pm.test(\"Status code is 200\", function () {",
-											"        pm.response.to.have.status(200);",
-											"    });",
-											"} else {",
-											"    console.log(\"Teardown skipped.\");",
-											"}"
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});"
 										],
 										"type": "text/javascript",
 										"packages": {}
@@ -508,7 +527,7 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:3001/api/guardians/{{guardianId}}",
+									"raw": "http://localhost:3001/api/v1/guardians/{{guardianId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -516,6 +535,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"guardians",
 										"{{guardianId}}"
 									]
@@ -543,7 +563,7 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:3001/api/guardians",
+									"raw": "http://localhost:3001/api/v1/guardians",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -551,6 +571,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"guardians"
 									]
 								}
@@ -577,7 +598,7 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:3001/api/children",
+									"raw": "http://localhost:3001/api/v1/children",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -585,6 +606,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"children"
 									]
 								}
@@ -637,7 +659,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"name\": {\n    \"firstName\": \"John\",\n    \"lastName\": \"Doe\"\n  },\n  \"email\": \"{{randomEmail}}\",\n  \"phoneNumber\": \"1234567890\",\n  \"dateOfBirth\": \"1980-01-01T00:00:00.000Z\",\n  \"location\": {\n    \"city\": \"New York\",\n    \"country\": \"USA\",\n    \"address\": \"123 Broadway\"\n  }\n}",
+									"raw": "{\n    \"firstName\": \"John\",\n    \"lastName\": \"Doe\",\n  \"email\": \"{{randomEmail}}\",\n  \"phoneNumber\": \"1234567890\",\n  \"dateOfBirth\": \"1980-01-01T00:00:00.000Z\",\n  \"location\": {\n    \"city\": \"New York\",\n    \"country\": \"USA\",\n    \"address\": \"123 Broadway\"\n  },\n  \"password\": \"RandomPassword\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -645,7 +667,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:3001/api/guardians",
+									"raw": "http://localhost:3001/api/v1/guardians",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -653,6 +675,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"guardians"
 									]
 								}
@@ -706,7 +729,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:3001/api/guardians/{{guardianId}}/children",
+									"raw": "http://localhost:3001/api/v1/guardians/{{guardianId}}/children",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -714,6 +737,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"guardians",
 										"{{guardianId}}",
 										"children"
@@ -728,12 +752,13 @@
 								{
 									"listen": "test",
 									"script": {
-										"type": "text/javascript",
 										"exec": [
 											"pm.test(\"Status code is 200\", function () {",
 											"    pm.response.to.have.status(200);",
 											"});"
-										]
+										],
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -741,7 +766,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:3001/api/guardians/{{guardianId}}/children",
+									"raw": "http://localhost:3001/api/v1/guardians/{{guardianId}}/children",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -749,6 +774,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"guardians",
 										"{{guardianId}}",
 										"children"
@@ -789,7 +815,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:3001/api/guardians/{{guardianId}}/children/{{childId}}",
+									"raw": "http://localhost:3001/api/v1/guardians/{{guardianId}}/children/{{childId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -797,6 +823,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"guardians",
 										"{{guardianId}}",
 										"children",
@@ -824,8 +851,11 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"packages": {},
-										"type": "text/javascript"
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -842,7 +872,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:3001/api/guardians/{{guardianId}}/children/{{childId}}",
+									"raw": "http://localhost:3001/api/v1/guardians/{{guardianId}}/children/{{childId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -850,6 +880,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"guardians",
 										"{{guardianId}}",
 										"children",
@@ -885,8 +916,11 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"packages": {},
-										"type": "text/javascript"
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -909,7 +943,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:3001/api/children",
+									"raw": "http://localhost:3001/api/v1/children",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -917,6 +951,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"children"
 									]
 								}
@@ -929,12 +964,13 @@
 								{
 									"listen": "test",
 									"script": {
-										"type": "text/javascript",
 										"exec": [
 											"pm.test(\"Status code is 200\", function () {",
 											"    pm.response.to.have.status(200);",
 											"});"
-										]
+										],
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -942,7 +978,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:3001/api/children",
+									"raw": "http://localhost:3001/api/v1/children?limit=10&sort=lastName&order=asc&page=1",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -950,7 +986,31 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"children"
+									],
+									"query": [
+										{
+											"key": "limit",
+											"value": "10"
+										},
+										{
+											"key": "sort",
+											"value": "lastName"
+										},
+										{
+											"key": "order",
+											"value": "asc"
+										},
+										{
+											"key": "",
+											"value": "",
+											"disabled": true
+										},
+										{
+											"key": "page",
+											"value": "1"
+										}
 									]
 								}
 							},
@@ -962,12 +1022,13 @@
 								{
 									"listen": "test",
 									"script": {
-										"type": "text/javascript",
 										"exec": [
 											"pm.test(\"Status code is 200\", function () {",
 											"    pm.response.to.have.status(200);",
 											"});"
-										]
+										],
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -975,7 +1036,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:3001/api/children/{{childId}}",
+									"raw": "http://localhost:3001/api/v1/children/{{childId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -983,6 +1044,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"children",
 										"{{childId}}"
 									]
@@ -996,12 +1058,13 @@
 								{
 									"listen": "test",
 									"script": {
-										"type": "text/javascript",
 										"exec": [
 											"pm.test(\"Status code is 200\", function () {",
 											"    pm.response.to.have.status(200);",
 											"});"
-										]
+										],
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -1024,7 +1087,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:3001/api/children/{{childId}}",
+									"raw": "http://localhost:3001/api/v1/children/{{childId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -1032,6 +1095,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"children",
 										"{{childId}}"
 									]
@@ -1046,13 +1110,9 @@
 									"listen": "test",
 									"script": {
 										"exec": [
-											"if (pm.environment.get(\"RUN_TEARDOWN\") === \"true\") {",
-											"    pm.test(\"Status code is 200\", function () {",
-											"        pm.response.to.have.status(200);",
-											"    });",
-											"} else {",
-											"    console.log(\"Teardown skipped.\");",
-											"}"
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});"
 										],
 										"type": "text/javascript",
 										"packages": {}
@@ -1063,7 +1123,7 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:3001/api/children/{{childId}}",
+									"raw": "http://localhost:3001/api/v1/children/{{childId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -1071,6 +1131,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"children",
 										"{{childId}}"
 									]
@@ -1099,8 +1160,11 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"packages": {},
-										"type": "text/javascript"
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -1123,7 +1187,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:3001/api/children",
+									"raw": "http://localhost:3001/api/v1/children",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -1131,6 +1195,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"children"
 									]
 								}
@@ -1157,7 +1222,7 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:3001/api/children",
+									"raw": "http://localhost:3001/api/v1/children",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -1165,6 +1230,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"children"
 									]
 								}
@@ -1220,7 +1286,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"firstName\": \"Sarah\",\n  \"lastName\": \"Connor\",\n  \"email\": \"{{randomEmail}}\",\n  \"dateOfBirth\": \"1995-08-29T00:00:00.000Z\",\n  \"phoneNumber\": \"0987654321\",\n  \"experience\": \"5 years of experience with children aged 1-6.\",\n  \"hourlyRate\": 100\n}",
+									"raw": "{\n  \"firstName\": \"Sarah\",\n  \"lastName\": \"Connor\",\n  \"email\": \"{{randomEmail}}\",\n  \"dateOfBirth\": \"1995-08-29T00:00:00.000Z\",\n  \"phoneNumber\": \"0987654321\",\n  \"experience\": \"5 years of experience with children aged 1-6.\",\n  \"hourlyRate\": 100,\n  \"password\": \"AlsoRandomPassword\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1228,7 +1294,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:3001/api/babysitters",
+									"raw": "http://localhost:3001/api/v1/babysitters",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -1236,6 +1302,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"babysitters"
 									]
 								}
@@ -1248,12 +1315,13 @@
 								{
 									"listen": "test",
 									"script": {
-										"type": "text/javascript",
 										"exec": [
 											"pm.test(\"Status code is 200\", function () {",
 											"    pm.response.to.have.status(200);",
 											"});"
-										]
+										],
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -1261,7 +1329,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:3001/api/babysitters",
+									"raw": "http://localhost:3001/api/v1/babysitters?page=1&limit=15&sort=hourlyRate&order=asc",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -1269,7 +1337,26 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"babysitters"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "limit",
+											"value": "15"
+										},
+										{
+											"key": "sort",
+											"value": "hourlyRate"
+										},
+										{
+											"key": "order",
+											"value": "asc"
+										}
 									]
 								}
 							},
@@ -1281,12 +1368,13 @@
 								{
 									"listen": "test",
 									"script": {
-										"type": "text/javascript",
 										"exec": [
 											"pm.test(\"Status code is 200\", function () {",
 											"    pm.response.to.have.status(200);",
 											"});"
-										]
+										],
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -1294,7 +1382,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:3001/api/babysitters/{{babysitterId}}",
+									"raw": "http://localhost:3001/api/v1/babysitters/{{babysitterId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -1302,6 +1390,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"babysitters",
 										"{{babysitterId}}"
 									]
@@ -1359,7 +1448,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:3001/api/babysitters/{{babysitterId}}",
+									"raw": "http://localhost:3001/api/v1/babysitters/{{babysitterId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -1367,6 +1456,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"babysitters",
 										"{{babysitterId}}"
 									]
@@ -1419,7 +1509,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:3001/api/babysitters/{{babysitterId}}",
+									"raw": "http://localhost:3001/api/v1/babysitters/{{babysitterId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -1427,6 +1517,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"babysitters",
 										"{{babysitterId}}"
 									]
@@ -1440,12 +1531,13 @@
 								{
 									"listen": "test",
 									"script": {
-										"type": "text/javascript",
 										"exec": [
 											"pm.test(\"Status code is 200\", function () {",
 											"    pm.response.to.have.status(200);",
 											"});"
-										]
+										],
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -1453,7 +1545,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:3001/api/babysitters?page=1&limit=15&sort=hourlyRate&order=asc",
+									"raw": "http://localhost:3001/api/v1/babysitters?page=1&limit=15&sort=hourlyRate&order=asc",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -1461,6 +1553,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"babysitters"
 									],
 									"query": [
@@ -1491,12 +1584,13 @@
 								{
 									"listen": "test",
 									"script": {
-										"type": "text/javascript",
 										"exec": [
 											"pm.test(\"Status code is 200\", function () {",
 											"    pm.response.to.have.status(200);",
 											"});"
-										]
+										],
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -1504,7 +1598,7 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:3001/api/babysitters/{{babysitterId}}",
+									"raw": "http://localhost:3001/api/v1/babysitters/{{babysitterId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -1512,6 +1606,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"babysitters",
 										"{{babysitterId}}"
 									]
@@ -1539,7 +1634,7 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:3001/api/babysitters",
+									"raw": "http://localhost:3001/api/v1/babysitters",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -1547,6 +1642,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"babysitters"
 									]
 								}
@@ -1601,7 +1697,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"name\": {\n    \"firstName\": \"John\",\n    \"lastName\": \"Doe\"\n  },\n  \"email\": \"{{randomEmail}}\",\n  \"phoneNumber\": \"1234567890\",\n  \"dateOfBirth\": \"1980-01-01T00:00:00.000Z\",\n  \"location\": {\n    \"city\": \"New York\",\n    \"country\": \"USA\",\n    \"address\": \"123 Broadway\"\n  }\n}",
+									"raw": "{\n    \"firstName\": \"John\",\n    \"lastName\": \"Doe\",\n  \"email\": \"{{randomEmail}}\",\n  \"phoneNumber\": \"1234567890\",\n  \"dateOfBirth\": \"1980-01-01T00:00:00.000Z\",\n  \"location\": {\n    \"city\": \"New York\",\n    \"country\": \"USA\",\n    \"address\": \"123 Broadway\"\n  },\n  \"password\": \"RandomPassword\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1609,7 +1705,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:3001/api/guardians",
+									"raw": "http://localhost:3001/api/v1/guardians",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -1617,6 +1713,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"guardians"
 									]
 								}
@@ -1629,14 +1726,15 @@
 								{
 									"listen": "test",
 									"script": {
-										"type": "text/javascript",
 										"exec": [
 											"pm.test(\"Status code is 201\", function () {",
 											"    pm.response.to.have.status(201);",
 											"});",
 											"var jsonData = pm.response.json();",
 											"pm.environment.set(\"childId\", jsonData.newChild._id);"
-										]
+										],
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -1659,7 +1757,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:3001/api/children",
+									"raw": "http://localhost:3001/api/v1/children",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -1667,6 +1765,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"children"
 									]
 								}
@@ -1713,7 +1812,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"startDateTime\": \"2024-12-01T14:00:00.000Z\",\n  \"endDateTime\": \"2024-12-01T18:00:00.000Z\",\n  \"totalCost\": 400,\n  \"location\": {\n    \"pickup_Location\": \"School\",\n    \"dropoff_Location\": \"Home\"\n  },\n  \"guardian\": \"{{guardianId}}\",\n  \"children\": [\n    \"{{childId}}\"\n  ],\n  \"status\": \"Pending\"\n}",
+									"raw": "{\n  \"startDateTime\": \"2024-12-01T14:00:00.000Z\",\n  \"endDateTime\": \"2024-12-01T18:00:00.000Z\",\n  \"totalCost\": 400,\n  \"location\": {\n    \"pickup_Location\": \"School\",\n    \"dropoff_Location\": \"Home\"\n  },\n  \"guardian\": \"{{guardianId}}\",\n  \"children\": [\n    \"{{childId}}\"\n  ],\n  \"description\": \"Hello there, this is a test\",\n  \"additionalInformation\": \"If needed\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1721,7 +1820,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:3001/api/bookings",
+									"raw": "http://localhost:3001/api/v1/bookings",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -1729,6 +1828,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"bookings"
 									]
 								}
@@ -1741,12 +1841,13 @@
 								{
 									"listen": "test",
 									"script": {
-										"type": "text/javascript",
 										"exec": [
 											"pm.test(\"Status code is 200\", function () {",
 											"    pm.response.to.have.status(200);",
 											"});"
-										]
+										],
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -1754,7 +1855,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:3001/api/bookings",
+									"raw": "http://localhost:3001/api/v1/bookings?sort=startDateTime&order=asc&sort=totalCost&order=desc\n\n\n\n",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -1762,7 +1863,26 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"bookings"
+									],
+									"query": [
+										{
+											"key": "sort",
+											"value": "startDateTime"
+										},
+										{
+											"key": "order",
+											"value": "asc"
+										},
+										{
+											"key": "sort",
+											"value": "totalCost"
+										},
+										{
+											"key": "order",
+											"value": "desc\n\n\n\n"
+										}
 									]
 								}
 							},
@@ -1774,12 +1894,13 @@
 								{
 									"listen": "test",
 									"script": {
-										"type": "text/javascript",
 										"exec": [
 											"pm.test(\"Status code is 200\", function () {",
 											"    pm.response.to.have.status(200);",
 											"});"
-										]
+										],
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -1787,7 +1908,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:3001/api/bookings/{{bookingId}}",
+									"raw": "http://localhost:3001/api/v1/bookings/{{bookingId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -1795,6 +1916,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"bookings",
 										"{{bookingId}}"
 									]
@@ -1837,7 +1959,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:3001/api/bookings/{{bookingId}}",
+									"raw": "http://localhost:3001/api/v1/bookings/{{bookingId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -1845,6 +1967,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"bookings",
 										"{{bookingId}}"
 									]
@@ -1859,13 +1982,9 @@
 									"listen": "test",
 									"script": {
 										"exec": [
-											"if (pm.environment.get(\"RUN_TEARDOWN\") === \"true\") {",
-											"    pm.test(\"Status code is 200\", function () {",
-											"        pm.response.to.have.status(200);",
-											"    });",
-											"} else {",
-											"    console.log(\"Teardown skipped.\");",
-											"}"
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});"
 										],
 										"type": "text/javascript",
 										"packages": {}
@@ -1876,7 +1995,7 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:3001/api/bookings/{{bookingId}}",
+									"raw": "http://localhost:3001/api/v1/bookings/{{bookingId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -1884,6 +2003,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"bookings",
 										"{{bookingId}}"
 									]
@@ -1911,7 +2031,7 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:3001/api/bookings",
+									"raw": "http://localhost:3001/api/v1/bookings",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -1919,6 +2039,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"bookings"
 									]
 								}
@@ -1965,7 +2086,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"startDateTime\": \"2024-12-01T14:00:00.000Z\",\n  \"endDateTime\": \"2024-12-01T18:00:00.000Z\",\n  \"totalCost\": 400,\n  \"location\": {\n    \"pickup_Location\": \"School\",\n    \"dropoff_Location\": \"Home\"\n  },\n  \"guardian\": \"{{guardianId}}\",\n  \"children\": [\n    \"{{childId}}\"\n  ],\n  \"status\": \"Pending\"\n}",
+									"raw": "{\n  \"startDateTime\": \"2024-12-01T14:00:00.000Z\",\n  \"endDateTime\": \"2024-12-01T18:00:00.000Z\",\n  \"totalCost\": 400,\n  \"location\": {\n    \"pickup_Location\": \"School\",\n    \"dropoff_Location\": \"Home\"\n  },\n  \"guardian\": \"{{guardianId}}\",\n  \"children\": [\n    \"{{childId}}\"\n  ],\n  \"description\": \"Hello there, this is a test\",\n  \"additionalInformation\": \"If needed\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1973,7 +2094,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:3001/api/bookings",
+									"raw": "http://localhost:3001/api/v1/bookings",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -1981,6 +2102,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"bookings"
 									]
 								}
@@ -1993,12 +2115,13 @@
 								{
 									"listen": "test",
 									"script": {
-										"type": "text/javascript",
 										"exec": [
 											"pm.test(\"Status code is 200\", function () {",
 											"    pm.response.to.have.status(200);",
 											"});"
-										]
+										],
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -2021,7 +2144,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:3001/api/bookings/{{bookingId}}",
+									"raw": "http://localhost:3001/api/v1/bookings/{{bookingId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -2029,6 +2152,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"bookings",
 										"{{bookingId}}"
 									]
@@ -2056,7 +2180,7 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:3001/api/bookings",
+									"raw": "http://localhost:3001/api/v1/bookings",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -2064,6 +2188,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"bookings"
 									]
 								}
@@ -2115,7 +2240,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"firstName\": \"Sarah\",\n  \"lastName\": \"Connor\",\n  \"email\": \"{{randomEmail}}\",\n  \"dateOfBirth\": \"1995-08-29T00:00:00.000Z\",\n  \"phoneNumber\": \"0987654321\",\n  \"experience\": \"5 years of experience with children aged 1-6.\",\n  \"hourlyRate\": 100\n}",
+									"raw": "{\n  \"firstName\": \"Sarah\",\n  \"lastName\": \"Connor\",\n  \"email\": \"{{randomEmail}}\",\n  \"dateOfBirth\": \"1995-08-29T00:00:00.000Z\",\n  \"phoneNumber\": \"0987654321\",\n  \"experience\": \"5 years of experience with children aged 1-6.\",\n  \"hourlyRate\": 100,\n  \"password\": \"AlsoRandomPassword\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -2123,7 +2248,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:3001/api/babysitters",
+									"raw": "http://localhost:3001/api/v1/babysitters",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -2131,6 +2256,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"babysitters"
 									]
 								}
@@ -2157,7 +2283,7 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:3001/api/babysitters",
+									"raw": "http://localhost:3001/api/v1/babysitters",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -2165,6 +2291,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"babysitters"
 									]
 								}
@@ -2191,7 +2318,7 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:3001/api/children",
+									"raw": "http://localhost:3001/api/v1/children",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -2199,6 +2326,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"children"
 									]
 								}
@@ -2225,7 +2353,7 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:3001/api/guardians",
+									"raw": "http://localhost:3001/api/v1/guardians",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -2233,6 +2361,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"guardians"
 									]
 								}
@@ -2287,7 +2416,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"name\": {\n    \"firstName\": \"John\",\n    \"lastName\": \"Doe\"\n  },\n  \"email\": \"{{randomEmail}}\",\n  \"phoneNumber\": \"1234567890\",\n  \"dateOfBirth\": \"1980-01-01T00:00:00.000Z\",\n  \"location\": {\n    \"city\": \"New York\",\n    \"country\": \"USA\",\n    \"address\": \"123 Broadway\"\n  }\n}",
+									"raw": "{\n    \"firstName\": \"John\",\n    \"lastName\": \"Doe\",\n  \"email\": \"{{randomEmail}}\",\n  \"phoneNumber\": \"1234567890\",\n  \"dateOfBirth\": \"1980-01-01T00:00:00.000Z\",\n  \"location\": {\n    \"city\": \"New York\",\n    \"country\": \"USA\",\n    \"address\": \"123 Broadway\"\n  },\n  \"password\": \"RandomPassword\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -2295,7 +2424,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:3001/api/guardians",
+									"raw": "http://localhost:3001/api/v1/guardians",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -2303,6 +2432,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"guardians"
 									]
 								}
@@ -2315,14 +2445,15 @@
 								{
 									"listen": "test",
 									"script": {
-										"type": "text/javascript",
 										"exec": [
 											"pm.test(\"Status code is 201\", function () {",
 											"    pm.response.to.have.status(201);",
 											"});",
 											"var jsonData = pm.response.json();",
 											"pm.environment.set(\"childId\", jsonData.newChild._id);"
-										]
+										],
+										"type": "text/javascript",
+										"packages": {}
 									}
 								}
 							],
@@ -2345,7 +2476,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:3001/api/children",
+									"raw": "http://localhost:3001/api/v1/children",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -2353,6 +2484,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"children"
 									]
 								}
@@ -2404,7 +2536,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"firstName\": \"Sarah\",\n  \"lastName\": \"Connor\",\n  \"email\": \"{{randomEmail}}\",\n  \"dateOfBirth\": \"1995-08-29T00:00:00.000Z\",\n  \"phoneNumber\": \"0987654321\",\n  \"experience\": \"5 years of experience with children aged 1-6.\",\n  \"hourlyRate\": 100\n}",
+									"raw": "{\n  \"firstName\": \"Sarah\",\n  \"lastName\": \"Connor\",\n  \"email\": \"{{randomEmail}}\",\n  \"dateOfBirth\": \"1995-08-29T00:00:00.000Z\",\n  \"phoneNumber\": \"0987654321\",\n  \"experience\": \"5 years of experience with children aged 1-6.\",\n  \"hourlyRate\": 100,\n  \"password\": \"AlsoRandomPassword\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -2412,7 +2544,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:3001/api/babysitters",
+									"raw": "http://localhost:3001/api/v1/babysitters",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -2420,6 +2552,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"babysitters"
 									]
 								}
@@ -2455,7 +2588,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"startDateTime\": \"2024-12-01T14:00:00.000Z\",\n  \"endDateTime\": \"2024-12-01T18:00:00.000Z\",\n  \"totalCost\": 400,\n  \"location\": {\n    \"pickup_Location\": \"School\",\n    \"dropoff_Location\": \"Home\"\n  },\n  \"guardian\": \"{{guardianId}}\",\n  \"children\": [\n    \"{{childId}}\"\n  ],\n  \"status\": \"Pending\"\n}",
+									"raw": "{\n  \"startDateTime\": \"2024-12-01T14:00:00.000Z\",\n  \"endDateTime\": \"2024-12-01T18:00:00.000Z\",\n  \"totalCost\": 400,\n  \"location\": {\n    \"pickup_Location\": \"School\",\n    \"dropoff_Location\": \"Home\"\n  },\n  \"guardian\": \"{{guardianId}}\",\n  \"children\": [\n    \"{{childId}}\"\n  ],\n  \"description\": \"Hello there, this is a test\",\n  \"additionalInformation\": \"If needed\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -2463,7 +2596,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:3001/api/bookings",
+									"raw": "http://localhost:3001/api/v1/bookings",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -2471,6 +2604,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"bookings"
 									]
 								}
@@ -2497,7 +2631,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:3001/api/guardians/{{guardianId}}/bookings",
+									"raw": "http://localhost:3001/api/v1/guardians/{{guardianId}}/bookings?page=1&limit=10&sort=startDateTime&order=desc",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -2505,6 +2639,62 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
+										"guardians",
+										"{{guardianId}}",
+										"bookings"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "limit",
+											"value": "10"
+										},
+										{
+											"key": "sort",
+											"value": "startDateTime"
+										},
+										{
+											"key": "order",
+											"value": "desc"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get specific booking for Guardian",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3001/api/v1/guardians/{{guardianId}}/bookings",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3001",
+									"path": [
+										"api",
+										"v1",
 										"guardians",
 										"{{guardianId}}",
 										"bookings"
@@ -2533,7 +2723,7 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:3001/api/guardians/{{guardianId}}/bookings/{{bookingId}}",
+									"raw": "http://localhost:3001/api/v1/guardians/{{guardianId}}/bookings/{{bookingId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -2541,6 +2731,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"guardians",
 										"{{guardianId}}",
 										"bookings",
@@ -2579,7 +2770,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"startDateTime\": \"2024-12-01T14:00:00.000Z\",\n  \"endDateTime\": \"2024-12-01T18:00:00.000Z\",\n  \"totalCost\": 400,\n  \"location\": {\n    \"pickup_Location\": \"School\",\n    \"dropoff_Location\": \"Home\"\n  },\n  \"guardian\": \"{{guardianId}}\",\n  \"children\": [\n    \"{{childId}}\"\n  ],\n  \"status\": \"Pending\"\n}",
+									"raw": "{\n  \"startDateTime\": \"2024-12-01T14:00:00.000Z\",\n  \"endDateTime\": \"2024-12-01T18:00:00.000Z\",\n  \"totalCost\": 400,\n  \"location\": {\n    \"pickup_Location\": \"School\",\n    \"dropoff_Location\": \"Home\"\n  },\n  \"guardian\": \"{{guardianId}}\",\n  \"children\": [\n    \"{{childId}}\"\n  ],\n  \"description\": \"Hello there, this is a test\",\n  \"additionalInformation\": \"If needed\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -2587,7 +2778,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:3001/api/bookings",
+									"raw": "http://localhost:3001/api/v1/bookings",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -2595,6 +2786,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"bookings"
 									]
 								}
@@ -2621,7 +2813,7 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:3001/api/guardians/{{guardianId}}/bookings",
+									"raw": "http://localhost:3001/api/v1/guardians/{{guardianId}}/bookings",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -2629,6 +2821,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"guardians",
 										"{{guardianId}}",
 										"bookings"
@@ -2666,7 +2859,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"startDateTime\": \"2024-12-01T14:00:00.000Z\",\n  \"endDateTime\": \"2024-12-01T18:00:00.000Z\",\n  \"totalCost\": 400,\n  \"location\": {\n    \"pickup_Location\": \"School\",\n    \"dropoff_Location\": \"Home\"\n  },\n  \"guardian\": \"{{guardianId}}\",\n  \"children\": [\n    \"{{childId}}\"\n  ],\n  \"status\": \"Pending\"\n}",
+									"raw": "{\n  \"startDateTime\": \"2024-12-01T14:00:00.000Z\",\n  \"endDateTime\": \"2024-12-01T18:00:00.000Z\",\n  \"totalCost\": 400,\n  \"location\": {\n    \"pickup_Location\": \"School\",\n    \"dropoff_Location\": \"Home\"\n  },\n  \"guardian\": \"{{guardianId}}\",\n  \"children\": [\n    \"{{childId}}\"\n  ],\n  \"description\": \"Hello there, this is a test\",\n  \"additionalInformation\": \"If needed\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -2674,7 +2867,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:3001/api/bookings",
+									"raw": "http://localhost:3001/api/v1/bookings",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -2682,6 +2875,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"bookings"
 									]
 								}
@@ -2708,7 +2902,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:3001/api/bookings/pending",
+									"raw": "http://localhost:3001/api/v1/bookings/pending?page=1&limit=10&sort=startDateTime&order=asc",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -2716,8 +2910,27 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"bookings",
 										"pending"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "limit",
+											"value": "10"
+										},
+										{
+											"key": "sort",
+											"value": "startDateTime"
+										},
+										{
+											"key": "order",
+											"value": "asc"
+										}
 									]
 								}
 							},
@@ -2743,7 +2956,7 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:3001/api/babysitters",
+									"raw": "http://localhost:3001/api/v1/babysitters",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -2751,6 +2964,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"babysitters"
 									]
 								}
@@ -2802,7 +3016,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"firstName\": \"Sarah\",\n  \"lastName\": \"Connor\",\n  \"email\": \"{{randomEmail}}\",\n  \"dateOfBirth\": \"1995-08-29T00:00:00.000Z\",\n  \"phoneNumber\": \"0987654321\",\n  \"experience\": \"5 years of experience with children aged 1-6.\",\n  \"hourlyRate\": 100\n}",
+									"raw": "{\n  \"firstName\": \"Sarah\",\n  \"lastName\": \"Connor\",\n  \"email\": \"{{randomEmail}}\",\n  \"dateOfBirth\": \"1995-08-29T00:00:00.000Z\",\n  \"phoneNumber\": \"0987654321\",\n  \"experience\": \"5 years of experience with children aged 1-6.\",\n  \"hourlyRate\": 100,\n  \"password\": \"AlsoRandomPassword\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -2810,7 +3024,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:3001/api/babysitters",
+									"raw": "http://localhost:3001/api/v1/babysitters",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -2818,6 +3032,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"babysitters"
 									]
 								}
@@ -2853,7 +3068,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:3001/api/bookings/{{bookingId}}/confirm/{{babysitterId}}",
+									"raw": "http://localhost:3001/api/v1/bookings/{{bookingId}}/confirm/{{babysitterId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -2861,6 +3076,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"bookings",
 										"{{bookingId}}",
 										"confirm",
@@ -2890,7 +3106,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:3001/api/babysitters/{{babysitterId}}/bookings",
+									"raw": "http://localhost:3001/api/v1/babysitters/{{babysitterId}}/bookings",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -2898,9 +3114,65 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"babysitters",
 										"{{babysitterId}}",
 										"bookings"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get all booking for babysitter (PAGI/SORT)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3001/api/v1/babysitters/{{babysitterId}}/bookings?page=1&limit=10&sort=startDateTime&order=asc",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3001",
+									"path": [
+										"api",
+										"v1",
+										"babysitters",
+										"{{babysitterId}}",
+										"bookings"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "limit",
+											"value": "10"
+										},
+										{
+											"key": "sort",
+											"value": "startDateTime"
+										},
+										{
+											"key": "order",
+											"value": "asc"
+										}
 									]
 								}
 							},
@@ -2926,7 +3198,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:3001/api/babysitters/{{babysitterId}}/bookings/{{bookingId}}",
+									"raw": "http://localhost:3001/api/v1/babysitters/{{babysitterId}}/bookings/{{bookingId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -2934,6 +3206,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"babysitters",
 										"{{babysitterId}}",
 										"bookings",
@@ -2963,7 +3236,7 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:3001/api/babysitters/{{babysitterId}}/bookings/{{bookingId}}",
+									"raw": "http://localhost:3001/api/v1/babysitters/{{babysitterId}}/bookings/{{bookingId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -2971,6 +3244,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"babysitters",
 										"{{babysitterId}}",
 										"bookings",
@@ -3025,7 +3299,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"firstName\": \"Sarah\",\n  \"lastName\": \"Connor\",\n  \"email\": \"{{randomEmail}}\",\n  \"dateOfBirth\": \"1995-08-29T00:00:00.000Z\",\n  \"phoneNumber\": \"0987654321\",\n  \"experience\": \"5 years of experience with children aged 1-6.\",\n  \"hourlyRate\": 100\n}",
+									"raw": "{\n  \"firstName\": \"Sarah\",\n  \"lastName\": \"Connor\",\n  \"email\": \"{{randomEmail}}\",\n  \"dateOfBirth\": \"1995-08-29T00:00:00.000Z\",\n  \"phoneNumber\": \"0987654321\",\n  \"experience\": \"5 years of experience with children aged 1-6.\",\n  \"hourlyRate\": 100,\n  \"password\": \"AlsoRandomPassword\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -3033,7 +3307,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:3001/api/babysitters",
+									"raw": "http://localhost:3001/api/v1/babysitters",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -3041,6 +3315,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"babysitters"
 									]
 								}
@@ -3076,7 +3351,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:3001/api/bookings/{{bookingId}}/confirm/{{babysitterId}}",
+									"raw": "http://localhost:3001/api/v1/bookings/{{bookingId}}/confirm/{{babysitterId}}",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -3084,6 +3359,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"bookings",
 										"{{bookingId}}",
 										"confirm",
@@ -3113,7 +3389,7 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:3001/api/babysitters/{{babysitterId}}/bookings",
+									"raw": "http://localhost:3001/api/v1/babysitters/{{babysitterId}}/bookings",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -3121,6 +3397,7 @@
 									"port": "3001",
 									"path": [
 										"api",
+										"v1",
 										"babysitters",
 										"{{babysitterId}}",
 										"bookings"
@@ -3160,7 +3437,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3001/api/guardians",
+							"raw": "http://localhost:3001/api/v1/guardians",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -3168,6 +3445,7 @@
 							"port": "3001",
 							"path": [
 								"api",
+								"v1",
 								"guardians"
 							]
 						}
@@ -3198,7 +3476,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3001/api/children",
+							"raw": "http://localhost:3001/api/v1/children",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -3206,6 +3484,7 @@
 							"port": "3001",
 							"path": [
 								"api",
+								"v1",
 								"children"
 							]
 						}
@@ -3236,7 +3515,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3001/api/bookings",
+							"raw": "http://localhost:3001/api/v1/bookings",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -3244,6 +3523,7 @@
 							"port": "3001",
 							"path": [
 								"api",
+								"v1",
 								"bookings"
 							]
 						}
@@ -3274,7 +3554,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3001/api/babysitters",
+							"raw": "http://localhost:3001/api/v1/babysitters",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -3282,7 +3562,1239 @@
 							"port": "3001",
 							"path": [
 								"api",
+								"v1",
 								"babysitters"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Buildup",
+			"item": [
+				{
+					"name": "Create Guardian 1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"var jsonData = pm.response.json();",
+									"pm.environment.set(\"guardianId\", jsonData.newGuardian._id);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// Generate a random number to append to the email\r",
+									"const randomNumber = Math.floor(Math.random() * 10000);\r",
+									"\r",
+									"// Set the dynamically generated email as a Postman variable\r",
+									"pm.variables.set(\"randomEmail\", `user${randomNumber}@example.com`);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"firstName\": \"John\",\n    \"lastName\": \"Doe\",\n  \"email\": \"{{randomEmail}}\",\n  \"phoneNumber\": \"1234567890\",\n  \"dateOfBirth\": \"1980-01-01T00:00:00.000Z\",\n  \"location\": {\n    \"city\": \"New York\",\n    \"country\": \"USA\",\n    \"address\": \"123 Broadway\"\n  },\n  \"password\": \"RandomPassword\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/v1/guardians",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"v1",
+								"guardians"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Guardian 2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"var jsonData = pm.response.json();",
+									"pm.environment.set(\"guardianId\", jsonData.newGuardian._id);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// Generate a random number to append to the email\r",
+									"const randomNumber = Math.floor(Math.random() * 10000);\r",
+									"\r",
+									"// Set the dynamically generated email as a Postman variable\r",
+									"pm.variables.set(\"randomEmail\", `user${randomNumber}@example.com`);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"firstName\": \"Christian\",\n    \"lastName\": \"Dior\",\n  \"email\": \"{{randomEmail}}\",\n  \"phoneNumber\": \"1234567890\",\n  \"dateOfBirth\": \"1980-01-01T00:00:00.000Z\",\n  \"location\": {\n    \"city\": \"New York\",\n    \"country\": \"USA\",\n    \"address\": \"123 Broadway\"\n  },\n  \"password\": \"RandomPassword\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/v1/guardians",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"v1",
+								"guardians"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Guardian 3",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"var jsonData = pm.response.json();",
+									"pm.environment.set(\"guardianId\", jsonData.newGuardian._id);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// Generate a random number to append to the email\r",
+									"const randomNumber = Math.floor(Math.random() * 10000);\r",
+									"\r",
+									"// Set the dynamically generated email as a Postman variable\r",
+									"pm.variables.set(\"randomEmail\", `user${randomNumber}@example.com`);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"firstName\": \"Felicia\",\n    \"lastName\": \"Dobre\",\n  \"email\": \"{{randomEmail}}\",\n  \"phoneNumber\": \"1234567890\",\n  \"dateOfBirth\": \"1980-01-01T00:00:00.000Z\",\n  \"location\": {\n    \"city\": \"New York\",\n    \"country\": \"USA\",\n    \"address\": \"123 Broadway\"\n  },\n  \"password\": \"AlsoRandomPassword\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/v1/guardians",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"v1",
+								"guardians"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Child 1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"var jsonData = pm.response.json();",
+									"pm.environment.set(\"childId\", jsonData.newChild._id);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": {\n    \"firstName\": \"Emily\",\n    \"lastName\": \"Smith\"\n  },\n  \"dateOfBirth\": \"2010-02-15T00:00:00.000Z\",\n  \"specialNeeds\": \"None\",\n  \"guardian\": \"{{guardianId}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/v1/children",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"v1",
+								"children"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Child 2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"var jsonData = pm.response.json();",
+									"pm.environment.set(\"childId\", jsonData.newChild._id);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": {\n    \"firstName\": \"Peter\",\n    \"lastName\": \"Parker\"\n  },\n  \"dateOfBirth\": \"2010-02-15T00:00:00.000Z\",\n  \"specialNeeds\": \"None\",\n  \"guardian\": \"{{guardianId}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/v1/children",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"v1",
+								"children"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Child 3",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"var jsonData = pm.response.json();",
+									"pm.environment.set(\"childId\", jsonData.newChild._id);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": {\n    \"firstName\": \"Anel\",\n    \"lastName\": \"Filipovic\"\n  },\n  \"dateOfBirth\": \"2010-02-15T00:00:00.000Z\",\n  \"specialNeeds\": \"None\",\n  \"guardian\": \"{{guardianId}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/v1/children",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"v1",
+								"children"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Child 4",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"var jsonData = pm.response.json();",
+									"pm.environment.set(\"childId\", jsonData.newChild._id);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": {\n    \"firstName\": \"Fredrik\",\n    \"lastName\": \"Vlahovic\"\n  },\n  \"dateOfBirth\": \"2010-02-15T00:00:00.000Z\",\n  \"specialNeeds\": \"None\",\n  \"guardian\": \"{{guardianId}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/v1/children",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"v1",
+								"children"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Babysitter 1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"var jsonData = pm.response.json();",
+									"pm.environment.set(\"babysitterId\", jsonData.newBabysitter._id);",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// Generate a random number to append to the email\r",
+									"const randomNumber = Math.floor(Math.random() * 10000);\r",
+									"\r",
+									"// Set the dynamically generated email as a Postman variable\r",
+									"pm.variables.set(\"randomEmail\", `user${randomNumber}@example.com`);\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"firstName\": \"Sarah\",\n  \"lastName\": \"Connor\",\n  \"email\": \"{{randomEmail}}\",\n  \"dateOfBirth\": \"1995-08-29T00:00:00.000Z\",\n  \"phoneNumber\": \"0987654321\",\n  \"experience\": \"5 years of experience with children aged 1-6.\",\n  \"hourlyRate\": 100,\n  \"password\": \"AlsoRandomPassword\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/v1/babysitters",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"v1",
+								"babysitters"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Babysitter 2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"var jsonData = pm.response.json();",
+									"pm.environment.set(\"babysitterId\", jsonData.newBabysitter._id);",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// Generate a random number to append to the email\r",
+									"const randomNumber = Math.floor(Math.random() * 10000);\r",
+									"\r",
+									"// Set the dynamically generated email as a Postman variable\r",
+									"pm.variables.set(\"randomEmail\", `user${randomNumber}@example.com`);\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"firstName\": \"Jessica\",\n  \"lastName\": \"Peterson\",\n  \"email\": \"{{randomEmail}}\",\n  \"dateOfBirth\": \"1995-08-29T00:00:00.000Z\",\n  \"phoneNumber\": \"0987654321\",\n  \"experience\": \"5 years of experience with children aged 1-6.\",\n  \"hourlyRate\": 100,\n  \"password\": \"AlsoRandomPassword\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/v1/babysitters",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"v1",
+								"babysitters"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Babysitter 3",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"var jsonData = pm.response.json();",
+									"pm.environment.set(\"babysitterId\", jsonData.newBabysitter._id);",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// Generate a random number to append to the email\r",
+									"const randomNumber = Math.floor(Math.random() * 10000);\r",
+									"\r",
+									"// Set the dynamically generated email as a Postman variable\r",
+									"pm.variables.set(\"randomEmail\", `user${randomNumber}@example.com`);\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"firstName\": \"Petter\",\n  \"lastName\": \"Carlsson\",\n  \"email\": \"{{randomEmail}}\",\n  \"dateOfBirth\": \"1995-08-29T00:00:00.000Z\",\n  \"phoneNumber\": \"0987654321\",\n  \"experience\": \"5 years of experience with children aged 1-6.\",\n  \"hourlyRate\": 100,\n  \"password\": \"AlsoRandomPassword\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/v1/babysitters",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"v1",
+								"babysitters"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Booking Pending",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"var jsonData = pm.response.json();",
+									"pm.environment.set(\"bookingId\", jsonData.newBooking._id);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"startDateTime\": \"2024-12-05T19:32:00.000Z\",\n  \"endDateTime\": \"2024-12-05T19:35:00.000Z\",\n  \"totalCost\": 10,\n  \"location\": {\n    \"pickup_Location\": \"School\",\n    \"dropoff_Location\": \"Home\"\n  },\n  \"guardian\": \"{{guardianId}}\",\n  \"children\": [\n    \"{{childId}}\"\n  ],\n  \"description\": \"Hello there, this is a test\",\n  \"additionalInformation\": \"If needed\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/v1/bookings",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"v1",
+								"bookings"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Booking Confirmed",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"var jsonData = pm.response.json();",
+									"pm.environment.set(\"bookingId\", jsonData.newBooking._id);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"startDateTime\": \"2024-12-01T14:00:00.000Z\",\n  \"endDateTime\": \"2024-12-01T18:00:00.000Z\",\n  \"totalCost\": 100,\n  \"location\": {\n    \"pickup_Location\": \"Home\",\n    \"dropoff_Location\": \"Gothenburg University\"\n  },\n  \"guardian\": \"{{guardianId}}\",\n  \"children\": [\n    \"{{childId}}\"\n  ],\n  \"description\": \"Hello there, this is a test\",\n  \"additionalInformation\": \"If needed\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/v1/bookings",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"v1",
+								"bookings"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Confirm booking for babysitter",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"startDateTime\": \"2024-12-01T14:00:00.000Z\",\r\n  \"endDateTime\": \"2024-12-01T18:00:00.000Z\",\r\n  \"totalCost\": 400,\r\n  \"location\": {\r\n    \"pickup_Location\": \"School\",\r\n    \"dropoff_Location\": \"Home\"\r\n  },\r\n  \"guardian\": \"{{guardianId}}\",\r\n  \"babysitter\": \"{{babysitterId}}\",\r\n  \"children\": [\r\n    \"{{childId}}\"\r\n  ],\r\n  \"status\": \"Confirmed\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/v1/bookings/{{bookingId}}/confirm/{{babysitterId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"v1",
+								"bookings",
+								"{{bookingId}}",
+								"confirm",
+								"{{babysitterId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Booking Expired",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"var jsonData = pm.response.json();",
+									"pm.environment.set(\"bookingId\", jsonData.newBooking._id);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"startDateTime\": \"2024-12-01T14:00:00.000Z\",\n  \"endDateTime\": \"2024-12-01T18:00:00.000Z\",\n  \"totalCost\": 400,\n  \"location\": {\n    \"pickup_Location\": \"Universeum\",\n    \"dropoff_Location\": \"Home\"\n  },\n  \"guardian\": \"{{guardianId}}\",\n  \"children\": [\n    \"{{childId}}\"\n  ],\n  \"description\": \"Hello there, this is a test\",\n  \"additionalInformation\": \"If needed\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/v1/bookings",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"v1",
+								"bookings"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Booking Completed",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"var jsonData = pm.response.json();",
+									"pm.environment.set(\"bookingId\", jsonData.newBooking._id);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"startDateTime\": \"2024-12-01T14:00:00.000Z\",\n  \"endDateTime\": \"2024-12-01T18:00:00.000Z\",\n  \"totalCost\": 1500,\n  \"location\": {\n    \"pickup_Location\": \"Gym\",\n    \"dropoff_Location\": \"Landvetter Airport\"\n  },\n  \"guardian\": \"{{guardianId}}\",\n  \"children\": [\n    \"{{childId}}\"\n  ],\n  \"description\": \"Hello there, this is a test\",\n  \"additionalInformation\": \"If needed\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/v1/bookings",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"v1",
+								"bookings"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Confirm booking for babysitter Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"startDateTime\": \"2024-12-01T14:00:00.000Z\",\r\n  \"endDateTime\": \"2024-12-01T18:00:00.000Z\",\r\n  \"totalCost\": 400,\r\n  \"location\": {\r\n    \"pickup_Location\": \"School\",\r\n    \"dropoff_Location\": \"Home\"\r\n  },\r\n  \"guardian\": \"{{guardianId}}\",\r\n  \"babysitter\": \"{{babysitterId}}\",\r\n  \"children\": [\r\n    \"{{childId}}\"\r\n  ],\r\n  \"status\": \"Confirmed\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/v1/bookings/{{bookingId}}/confirm/{{babysitterId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"v1",
+								"bookings",
+								"{{bookingId}}",
+								"confirm",
+								"{{babysitterId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Guardian for log in",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"var jsonData = pm.response.json();",
+									"pm.environment.set(\"guardianId\", jsonData.newGuardian._id);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// Generate a random number to append to the email\r",
+									"const randomNumber = Math.floor(Math.random() * 10000);\r",
+									"\r",
+									"// Set the dynamically generated email as a Postman variable\r",
+									"pm.variables.set(\"randomEmail\", `user${randomNumber}@example.com`);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"firstName\": \"Felicia\",\n    \"lastName\": \"Dobre\",\n  \"email\": \"felicia@dobre.com\",\n  \"phoneNumber\": \"1234567890\",\n  \"dateOfBirth\": \"1980-01-01T00:00:00.000Z\",\n  \"location\": {\n    \"city\": \"New York\",\n    \"country\": \"USA\",\n    \"address\": \"123 Broadway\"\n  },\n  \"password\": \"AlsoRandomPassword\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/v1/guardians",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"v1",
+								"guardians"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login Request",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"felicia@dobre.com\",\r\n  \"password\": \"AlsoRandomPassword\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/v1/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"v1",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Babysitter for login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"var jsonData = pm.response.json();",
+									"pm.environment.set(\"babysitterId\", jsonData.newBabysitter._id);",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// Generate a random number to append to the email\r",
+									"const randomNumber = Math.floor(Math.random() * 10000);\r",
+									"\r",
+									"// Set the dynamically generated email as a Postman variable\r",
+									"pm.variables.set(\"randomEmail\", `user${randomNumber}@example.com`);\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"firstName\": \"Sarah\",\n  \"lastName\": \"Connor\",\n  \"email\": \"sarah@connor.com\",\n  \"dateOfBirth\": \"1995-08-29T00:00:00.000Z\",\n  \"phoneNumber\": \"0987654321\",\n  \"experience\": \"5 years of experience with children aged 1-6.\",\n  \"hourlyRate\": 100,\n  \"password\": \"AlsoRandomPassword\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/v1/babysitters",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"v1",
+								"babysitters"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login Request Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"sarah@connor.com\",\r\n  \"password\": \"AlsoRandomPassword\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/api/v1/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"v1",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Guardian by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3001/api/v1/guardians/{{guardianId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"v1",
+								"guardians",
+								"{{guardianId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Specific Babysitter Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3001/api/v1/babysitters/{{babysitterId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"v1",
+								"babysitters",
+								"{{babysitterId}}"
 							]
 						}
 					},

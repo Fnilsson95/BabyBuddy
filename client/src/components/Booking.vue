@@ -10,28 +10,27 @@
     </div>
 </template>
 
-  
 <script setup>
 import { reactive } from 'vue'
 import Button from '@/components/Button.vue'
 import { bookingApi } from '@/api/bookings'
 
 const dates = [
-    { label: 'Start date and time', type: 'datetime-local', name: 'startDate' },
-    { label: 'End date and time', type: 'datetime-local', name: 'endDate' },
-    { label: 'Pick-up location', type: 'text', name: 'pickUpLocation' },
-    { label: 'Drop-off location', type: 'text', name: 'dropOffLocation' }
+  { label: 'Start date and time', type: 'datetime-local', name: 'startDate' },
+  { label: 'End date and time', type: 'datetime-local', name: 'endDate' },
+  { label: 'Pick-up location', type: 'text', name: 'pickUpLocation' },
+  { label: 'Drop-off location', type: 'text', name: 'dropOffLocation' }
 ]
 
 const booking = reactive({
-    startDate: null,
-    endDate: null,
-    pickUpLocation: '',
-    dropOffLocation: ''
+  startDate: null,
+  endDate: null,
+  pickUpLocation: '',
+  dropOffLocation: ''
 })
 
 const onSubmit = (event) => {
-    event.preventDefault();
-    console.log(JSON.stringify(booking));
+  event.preventDefault()
+  console.log(JSON.stringify(booking))
 }
 </script>

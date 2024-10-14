@@ -1,9 +1,9 @@
-const BASE_URL = 'http://localhost:3000/api'
+const BASE_URL = 'http://localhost:3001/api/v1'
 
-export const guardianApi = {
-  async getGuardian(id) {
+export const childApi = {
+  async getChild(id) {
     try {
-      const response = await fetch(`${BASE_URL}/guardians/${id}`)
+      const response = await fetch(`${BASE_URL}/children/${id}`)
       if (!response.ok) {
         throw new Error('Network response was not ok')
       }
