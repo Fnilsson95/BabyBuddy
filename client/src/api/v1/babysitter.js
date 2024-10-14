@@ -1,24 +1,6 @@
 const BASE_URL = 'http://localhost:3001/api/v1'
 
 export const babysitterAPI = {
-  async getAllBookings(babysitterId) {
-    try {
-      const response = await fetch(
-        `${BASE_URL}/babysitters/${babysitterId}/bookings`
-      )
-
-      if (!response.ok) {
-        const errorData = response.json()
-        throw new Error(errorData.error)
-      }
-
-      return await response.json()
-    } catch (error) {
-      console.error('Error fetching users:', error)
-      throw error
-    }
-  },
-
   async createBabysitter(babysitterData) {
     try {
       const response = await fetch(`${BASE_URL}/babysitters`, {
