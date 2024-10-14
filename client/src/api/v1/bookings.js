@@ -64,7 +64,13 @@ export const bookingApi = {
     }
   },
 
-  async getAllGuardianBookings(guardianId, page = 1, limit = 10, sort = 'startDateTime', order = 'asc') {
+  async getAllGuardianBookings(
+    guardianId,
+    page = 1,
+    limit = 10,
+    sort = 'startDateTime',
+    order = 'asc'
+  ) {
     try {
       const response = await fetch(
         `${BASE_URL}/guardians/${guardianId}/bookings?page=${page}&limit=${limit}&sort=${sort}&order=${order}`
@@ -82,10 +88,15 @@ export const bookingApi = {
   },
 
   async getAllBabysitterBookings(
-    babysitterId, page = 1, limit = 10, sort = 'startDateTime', order = 'asc') {
+    babysitterId,
+    page = 1,
+    limit = 10,
+    sort = 'startDateTime',
+    order = 'asc'
+  ) {
     try {
       const response = await fetch(
-          `${BASE_URL}/babysitters/${babysitterId}/bookings?page=${page}&limit=${limit}&sort=${sort}&order=${order}`
+        `${BASE_URL}/babysitters/${babysitterId}/bookings?page=${page}&limit=${limit}&sort=${sort}&order=${order}`
       )
 
       if (!response.ok) {
@@ -111,7 +122,7 @@ export const bookingApi = {
         }
       )
       if (!response.ok) {
-        const errorData = response.json()
+        const errorData = await response.json()
         throw new Error(errorData.error)
       }
       return { success: true }
