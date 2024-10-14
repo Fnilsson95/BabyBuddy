@@ -19,7 +19,7 @@
       </BNavbarNav>
       <!-- Right aligned nav items -->
       <BNavbarNav class="ms-auto mb-2 mb-lg-0">
-        <BNavItemDropdown right>
+        <BNavItemDropdown>
           <!-- Using 'button-content' slot -->
           <template #button-content>
             <em>User</em>
