@@ -9,7 +9,7 @@
             </BNavbarNav>
             <!-- Right aligned nav items -->
             <BNavbarNav class="ms-auto mb-2 mb-lg-0">
-                <BNavItemDropdown right>
+                <BNavItemDropdown right class="m-auto">
                     <!-- Using 'button-content' slot -->
                     <template #button-content>
                         <em>User</em>
@@ -19,7 +19,6 @@
                     <BDropdownItem to="/login">Sign Out</BDropdownItem>
                 </BNavItemDropdown>
             </BNavbarNav>
-            <BAvatar :to="homeRoute" size="3em" />
         </BCollapse>
     </BNavbar>
 </template>
@@ -29,22 +28,22 @@ import { useRoute } from 'vue-router'
 import { computed } from 'vue'
 
 export default {
-  setup() {
-    const route = useRoute()
+    setup() {
+        const route = useRoute()
 
-    const userId = route.params.id
-    const role = computed(() => (route.path.includes('guardian') ? 'guardian' : 'babysitter'))
+        const userId = route.params.id
+        const role = computed(() => (route.path.includes('guardian') ? 'guardian' : 'babysitter'))
 
-    // Dynamic Home Route based on role and userId
-    const homeRoute = computed(() => `/${userId}/${role.value}`)
+        // Dynamic Home Route based on role and userId
+        const homeRoute = computed(() => `/${userId}/${role.value}`)
 
-    // Dynamic Bookings Route based on role and userId
-    const bookingsRoute = computed(() => `/${userId}/${role.value}/bookings-history`)
+        // Dynamic Bookings Route based on role and userId
+        const bookingsRoute = computed(() => `/${userId}/${role.value}/bookings-history`)
 
-    return {
-      homeRoute,
-      bookingsRoute
+        return {
+            homeRoute,
+            bookingsRoute
+        }
     }
-  }
 }
 </script>

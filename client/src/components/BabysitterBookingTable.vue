@@ -2,28 +2,12 @@
   <BContainer class="py-5">
     <BRow class="mb-3">
       <BCol lg="12" class="d-flex justify-content-end">
-        <BFormGroup
-          v-slot="{ ariaDescribedby }"
-          label="Sort"
-          label-for="sort-by-select"
-          label-align="right"
-          label-size="sm"
-          class="mb-0 d-flex align-items-center"
-        >
+        <BFormGroup v-slot="{ ariaDescribedby }" label="Sort" label-for="sort-by-select" label-align="right"
+          label-size="sm" class="mb-0 d-flex align-items-center">
           <label class="me-2">Sort by:</label>
-          <BFormSelect
-            v-model="sortByKey"
-            :options="sortOptions"
-            :aria-describedby="ariaDescribedby"
-            size="sm"
-            class="me-2"
-          />
-          <BFormSelect
-            v-model="sortOrder"
-            :disabled="!sortByKey"
-            size="sm"
-            class="me-2"
-          >
+          <BFormSelect v-model="sortByKey" :options="sortOptions" :aria-describedby="ariaDescribedby" size="sm"
+            class="me-2" />
+          <BFormSelect v-model="sortOrder" :disabled="!sortByKey" size="sm" class="me-2">
             <option value="asc">Asc</option>
             <option value="desc">Desc</option>
           </BFormSelect>
@@ -31,15 +15,7 @@
       </BCol>
     </BRow>
 
-    <BTable
-      :items="sortedItems"
-      :fields="fields"
-      responsive="sm"
-      hover
-      striped
-      bordered
-      small
-    >
+    <BTable :items="sortedItems" :fields="fields" responsive="sm" hover striped bordered small>
       <template #cell(startDateTime)="row">
         {{ row.item.startDateTime }}
       </template>
@@ -59,7 +35,7 @@
         {{ row.item.guardian.firstName }}
       </template>
       <template #cell(children)="row">
-        {{ row.item.children.map(children => children.name.firstName).join(', ') }}
+        {{ row.item.children.map(children => children.firstName).join(', ') }}
       </template>
       <template #cell(status)="row">
         {{ row.item.status }}
@@ -68,9 +44,9 @@
         {{ row.item.description }}
       </template>
       <template #cell(additionalInformation)="row">
-      <BButton size="sm" class="custom-button" @click="row.toggleDetails">
-      {{ row.detailsShowing ? 'Hide Details' : 'Show Details' }}
-      </BButton>
+        <BButton size="sm" class="custom-button" @click="row.toggleDetails">
+          {{ row.detailsShowing ? 'Hide Details' : 'Show Details' }}
+        </BButton>
       </template>
       <template #row-details="row">
         <BCard class="p-2">
@@ -88,13 +64,7 @@
         </BFormGroup>
       </BCol>
       <BCol md="6" class="d-flex justify-content-end">
-        <BPagination
-          v-model="currentPage"
-          :total-rows="totalRows"
-          :per-page="perPage"
-          align="end"
-          size="sm"
-        />
+        <BPagination v-model="currentPage" :total-rows="totalRows" :per-page="perPage" align="end" size="sm" />
       </BCol>
     </BRow>
   </BContainer>
@@ -184,6 +154,7 @@ const perPageOptions = [
 .mt-3 {
   margin-top: 1.5rem;
 }
+
 .custom-button {
   margin-top: 0.5rem;
   background-color: #3c5c5e;
@@ -199,6 +170,7 @@ const perPageOptions = [
 .custom-button:hover {
   background-color: #2d4749;
 }
+
 .text-center {
   text-align: center;
 }

@@ -11,8 +11,9 @@
 <script setup>
 import { reactive, defineProps } from 'vue'
 import Button from '@/components/Button.vue'
-import { useModal } from 'bootstrap-vue-next'
-const { hide } = useModal("child-modal");
+import { useModalController } from 'bootstrap-vue-next'
+import { store } from '@/stores/guardianStore';
+const { hide, modal } = useModalController();
 
 const { child } = defineProps(['child'])
 console.log(child);
@@ -22,21 +23,18 @@ const inputs = [
     { label: 'Last name', type: 'text', name: 'lastName', },
     { label: 'Birthdate', type: 'date', name: 'birthDate', },
     { label: 'Special needs', type: 'text', name: 'specialNeed', },
-    { label: 'Guardian', type: 'text', name: 'guardian', }
 ]
 
 const form = reactive({
-    firstName: child?.firstName,
-    lastName: child?.lastName,
+    firstName: child?.name.firstName,
+    lastName: child?.name.lastName,
     birthDate: child?.birthDate,
-    specialNeed: child?.specialNeed,
-    guardian: child?.guardian,
+    specialNeed: child?.specialNeeds,
 })
 
-const onSubmit = (event) => {
+const onSubmit = async (event) => {
     event.preventDefault();
-    console.log(JSON.stringify(form));
+    await store.updateChild({ ...child, ...form, name: { firstName: form.firstName, lastName: form.lastName } });
     hide();
 }
-
 </script>

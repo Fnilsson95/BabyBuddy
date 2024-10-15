@@ -1,17 +1,12 @@
 <template>
     <div class="pt-3">
-        <button
-            @click="store.updateGuardian({ name: { firstName: 'Johannes', lastName: store.guardian.name.lastName } })">Change
-            name on
-            {{
-                store.guardian.name.firstName
-            }} from the Child component</button>
         <BCardGroup deck>
             <BCard v-for="child in store.guardian.children" :title="`${child.name.firstName} ${child.name.lastName}`"
                 header-tag="header" :key="child._id">
                 <template #header>
-                    <div class="mb-0 img-container">
-                        <BImg class="img" src="src/assets/Gösta.jpeg" fluid alt="Responsive image" />
+                    <div>
+                        <BAvatar bg-variant="primary" text-variant="info"
+                            :text="`${child.name.firstName.charAt(0)}${child.name.lastName.charAt(0)}`" />
                     </div>
                 </template>
                 <BCardText>
@@ -27,7 +22,7 @@
                     <template #content>
                         <ChildForm :child="child" />
                     </template>
-                    <template #button>Edit {{ child.firstName }}</template>
+                    <template #button>Edit {{ child.name.firstName }}</template>
                 </Modal>
             </BCard>
         </BCardGroup>
@@ -50,7 +45,5 @@
 <script setup>
 import Modal from './Modal.vue'
 import ChildForm from '@/components/ChildForm.vue'
-import { guardianApi } from '@/api/guardians'
 import { store } from '@/stores/guardianStore'
-
 </script>

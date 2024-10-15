@@ -3,15 +3,9 @@
     <Navbar></Navbar>
     <BContainer>
       <BRow>
-        <BCol>
-          <h1>Hello {{ store.guardian.name.firstName }} {{ store.guardian.name.lastName }}</h1>
-        </BCol>
-      </BRow>
-      <BRow>
         <BCol lg="3">
           <div class="pt-5">
             <h2>Book a babysitter</h2>
-            <h3></h3>
             <Booking />
           </div>
         </BCol>
@@ -39,7 +33,7 @@ import Booking from '@/components/Booking.vue'
 import Upcoming from '@/components/Upcoming.vue'
 import Child from '@/components/Child.vue'
 import Modal from '@/components/Modal.vue'
-import { guardianApi } from '@/api/guardians'
+import { guardianApi } from '../api/v1/guardians'
 import { store } from '@/stores/guardianStore'
 export default {
   name: 'guardian',

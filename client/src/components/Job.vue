@@ -1,16 +1,10 @@
 <template>
-  <BCard
-    border-variant="primary"
-    header="Booking for: Bonnie"
-    header-bg-variant="primary"
-    header-text-variant="white"
-    align="center"
-  >
+  <BCard border-variant="primary" header="Booking for: Bonnie" header-bg-variant="primary" header-text-variant="white"
+    align="center">
     <template #header>
       <span>
-        {{ booking.guardian.name.firstName }}
-        {{ booking.guardian.name.lastName }}</span
-      >
+        {{ booking.guardian.firstName }}
+        {{ booking.guardian.lastName }}</span>
     </template>
 
     <BCardText>
