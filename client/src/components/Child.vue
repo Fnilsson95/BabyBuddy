@@ -11,11 +11,10 @@
                 </template>
                 <BCardText>
                     <div>
-                        <!-- {{ child.dateOfBirth.toDateString() }} -->
-                        {{ child.dateOfBirth }}
+                        {{ formatDate(child.dateOfBirth) }}
                     </div>
                     <div>
-                        {{ child.specialNeeds ? child.specialNeeds : 'No special needs' }}
+                        {{ child.specialNeeds }}
                     </div>
                 </BCardText>
                 <Modal>
@@ -46,4 +45,5 @@
 import Modal from './Modal.vue'
 import ChildForm from '@/components/ChildForm.vue'
 import { store } from '@/stores/guardianStore'
+import { formatDate } from '@/helpers';
 </script>

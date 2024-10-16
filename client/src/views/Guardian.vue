@@ -54,9 +54,7 @@ export default {
 
     console.log("guardian:", guardian);
 
-
     store.setGuardian(guardian);
-    store.name = "Johannes";
   }
 }
 

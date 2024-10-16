@@ -13,6 +13,7 @@ import { reactive, defineProps } from 'vue'
 import Button from '@/components/Button.vue'
 import { useModalController } from 'bootstrap-vue-next'
 import { store } from '@/stores/guardianStore';
+import { formatDate } from '@/helpers';
 const { hide, modal } = useModalController();
 
 const { child } = defineProps(['child'])
@@ -21,20 +22,21 @@ console.log(child);
 const inputs = [
     { label: 'First name', type: 'text', name: 'firstName', },
     { label: 'Last name', type: 'text', name: 'lastName', },
-    { label: 'Birthdate', type: 'date', name: 'birthDate', },
-    { label: 'Special needs', type: 'text', name: 'specialNeed', },
+    { label: 'Special needs', type: 'text', name: 'specialNeeds', },
 ]
 
 const form = reactive({
     firstName: child?.name.firstName,
     lastName: child?.name.lastName,
-    birthDate: child?.birthDate,
-    specialNeed: child?.specialNeeds,
+    birthDate: child?.dateOfBirth,
+    specialNeeds: child?.specialNeeds,
 })
 
 const onSubmit = async (event) => {
     event.preventDefault();
-    await store.updateChild({ ...child, ...form, name: { firstName: form.firstName, lastName: form.lastName } });
+    console.log("birthDate", formatDate(child.dateOfBirth))
+    console.log(child.specialNeeds)
+    await store.updateChild({ ...child, ...form, name: { firstName: form.firstName, lastName: form.lastName }, specialNeeds: form.specialNeeds });
     hide();
 }
 </script>

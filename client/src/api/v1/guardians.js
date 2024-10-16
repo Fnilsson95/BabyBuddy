@@ -9,7 +9,7 @@ export const guardianApi = {
       }
       return await response.json()
     } catch (error) {
-      console.error('Error fetching users:', error)
+      console.error('Error fetching guardian:', error)
       throw error
     }
   },

@@ -52,13 +52,13 @@ controller.get("/", async (req, res) => {
     // Validate sorting order and set option
     const validOrders = ["asc", "desc"];
     const sortOrder = validOrders.includes(order) ? (order === "asc" ? 1 : -1) : 1;
-    const sortOption = { [sort]: sortOrder};
+    const sortOption = { [sort]: sortOrder };
 
     const children = await Children.find({})
-    .sort(sortOption)
-    .skip(skip)
-    .limit(limits)
-    .populate("guardian");
+      .sort(sortOption)
+      .skip(skip)
+      .limit(limits)
+      .populate("guardian");
 
     // Get total number of children documents
     const totalChildren = await Children.countDocuments();
@@ -95,6 +95,7 @@ controller.put("/:id", async (req, res) => {
   try {
     const { id } = req.params;
     const child = await Children.findByIdAndUpdate(id, req.body);
+    console.log(req.body);
     if (!child) {
       res.status(404).json({ message: `Child with id ${id} were not found` });
     }
