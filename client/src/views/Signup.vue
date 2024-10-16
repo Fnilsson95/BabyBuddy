@@ -1,6 +1,6 @@
 <template>
   <div class="sign-in-container">
-    <div class="navbar">Navbar</div>
+    <div class="navbar">BabyBuddy</div>
     <div class="sign-in-box">
       <div class="header-box">
         <h5>Welcome to Baby Buddy!</h5>
@@ -286,12 +286,16 @@ export default {
 
 .navbar,
 .footer_holder {
-  background-color: #3c5c5e;
+  background-color: #2f4f4f;
   color: white;
   width: 100%;
   text-align: center;
   padding: 1rem;
-  font-size: 1.5rem;
+  font-size: 19.5px;
+  font-weight: 600;
+}
+.footer_holder {
+  color: #2f4f4f;
 }
 
 .header-box {

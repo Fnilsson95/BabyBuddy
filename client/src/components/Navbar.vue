@@ -24,6 +24,7 @@
           <template #button-content>
             <em>User</em>
           </template>
+          <BDropdownItem to="/login">Edit Profile</BDropdownItem>
           <BDropdownItem to="/login">Sign Out</BDropdownItem>
         </BNavItemDropdown>
       </BNavbarNav>
