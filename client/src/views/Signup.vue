@@ -1,6 +1,7 @@
 <template>
   <div class="sign-in-container">
-    <div class="navbar">BabyBuddy</div>
+    <div class="navbar">Navbar</div>
+    <Toast :config-toast="toastConfig" />
     <div class="sign-in-box">
       <div class="header-box">
         <h5>Welcome to Baby Buddy!</h5>
@@ -133,15 +134,6 @@
           <button type="submit">Create account</button>
         </div>
       </form>
-
-      <!-- Error Message -->
-      <transition name="slide-fade">
-        <div v-if="errorMessage" class="error-message">{{ errorMessage }}</div>
-      </transition>
-      <!-- Success Message -->
-      <div v-if="successMessage" class="success-message">
-        {{ successMessage }}
-      </div>
     </div>
     <div class="footer_holder">Footer</div>
   </div>
@@ -150,9 +142,13 @@
 <script>
 import { guardianApi } from '@/api/v1/guardians'
 import { babysitterAPI } from '@/api/v1/babysitter'
+import Toast from '@/components/Toast.vue'
 
 export default {
   name: 'signup',
+  components: {
+    Toast
+  },
   data() {
     return {
       role: null,
@@ -171,10 +167,19 @@ export default {
         hourlyRate: null
       },
       successMessage: null,
-      errorMessage: null
+      errorMessage: null,
+      toastConfig: {
+        title: '',
+        body: '',
+        variant: '',
+        show: false
+      }
     }
   },
   methods: {
+    showToast(title, body, variant) {
+      this.toastConfig = { title, body, variant, show: true }
+    },
     async handleSignup() {
       try {
         const payload = JSON.parse(JSON.stringify(this.userDetails))
@@ -195,10 +200,12 @@ export default {
 
         this.successMessage = result.message
         this.errorMessage = null
+        this.showToast('Success', this.successMessage, 'success')
         this.resetForm()
       } catch (error) {
         this.errorMessage = error || 'Error creating account. Please try again.'
         this.successMessage = null
+        this.showToast('Error', this.errorMessage, 'danger')
         console.error(error)
       }
     },

@@ -1,6 +1,7 @@
 <template>
   <div class="sign-in-container">
-    <div class="navbar">BabyBuddy</div>
+    <div class="navbar">Navbar</div>
+    <Toast :config-toast="toastConfig" />
     <div class="sign-in-box">
       <div class="header-box">
         <h2>Welcome back!</h2>
@@ -37,9 +38,7 @@
       </form>
 
       <!-- Error message -->
-      <transition name="slide-fade">
-        <div v-if="errorMessage" class="error-message">{{ errorMessage }}</div>
-      </transition>
+      <transition name="slide-fade"> </transition>
 
       <!-- Redirect to signup -->
       <div class="create-account">
@@ -54,14 +53,24 @@
 <script>
 import { useRouter } from 'vue-router'
 import { loginApi } from '@/api/v1/login'
+import Toast from '@/components/Toast.vue'
 
 export default {
   name: 'login',
+  components: {
+    Toast
+  },
   data() {
     return {
       email: '',
       password: '',
-      errorMessage: null
+      errorMessage: null,
+      toastConfig: {
+        title: '',
+        body: '',
+        variant: '',
+        show: false
+      }
     }
   },
   setup() {
@@ -72,6 +81,9 @@ export default {
     }
   },
   methods: {
+    showToast(title, body, variant) {
+      this.toastConfig = { title, body, variant, show: true }
+    },
     async handleLogin() {
       try {
         const payload = {
@@ -93,9 +105,12 @@ export default {
         } else {
           throw new Error('Invalid role')
         }
+        this.showToast('Success', 'Login successful', 'success')
       } catch (error) {
         this.errorMessage =
           error || 'Invalid email or password. Please try again.'
+        this.showToast('Error', this.errorMessage, 'danger')
+
         console.error(error)
       }
     }

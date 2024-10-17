@@ -1,10 +1,15 @@
 <template>
   <div id="app">
     <div id="nav"></div>
+    <BToastOrchestrator />
     <!-- Render the content of the current page view -->
     <router-view />
   </div>
 </template>
+
+<script setup>
+import { BToastOrchestrator } from 'bootstrap-vue-next'
+</script>
 
 <style>
 #app {
