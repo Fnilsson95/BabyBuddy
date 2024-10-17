@@ -174,7 +174,7 @@
             <p class="sectionTitle">Professional Details</p>
             <div class="grid-item">
               <div class="form-group">
-                <label for="experience">Experience:</label>
+                <label for="experience">Experience (Years)</label>
                 <input
                   type="number"
                   id="experience"
