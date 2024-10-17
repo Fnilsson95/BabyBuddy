@@ -21,3 +21,16 @@ export const calculateDuration = (startDateTime, endDateTime) => {
 
   return Math.round(durationHours * 100) / 100
 }
+
+// Function that checks if a date is this month or not
+
+export const isThisMonth = (inputDate) => {
+  const date = new Date(inputDate)
+
+  const now = new Date()
+
+  return (
+    date.getFullYear() === now.getFullYear() &&
+    date.getMonth() === now.getMonth()
+  )
+}
