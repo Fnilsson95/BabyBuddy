@@ -48,6 +48,9 @@ defineProps({
   background-color: white;
   color: #555;
   border: 1px solid #2f4f4f;
+  max-width: 250px;
+  min-width: 180px;
+  width: 100%;
 }
 .card-header {
   width: 100%;

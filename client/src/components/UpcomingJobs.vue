@@ -1,27 +1,25 @@
 <template>
-  <BRow>
+  <BRow class="gx-2">
     <BCol
-      xs="12"
+      sm="4"
       md="6"
+      lg="6"
+      xl="4"
       class="mb-3"
       v-for="booking in bookings.bookings"
       :key="booking._id"
+      style="display: flex; align-items: center; justify-content: center"
     >
       <BookingCard :booking="booking" key="booking._id">
         <template #button>
           <div class="btn-row">
             <button
               class="apply-button-container apply-button apply-button:hover"
-              @click="modal = !modal"
+              @click="openModal(booking)"
             >
-              View Details
+              Details
             </button>
-            <BModal v-model="modal" title="Booking Information" hide-footer>
-              <JobModalContent
-                :booking="booking"
-                @booking-updated="$emit('booking-updated')"
-                @update:modalRef="modal = $event"
-            /></BModal>
+
             <button
               class="apply-button apply-button:hover cancel-button"
               @click="cancelBooking(booking._id)"
@@ -32,6 +30,18 @@
         </template>
       </BookingCard>
     </BCol>
+    <BModal
+      v-model="modal"
+      title="Booking Information"
+      hide-footer
+      v-if="selectedBooking"
+    >
+      <JobModalContent
+        :booking="selectedBooking"
+        :key="selectedBooking?.id"
+        @booking-updated="$emit('booking-updated')"
+        @update:modalRef="modal = $event"
+    /></BModal>
   </BRow>
 </template>
 
@@ -44,6 +54,7 @@ import BookingCard from './BookingCard.vue'
 
 const bookings = ref([])
 const modal = ref(false)
+const selectedBooking = ref(null)
 
 const emit = defineEmits(['booking-updated'])
 const route = useRoute()
@@ -68,6 +79,11 @@ const cancelBooking = async (bookingId) => {
   }
 }
 
+const openModal = (booking) => {
+  selectedBooking.value = booking
+  modal.value = true
+}
+
 onMounted(async () => {
   await getBookings()
 })
@@ -89,16 +105,17 @@ defineExpose({
 .btn-row {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
+  gap: 5px;
 }
 
 .apply-button {
-  min-width: 110px;
+  min-width: 80px;
   background-color: #2f4f4f;
   color: #f5f5f5;
   border: none;
-  padding: 10px 10px;
-  font-size: 16px;
+  padding: 6px 8px;
+  font-size: 14px;
   font-weight: 600;
   cursor: pointer;
   border-radius: 5px;
