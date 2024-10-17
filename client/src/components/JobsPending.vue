@@ -4,7 +4,7 @@
       sm="4"
       md="6"
       lg="6"
-      xl="4"
+      xl="6"
       class="mb-3"
       v-for="booking in structuredBookings"
       :key="booking._id"
@@ -47,7 +47,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, inject } from 'vue'
 import { bookingApi } from '@/api/v1/bookings'
 import { calculateDuration, formatDate } from '@/helpers'
 import BookingCard from './BookingCard.vue'
@@ -57,6 +57,8 @@ import { useRoute } from 'vue-router'
 const structuredBookings = ref([])
 const modal = ref(false)
 const selectedBooking = ref(null)
+
+const showToast = inject('showToast')
 
 // Emits
 const emit = defineEmits(['booking-updated'])
@@ -108,8 +110,10 @@ const handleConfirmBooking = async (bookingId) => {
     await bookingApi.confirmBooking(bookingId, id)
     modal.value = false
     emit('booking-updated')
+    showToast('Success', 'Successfully confirmed booking', 'success')
   } catch (error) {
     console.error('Error confirming booking:', error)
+    showToast('Error', 'Could not confirm booking', 'danger')
   }
 }
 
