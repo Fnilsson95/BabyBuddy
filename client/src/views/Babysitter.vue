@@ -2,9 +2,12 @@
   <div>
     <Navbar></Navbar>
     <BContainer fluid>
-      <Earnings />
-
-      <BRow class="gx-3">
+      <BRow>
+        <BCol xs="12">
+          <Earnings :key="refreshKey" :refresh-key="refreshKey" />
+        </BCol>
+      </BRow>
+      <BRow class="gx-5">
         <BCol sm="12" md="6">
           <div class="pt-5">
             <h2 style="margin-bottom: 20px; color: #2f4f4f">Jobs Available</h2>
