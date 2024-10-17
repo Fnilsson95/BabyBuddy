@@ -1,16 +1,42 @@
 <template>
   <div class="modal-overlay">
     <div class="modal-content">
+      <!-- Modal Header -->
       <div class="modal-header">
         <h2>Profile Information</h2>
         <button @click="$emit('close')" class="close-btn">&times;</button>
       </div>
-      <div class="modal-body" v-if="!isEditing && !isDeleting">
-        <!-- Display Profile Information -->
+
+      <!-- Loading State -->
+      <div v-if="isLoading" class="modal-body">
+        <p>Loading profile data...</p>
+      </div>
+
+      <!-- Error State -->
+      <div v-else-if="error" class="modal-body">
+        <p>{{ error }}</p>
+      </div>
+
+      <!-- Display Profile Information -->
+      <div class="modal-body" v-else-if="!isEditing && !isDeleting">
+        <!-- Display Profile Data -->
+        <p><strong>Email:</strong> {{ profile.email }}</p>
         <p><strong>First Name:</strong> {{ profile.firstName }}</p>
         <p><strong>Last Name:</strong> {{ profile.lastName }}</p>
-        <p><strong>Email:</strong> {{ profile.email }}</p>
+        <p><strong>Date of Birth:</strong> {{ profile.dateOfBirth }}</p>
         <p><strong>Phone Number:</strong> {{ profile.phoneNumber }}</p>
+
+        <!-- Additional Fields Based on Role -->
+        <div v-if="role === 'babysitter'">
+          <p><strong>Experience:</strong> {{ profile.experience }}</p>
+          <p><strong>Hourly Rate:</strong> {{ profile.hourlyRate }}</p>
+        </div>
+
+        <div v-else-if="role === 'guardian'">
+          <p><strong>City:</strong> {{ profile.location?.city }}</p>
+          <p><strong>Country:</strong> {{ profile.location?.country }}</p>
+          <p><strong>Address:</strong> {{ profile.location?.address }}</p>
+        </div>
 
         <!-- Edit and Delete Buttons -->
         <div class="button-group">
@@ -20,8 +46,9 @@
       </div>
 
       <!-- Profile Edit Form -->
-      <div class="modal-body" v-if="isEditing">
+      <div class="modal-body" v-else-if="isEditing">
         <form @submit.prevent="submitForm">
+          <!-- Shared Fields -->
           <div class="form-group">
             <label for="firstName">First Name:</label>
             <input
@@ -31,6 +58,7 @@
               required
             />
           </div>
+
           <div class="form-group">
             <label for="lastName">Last Name:</label>
             <input
@@ -40,6 +68,7 @@
               required
             />
           </div>
+
           <div class="form-group">
             <label for="email">Email:</label>
             <input
@@ -49,6 +78,17 @@
               required
             />
           </div>
+
+          <div class="form-group">
+            <label for="dateOfBirth">Date of Birth:</label>
+            <input
+              type="date"
+              id="dateOfBirth"
+              v-model="profile.dateOfBirth"
+              required
+            />
+          </div>
+
           <div class="form-group">
             <label for="phoneNumber">Phone Number:</label>
             <input
@@ -58,21 +98,70 @@
               required
             />
           </div>
-          <div class="form-group">
-            <label for="password">Password:</label>
-            <input
-              type="password"
-              id="password"
-              v-model="profile.password"
-              minlength="6"
-              maxlength="20"
-              required
-            />
+
+          <!-- Role-Specific Fields -->
+          <div v-if="role === 'babysitter'">
+            <div class="form-group">
+              <label for="experience">Experience:</label>
+              <input
+                type="string"
+                id="experience"
+                v-model="profile.experience"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="hourlyRate">Hourly Rate:</label>
+              <input
+                type="number"
+                id="hourlyRate"
+                v-model="profile.hourlyRate"
+                required
+                min="0"
+                step="0.01"
+              />
+            </div>
           </div>
+
+          <div v-else-if="role === 'guardian'">
+            <div class="form-group">
+              <label for="city">City:</label>
+              <input
+                type="text"
+                id="city"
+                v-model="profile.location.city"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="country">Country:</label>
+              <input
+                type="text"
+                id="country"
+                v-model="profile.location.country"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="address">Address:</label>
+              <input
+                type="text"
+                id="address"
+                v-model="profile.location.address"
+                required
+              />
+            </div>
+          </div>
+
           <!-- Save and Cancel Buttons -->
           <div class="button-group">
             <button type="submit" class="save-btn">Save Changes</button>
-            <button type="button" @click="cancelEditing" class="cancel-btn">Cancel</button>
+            <button type="button" @click="cancelEditing" class="cancel-btn">
+              Cancel
+            </button>
           </div>
         </form>
       </div>
@@ -90,32 +179,82 @@
 </template>
 
 <script>
+
+import { babysitterAPI } from '../api/v1/babysitter'
+import { guardianApi } from '../api/v1/guardians'
+
 export default {
   name: 'ProfileModal',
   data() {
     return {
       isEditing: false, // Track if we're editing profile
       isDeleting: false, // Track if we're confirming deletion
-      profile: {
-        firstName: 'John',
-        lastName: 'Doe',
-        email: 'john.doe@example.com',
-        phoneNumber: '+123456789',
-        password: 'password123'
-      }
+      profile: {},
+      isLoading: true,
+      error: null,
+      id: null,
+      role: null
     }
   },
+
+  created() {
+    this.extractIdAndRoleFromUrl()
+    if (!this.error) {
+      this.fetchProfileData()
+    } else {
+      this.isLoading = false
+    }
+  },
+
   methods: {
+
+    extractIdAndRoleFromUrl() {
+      // Extract the ID from the URL parameters
+      this.id = this.$route.params.id
+
+      // Determine role based on the URL path
+      if (this.$route.path.includes('guardian')) {
+        this.role = 'guardian'
+      } else if (this.$route.path.includes('babysitter')) {
+        this.role = 'babysitter'
+      }
+    },
+
+    async fetchProfileData() {
+      try {
+        if (this.role === 'babysitter') {
+          this.profile = await babysitterAPI.getBabysitter(this.id)
+        } else if (this.role === 'guardian') {
+          this.profile = await guardianApi.getGuardian(this.id)
+        } else {
+          throw new Error('Invalid role')
+        }
+      } catch (error) {
+        this.error = 'Failed to load profile data.'
+      } finally {
+        this.isLoading = false
+      }
+    },
+
     startEditing() {
       this.isEditing = true
     },
     cancelEditing() {
       this.isEditing = false
     },
-    submitForm() {
-      // Handle form submission logic here
-      console.log('Profile data submitted:', this.profile)
-      this.isEditing = false
+    async submitForm() {
+      try {
+        if (this.role === 'babysitter') {
+          await babysitterAPI.updateBabysitter(this.id, this.profile)
+        } else if (this.role === 'guardian') {
+          await guardianApi.updateGuardian(this.id, this.profile)
+        } else {
+          throw new Error('Invalid role.')
+        }
+        this.isEditing = false
+      } catch (error) {
+        alert(error.message || 'Failed to update profile. Please try again.')
+      }
     },
     confirmDelete() {
       this.isDeleting = true
@@ -123,11 +262,24 @@ export default {
     cancelDelete() {
       this.isDeleting = false
     },
-    deleteAccount() {
-      // Handle account deletion logic here
-      console.log('Account deleted')
-      this.isDeleting = false
-      this.$emit('close')
+
+    async deleteAccount() {
+      try {
+        if (this.role === 'babysitter') {
+          await babysitterAPI.deleteBabysitter(this.id)
+        } else if (this.role === 'guardian') {
+          await guardianApi.deleteGuardian(this.id)
+        } else {
+          throw new Error('Invalid role.')
+        }
+        alert('Account deleted successfully')
+        this.isDeleting = false
+        this.$emit('close')
+        this.$router.push('/')
+      } catch (error) {
+        console.error('Error deleting account:', error)
+        alert(error.message || 'Failed to delete account. Please try again.')
+      }
     }
   }
 }
