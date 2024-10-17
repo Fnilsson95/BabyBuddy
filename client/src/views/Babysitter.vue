@@ -1,17 +1,17 @@
 <template>
   <div>
     <Navbar></Navbar>
-    <BContainer>
+    <BContainer fluid>
       <Earnings />
 
-      <BRow class="gx-5">
-        <BCol xs="12" md="12" lg="6">
+      <BRow class="gx-3">
+        <BCol sm="12" md="6">
           <div class="pt-5">
             <h2 style="margin-bottom: 20px; color: #2f4f4f">Jobs Available</h2>
             <JobsPending :key="refreshKey" @booking-updated="refreshData" />
           </div>
         </BCol>
-        <BCol xs="12" md="12" lg="6">
+        <BCol sm="12" md="6">
           <div class="pt-5">
             <h2 style="margin-bottom: 20px; color: #2f4f4f">
               Upcoming Bookings

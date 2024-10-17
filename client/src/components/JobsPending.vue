@@ -1,39 +1,48 @@
 <template>
-  <BRow>
+  <BRow class="gx-2">
     <BCol
-      xs="12"
+      sm="4"
       md="6"
+      lg="6"
+      xl="4"
       class="mb-3"
       v-for="booking in structuredBookings"
       :key="booking._id"
+      style="display: flex; align-items: center; justify-content: center"
     >
       <BookingCard :booking="booking" :key="booking._id">
         <template #button>
           <div class="button-container">
-            <button class="button button:hover" @click="modal = !modal">
-              View Details
+            <button class="button button:hover" @click="openModal(booking)">
+              Details
             </button>
           </div>
-          <BModal v-model="modal" title="Booking Information" hide-footer>
-            <JobModalContent
-              :booking="booking"
-              @booking-updated="$emit('booking-updated')"
-            >
-              <template #button>
-                <div class="button-container">
-                  <button
-                    class="button button:hover"
-                    @click="handleConfirmBooking(booking.id)"
-                  >
-                    Apply
-                  </button>
-                </div>
-              </template>
-            </JobModalContent>
-          </BModal>
         </template>
       </BookingCard>
     </BCol>
+    <BModal
+      v-model="modal"
+      title="Booking Information"
+      hide-footer
+      v-if="selectedBooking"
+    >
+      <JobModalContent
+        :booking="selectedBooking"
+        :key="selectedBooking?.id"
+        @booking-updated="$emit('booking-updated')"
+      >
+        <template #button>
+          <div class="button-container">
+            <button
+              class="button button:hover"
+              @click="handleConfirmBooking(selectedBooking.id)"
+            >
+              Apply
+            </button>
+          </div>
+        </template>
+      </JobModalContent>
+    </BModal>
   </BRow>
 </template>
 
@@ -47,6 +56,7 @@ import { useRoute } from 'vue-router'
 // Initial References
 const structuredBookings = ref([])
 const modal = ref(false)
+const selectedBooking = ref(null)
 
 // Emits
 const emit = defineEmits(['booking-updated'])
@@ -86,6 +96,11 @@ const refreshBookings = async () => {
   }
 }
 
+const openModal = (booking) => {
+  selectedBooking.value = booking
+  modal.value = true
+}
+
 // Function that confirms a booking
 const handleConfirmBooking = async (bookingId) => {
   const { id } = route.params
@@ -108,10 +123,12 @@ onMounted(refreshBookings)
   justify-content: center;
 }
 .button {
+  min-width: 80px;
   background-color: #2f4f4f;
   color: #f5f5f5;
   border: none;
-  padding: 10px 20px;
+  padding: 6px 10px;
+  font-size: 14px;
   font-size: 16px;
   font-weight: 600;
   cursor: pointer;
