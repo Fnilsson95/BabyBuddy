@@ -3,7 +3,7 @@
     <div class="modal-content">
       <!-- Modal Header -->
       <div class="modal-header">
-        <h2>Profile Information</h2>
+        <h2 class="profile-header">Profile Information</h2>
         <button @click="$emit('close')" class="close-btn">&times;</button>
       </div>
 
@@ -19,23 +19,89 @@
 
       <!-- Display Profile Information -->
       <div class="modal-body" v-else-if="!isEditing && !isDeleting">
-        <!-- Display Profile Data -->
-        <p><strong>Email:</strong> {{ profile.email }}</p>
-        <p><strong>First Name:</strong> {{ profile.firstName }}</p>
-        <p><strong>Last Name:</strong> {{ profile.lastName }}</p>
-        <p><strong>Date of Birth:</strong> {{ profile.dateOfBirth }}</p>
-        <p><strong>Phone Number:</strong> {{ profile.phoneNumber }}</p>
+        <div class="profile-details">
+          <!-- Personal Information Section -->
+          <p class="sectionTitle">Personal Information</p>
+          <div class="grid-item">
+            <div class="info-group">
+              <p class="label">First Name:</p>
+              <div class="textContainer">
+                <p class="modalText">{{ profile.firstName }}</p>
+              </div>
+            </div>
+            <div class="info-group">
+              <p class="label">Last Name:</p>
+              <div class="textContainer">
+                <p class="modalText">{{ profile.lastName }}</p>
+              </div>
+            </div>
+            <div class="info-group">
+              <p class="label">Date of Birth:</p>
+              <div class="textContainer">
+                <p class="modalText">{{ formatDate(profile.dateOfBirth) }}</p>
+              </div>
+            </div>
+          </div>
 
-        <!-- Additional Fields Based on Role -->
-        <div v-if="role === 'babysitter'">
-          <p><strong>Experience:</strong> {{ profile.experience }}</p>
-          <p><strong>Hourly Rate:</strong> {{ profile.hourlyRate }}</p>
-        </div>
+          <!-- Contact Information Section -->
+          <p class="sectionTitle">Contact Information</p>
+          <div class="grid-item">
+            <div class="info-group">
+              <p class="label">Email:</p>
+              <div class="textContainer">
+                <p class="modalText">{{ profile.email }}</p>
+              </div>
+            </div>
+            <div class="info-group">
+              <p class="label">Phone Number:</p>
+              <div class="textContainer">
+                <p class="modalText">{{ profile.phoneNumber }}</p>
+              </div>
+            </div>
+          </div>
 
-        <div v-else-if="role === 'guardian'">
-          <p><strong>City:</strong> {{ profile.location?.city }}</p>
-          <p><strong>Country:</strong> {{ profile.location?.country }}</p>
-          <p><strong>Address:</strong> {{ profile.location?.address }}</p>
+          <!-- Additional Fields Based on Role -->
+          <div v-if="role === 'babysitter'">
+            <p class="sectionTitle">Professional Details</p>
+            <div class="grid-item">
+              <div class="info-group">
+                <p class="label">Experience: (Years)</p>
+                <div class="textContainer">
+                  <p class="modalText">{{ profile.experience }}</p>
+                </div>
+              </div>
+              <div class="info-group">
+                <p class="label">Hourly Rate: (SEK) </p>
+                <div class="textContainer">
+                  <p class="modalText">{{ profile.hourlyRate }} kr/h </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div v-else-if="role === 'guardian'">
+            <p class="sectionTitle">Location</p>
+            <div class="grid-item">
+              <div class="info-group">
+                <p class="label">City:</p>
+                <div class="textContainer">
+                  <p class="modalText">{{ profile.location?.city }}</p>
+                </div>
+              </div>
+              <div class="info-group">
+                <p class="label">Country:</p>
+                <div class="textContainer">
+                  <p class="modalText">{{ profile.location?.country }}</p>
+                </div>
+              </div>
+              <div class="info-group">
+                <p class="label">Address:</p>
+                <div class="textContainer">
+                  <p class="modalText">{{ profile.location?.address }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
         <!-- Edit and Delete Buttons -->
@@ -48,111 +114,119 @@
       <!-- Profile Edit Form -->
       <div class="modal-body" v-else-if="isEditing">
         <form @submit.prevent="submitForm">
-          <!-- Shared Fields -->
-          <div class="form-group">
-            <label for="firstName">First Name:</label>
-            <input
-              type="text"
-              id="firstName"
-              v-model="profile.firstName"
-              required
-            />
-          </div>
-
-          <div class="form-group">
-            <label for="lastName">Last Name:</label>
-            <input
-              type="text"
-              id="lastName"
-              v-model="profile.lastName"
-              required
-            />
-          </div>
-
-          <div class="form-group">
-            <label for="email">Email:</label>
-            <input
-              type="email"
-              id="email"
-              v-model="profile.email"
-              required
-            />
-          </div>
-
-          <div class="form-group">
-            <label for="dateOfBirth">Date of Birth:</label>
-            <input
-              type="date"
-              id="dateOfBirth"
-              v-model="profile.dateOfBirth"
-              required
-            />
-          </div>
-
-          <div class="form-group">
-            <label for="phoneNumber">Phone Number:</label>
-            <input
-              type="tel"
-              id="phoneNumber"
-              v-model="profile.phoneNumber"
-              required
-            />
-          </div>
-
-          <!-- Role-Specific Fields -->
-          <div v-if="role === 'babysitter'">
+          <!-- Personal Information Section -->
+          <p class="sectionTitle">Personal Information</p>
+          <div class="grid-item">
             <div class="form-group">
-              <label for="experience">Experience:</label>
+              <label for="firstName">First Name:</label>
               <input
-                type="string"
-                id="experience"
-                v-model="profile.experience"
+                type="text"
+                id="firstName"
+                v-model="profile.firstName"
                 required
               />
             </div>
-
             <div class="form-group">
-              <label for="hourlyRate">Hourly Rate:</label>
+              <label for="lastName">Last Name:</label>
               <input
-                type="number"
-                id="hourlyRate"
-                v-model="profile.hourlyRate"
+                type="text"
+                id="lastName"
+                v-model="profile.lastName"
                 required
-                min="0"
-                step="0.01"
               />
+            </div>
+            <div class="form-group">
+              <label for="dateOfBirth">Date of Birth:</label>
+              <input
+                type="date"
+                id="dateOfBirth"
+                v-model="profile.dateOfBirth"
+                required
+              />
+            </div>
+          </div>
+
+          <!-- Contact Information Section -->
+          <p class="sectionTitle">Contact Information</p>
+          <div class="grid-item">
+            <div class="form-group">
+              <label for="email">Email:</label>
+              <input
+                type="email"
+                id="email"
+                v-model="profile.email"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="phoneNumber">Phone Number:</label>
+              <input
+                type="tel"
+                id="phoneNumber"
+                v-model="profile.phoneNumber"
+                required
+              />
+            </div>
+          </div>
+
+          <!-- Additional Fields Based on Role -->
+          <div v-if="role === 'babysitter'">
+            <p class="sectionTitle">Professional Details</p>
+            <div class="grid-item">
+              <div class="form-group">
+                <label for="experience">Experience:</label>
+                <input
+                  type="number"
+                  id="experience"
+                  v-model="profile.experience"
+                  required
+                  min="0"
+                />
+              </div>
+              <div class="form-group">
+                <label for="hourlyRate">Hourly Rate: (SEK)</label>
+                <input
+                  type="number"
+                  id="hourlyRate"
+                  v-model="profile.hourlyRate"
+                  required
+                  min="50"
+                  step="1"
+                />
+              </div>
             </div>
           </div>
 
           <div v-else-if="role === 'guardian'">
-            <div class="form-group">
-              <label for="city">City:</label>
-              <input
-                type="text"
-                id="city"
-                v-model="profile.location.city"
-                required
-              />
-            </div>
-
-            <div class="form-group">
-              <label for="country">Country:</label>
-              <input
-                type="text"
-                id="country"
-                v-model="profile.location.country"
-                required
-              />
-            </div>
-
-            <div class="form-group">
-              <label for="address">Address:</label>
-              <input
-                type="text"
-                id="address"
-                v-model="profile.location.address"
-                required
-              />
+            <p class="sectionTitle">Location</p>
+            <div class="grid-item">
+              <div class="form-group">
+                <label for="city">City:</label>
+                <input
+                  type="text"
+                  id="city"
+                  v-model="profile.location.city"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="country">Country:</label>
+                <input
+                  type="text"
+                  id="country"
+                  v-model="profile.location.country"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="address">Address:</label>
+                <input
+                  type="text"
+                  id="address"
+                  v-model="profile.location.address"
+                  required
+                />
+              </div>
             </div>
           </div>
 
@@ -179,16 +253,15 @@
 </template>
 
 <script>
-
-import { babysitterAPI } from '../api/v1/babysitter'
-import { guardianApi } from '../api/v1/guardians'
+import { babysitterAPI } from '../api/v1/babysitter.js'
+import { guardianApi } from '../api/v1/guardians.js'
 
 export default {
   name: 'ProfileModal',
   data() {
     return {
-      isEditing: false, // Track if we're editing profile
-      isDeleting: false, // Track if we're confirming deletion
+      isEditing: false,
+      isDeleting: false,
       profile: {},
       isLoading: true,
       error: null,
@@ -196,44 +269,53 @@ export default {
       role: null
     }
   },
-
   created() {
-    this.extractIdAndRoleFromUrl()
+    this.extractIdAndRoleFromURL()
     if (!this.error) {
       this.fetchProfileData()
     } else {
       this.isLoading = false
     }
   },
-
   methods: {
-
-    extractIdAndRoleFromUrl() {
-      // Extract the ID from the URL parameters
+    extractIdAndRoleFromURL() {
       this.id = this.$route.params.id
 
-      // Determine role based on the URL path
       if (this.$route.path.includes('guardian')) {
         this.role = 'guardian'
       } else if (this.$route.path.includes('babysitter')) {
         this.role = 'babysitter'
+      } else {
+        this.error = 'Invalid role in URL.'
+        console.error('Invalid role in URL.')
       }
     },
-
     async fetchProfileData() {
       try {
         if (this.role === 'babysitter') {
           this.profile = await babysitterAPI.getBabysitter(this.id)
         } else if (this.role === 'guardian') {
           this.profile = await guardianApi.getGuardian(this.id)
-        } else {
-          throw new Error('Invalid role')
+          // Ensure location object exists for guardians
+          if (!this.profile.location) {
+            this.$set(this.profile, 'location', {
+              city: '',
+              country: '',
+              address: ''
+            })
+          }
         }
       } catch (error) {
+        console.error('Error fetching profile data:', error)
         this.error = 'Failed to load profile data.'
       } finally {
         this.isLoading = false
       }
+    },
+    formatDate(date) {
+      if (!date) return ''
+      const options = { year: 'numeric', month: 'long', day: 'numeric' }
+      return new Date(date).toLocaleDateString(undefined, options)
     },
 
     startEditing() {
@@ -253,6 +335,7 @@ export default {
         }
         this.isEditing = false
       } catch (error) {
+        console.error('Error updating profile:', error)
         alert(error.message || 'Failed to update profile. Please try again.')
       }
     },
@@ -262,7 +345,6 @@ export default {
     cancelDelete() {
       this.isDeleting = false
     },
-
     async deleteAccount() {
       try {
         if (this.role === 'babysitter') {
@@ -286,6 +368,7 @@ export default {
 </script>
 
 <style scoped>
+
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -303,8 +386,11 @@ export default {
   background-color: white;
   padding: 20px;
   border-radius: 8px;
-  width: 400px;
+  width: 600px; /* Increased width for better alignment */
   max-width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-sizing: border-box;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
@@ -315,10 +401,6 @@ export default {
   margin-bottom: 20px;
 }
 
-.modal-body {
-  padding: 10px 0;
-}
-
 .close-btn {
   background-color: transparent;
   border: none;
@@ -326,33 +408,143 @@ export default {
   cursor: pointer;
 }
 
+.modal-body {
+  padding: 10px 0;
+}
+
+.profile-details {
+  padding: 10px;
+  margin: 0;
+}
+
+.sectionTitle {
+  font-weight: 600;
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+/* Grid Items for Display and Form */
+.grid-item {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  margin-bottom: 20px;
+}
+
+.info-group,
+.form-group {
+  flex: 1 1 calc(33.333% - 10px); /* Three items per row */
+  margin-bottom: 10px;
+  margin-right: 10px;
+}
+
+.info-group:nth-child(3n),
+.form-group:nth-child(3n) {
+  margin-right: 0;
+}
+
+.label {
+  font-size: 14px;
+  margin: 0;
+}
+
+.textContainer {
+  font-size: 16px;
+  font-weight: 600;
+  padding: 6px 8px;
+  background-color: #f5f5f5;
+  margin: 0;
+  display: flex;
+  align-items: center;
+}
+
+.modalText {
+  margin: 0;
+}
+
+/* Form Styles */
+.form-group {
+  display: flex;
+  align-items: center;
+}
+
+.form-group label {
+  width: 120px; /* Fixed label width */
+  font-size: 14px;
+  margin-bottom: 0;
+}
+
+.form-group input {
+  flex: 1;
+  padding: 6px 8px;
+  font-size: 16px;
+  border: 1px solid #c3c3c3;
+  border-radius: 4px;
+  box-sizing: border-box;
+  margin-left: 10px;
+}
+
+/* Button Styles */
 .button-group {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   margin-top: 20px;
 }
 
-.edit-btn, .delete-btn, .confirm-btn, .cancel-btn, .save-btn {
+.button-group button {
+  flex: 1 1 calc(48% - 10px);
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+
+.button-group button:last-child {
+  margin-right: 0;
+}
+
+.edit-btn,
+.delete-btn,
+.confirm-btn,
+.cancel-btn,
+.save-btn {
   background-color: #2f4f4f;
   color: white;
   border: none;
-  padding: 10px 20px;
+  padding: 10px;
   font-size: 16px;
   font-weight: 600;
   cursor: pointer;
   border-radius: 5px;
 }
 
-.delete-btn, .cancel-btn {
+.delete-btn,
+.cancel-btn {
   background-color: #d9534f;
 }
 
-.confirm-btn {
-  background-color: #2f4f4f;
-}
-
-.edit-btn:hover, .delete-btn:hover, .confirm-btn:hover, .cancel-btn:hover, .save-btn:hover {
+.edit-btn:hover,
+.delete-btn:hover,
+.confirm-btn:hover,
+.cancel-btn:hover,
+.save-btn:hover {
   opacity: 0.8;
 }
 
+/* Responsive Adjustment */
+@media (max-width: 600px) {
+  .info-group,
+  .form-group {
+    flex: 1 1 100%;
+    margin-right: 0;
+  }
+
+  .button-group button {
+    flex: 1 1 100%;
+    margin-right: 0;
+  }
+
+  .modal-content {
+    width: 90%;
+  }
+}
 </style>
