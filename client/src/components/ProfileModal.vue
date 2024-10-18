@@ -7,18 +7,8 @@
         <button @click="$emit('close')" class="close-btn">&times;</button>
       </div>
 
-      <!-- Loading State -->
-      <div v-if="isLoading" class="modal-body">
-        <p>Loading profile data...</p>
-      </div>
-
-      <!-- Error State -->
-      <div v-else-if="error" class="modal-body">
-        <p>{{ error }}</p>
-      </div>
-
       <!-- Display Profile Information -->
-      <div class="modal-body" v-else-if="!isEditing && !isDeleting">
+      <div class="modal-body" v-if="!isEditing && !isDeleting">
         <div class="profile-details">
           <!-- Personal Information Section -->
           <p class="sectionTitle">Personal Information</p>
@@ -71,9 +61,9 @@
                 </div>
               </div>
               <div class="info-group">
-                <p class="label">Hourly Rate: (SEK) </p>
+                <p class="label">Hourly Rate: (SEK)</p>
                 <div class="textContainer">
-                  <p class="modalText">{{ profile.hourlyRate }} kr/h </p>
+                  <p class="modalText">{{ profile.hourlyRate }} kr/h</p>
                 </div>
               </div>
             </div>
@@ -112,7 +102,7 @@
       </div>
 
       <!-- Profile Edit Form -->
-      <div class="modal-body" v-else-if="isEditing">
+      <div class="modal-body" v-if="isEditing">
         <form @submit.prevent="submitForm">
           <!-- Personal Information Section -->
           <p class="sectionTitle">Personal Information</p>
@@ -264,8 +254,6 @@ export default {
       isEditing: false,
       isDeleting: false,
       profile: {},
-      isLoading: true,
-      error: null,
       id: null,
       role: null
     }
@@ -280,8 +268,6 @@ export default {
     this.extractIdAndRoleFromURL()
     if (!this.error) {
       this.fetchProfileData()
-    } else {
-      this.isLoading = false
     }
   },
   methods: {
@@ -315,8 +301,6 @@ export default {
       } catch (error) {
         console.error('Error fetching profile data:', error)
         this.error = 'Failed to load profile data.'
-      } finally {
-        this.isLoading = false
       }
     },
     formatDate(date) {
@@ -378,7 +362,6 @@ export default {
 </script>
 
 <style scoped>
-
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -396,7 +379,7 @@ export default {
   background-color: white;
   padding: 20px;
   border-radius: 8px;
-  width: 600px; /* Increased width for better alignment */
+  width: 600px;
   max-width: 90%;
   max-height: 90vh;
   overflow-y: auto;
@@ -433,7 +416,6 @@ export default {
   margin-bottom: 10px;
 }
 
-/* Grid Items for Display and Form */
 .grid-item {
   display: flex;
   flex-wrap: wrap;
@@ -443,7 +425,7 @@ export default {
 
 .info-group,
 .form-group {
-  flex: 1 1 calc(33.333% - 10px); /* Three items per row */
+  flex: 1 1 calc(33.333% - 10px);
   margin-bottom: 10px;
   margin-right: 10px;
 }
@@ -467,14 +449,13 @@ export default {
   margin: 0;
 }
 
-/* Form Styles */
 .form-group {
   display: flex;
   align-items: center;
 }
 
 .form-group label {
-  width: 120px; /* Fixed label width */
+  width: 120px;
   font-size: 14px;
   margin-bottom: 0;
 }
@@ -489,7 +470,6 @@ export default {
   margin-left: 10px;
 }
 
-/* Button Styles */
 .button-group {
   display: flex;
   flex-wrap: wrap;
@@ -535,7 +515,6 @@ export default {
   opacity: 0.8;
 }
 
-/* Responsive Adjustment */
 @media (max-width: 600px) {
   .info-group,
   .form-group {
