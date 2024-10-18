@@ -448,11 +448,6 @@ export default {
   margin-right: 10px;
 }
 
-.info-group:nth-child(3n),
-.form-group:nth-child(3n) {
-  margin-right: 0;
-}
-
 .label {
   font-size: 14px;
   margin: 0;
