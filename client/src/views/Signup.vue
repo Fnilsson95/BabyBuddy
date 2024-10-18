@@ -119,7 +119,7 @@
             />
           </div>
 
-          <!-- Hourly Rate input for Babysitters -->
+          <!-- Hourly Rate and Experience input for Babysitters -->
           <div class="input-group" v-if="role === 'babysitter'">
             <label for="hourlyrate">Hourly Rate</label>
             <input
@@ -130,7 +130,16 @@
               required
             />
           </div>
-
+          <div class="input-group" v-if="role === 'babysitter'">
+            <label for="experience">Experience (Years)</label>
+            <input
+              type="number"
+              placeholder="Years of Experience"
+              id="experience"
+              v-model="userDetails.experience"
+              required
+            />
+          </div>
           <button type="submit">Create account</button>
         </div>
       </form>
@@ -164,7 +173,8 @@ export default {
           country: '',
           address: ''
         },
-        hourlyRate: null
+        hourlyRate: null,
+        experience: null
       },
       successMessage: null,
       errorMessage: null,
@@ -193,6 +203,7 @@ export default {
           result = await babysitterAPI.createBabysitter(payload)
         } else if (this.role === 'guardian') {
           delete payload.hourlyRate
+          delete payload.experience
           result = await guardianApi.createGuardian(payload)
         } else {
           throw new Error('Please select a role!')
@@ -223,7 +234,8 @@ export default {
           country: '',
           address: ''
         },
-        hourlyRate: null
+        hourlyRate: null,
+        experience: null
       }
     }
   }

@@ -36,8 +36,10 @@ const babysitterSchema = mongoose.Schema(
       match: [/^\+?[0-9]\d{1,14}$/, "Please provide a valid phone number"],
     },
     experience: {
-      type: String,
+      type: Number,
       trim: true,
+      required: [true, "Experience is required to specify"],
+      min: [0, "Experience can't be a negative number or be below 0"]
     },
     hourlyRate: {
       type: Number,
