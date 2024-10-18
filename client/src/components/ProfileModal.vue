@@ -255,6 +255,7 @@
 <script>
 import { babysitterAPI } from '../api/v1/babysitter.js'
 import { guardianApi } from '../api/v1/guardians.js'
+import { inject } from 'vue'
 
 export default {
   name: 'ProfileModal',
@@ -267,6 +268,12 @@ export default {
       error: null,
       id: null,
       role: null
+    }
+  },
+  setup() {
+    const showToast = inject('showToast')
+    return {
+      showToast
     }
   },
   created() {
@@ -334,9 +341,10 @@ export default {
           throw new Error('Invalid role.')
         }
         this.isEditing = false
+        this.showToast('Success', 'Profile updated successfully!', 'success')
       } catch (error) {
         console.error('Error updating profile:', error)
-        alert(error.message || 'Failed to update profile. Please try again.')
+        this.showToast('Error', error.message, 'danger')
       }
     },
     confirmDelete() {
@@ -354,13 +362,15 @@ export default {
         } else {
           throw new Error('Invalid role.')
         }
-        alert('Account deleted successfully')
+        this.showToast('Success', 'Account deleted successfully!', 'success')
         this.isDeleting = false
-        this.$emit('close')
-        this.$router.push('/')
+        setTimeout(() => {
+          this.$emit('close')
+          this.$router.push('/')
+        }, 3000)
       } catch (error) {
         console.error('Error deleting account:', error)
-        alert(error.message || 'Failed to delete account. Please try again.')
+        this.showToast('Error', error.message, 'danger')
       }
     }
   }
