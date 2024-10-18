@@ -245,6 +245,7 @@
 <script>
 import { babysitterAPI } from '../api/v1/babysitter.js'
 import { guardianApi } from '../api/v1/guardians.js'
+import { formatDate } from '../helpers.js'
 import { inject } from 'vue'
 
 export default {
@@ -303,11 +304,8 @@ export default {
         this.error = 'Failed to load profile data.'
       }
     },
-    formatDate(date) {
-      if (!date) return ''
-      const options = { year: 'numeric', month: 'long', day: 'numeric' }
-      return new Date(date).toLocaleDateString(undefined, options)
-    },
+
+    formatDate, // Make formatDate available to the template
 
     startEditing() {
       this.isEditing = true
