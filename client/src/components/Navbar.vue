@@ -1,4 +1,6 @@
 <template>
+<!-- Single Root element wrapper -->
+<div>
   <BNavbar
     toggleable="lg"
     v-b-color-mode="'dark'"
@@ -29,6 +31,7 @@
 
   <!-- Profile Modal -->
   <ProfileModal v-if="showModal" @close="showModal = false" />
+</div>
 </template>
 
 <script>
