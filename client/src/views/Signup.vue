@@ -88,7 +88,7 @@
               required
             />
           </div>
-          <div class="input-group">
+          <div class="input-group" v-if="role === 'guardian'">
             <label for="city">City</label>
             <input
               type="text"
@@ -98,7 +98,7 @@
               required
             />
           </div>
-          <div class="input-group">
+          <div class="input-group" v-if="role === 'guardian'">
             <label for="country">Country</label>
             <input
               type="text"
@@ -108,7 +108,7 @@
               required
             />
           </div>
-          <div class="input-group">
+          <div class="input-group" v-if="role === 'guardian'">
             <label for="address">Address</label>
             <input
               type="text"
