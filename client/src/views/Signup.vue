@@ -1,6 +1,6 @@
 <template>
   <div class="sign-in-container">
-    <div class="navbar">Navbar</div>
+    <div class="navbar">BabyBuddy</div>
     <Toast :config-toast="toastConfig" />
     <div class="sign-in-box">
       <div class="header-box">
@@ -88,7 +88,7 @@
               required
             />
           </div>
-          <div class="input-group">
+          <div class="input-group" v-if="role === 'guardian'">
             <label for="city">City</label>
             <input
               type="text"
@@ -98,7 +98,7 @@
               required
             />
           </div>
-          <div class="input-group">
+          <div class="input-group" v-if="role === 'guardian'">
             <label for="country">Country</label>
             <input
               type="text"
@@ -108,7 +108,7 @@
               required
             />
           </div>
-          <div class="input-group">
+          <div class="input-group" v-if="role === 'guardian'">
             <label for="address">Address</label>
             <input
               type="text"
@@ -119,7 +119,7 @@
             />
           </div>
 
-          <!-- Hourly Rate input for Babysitters -->
+          <!-- Hourly Rate and Experience input for Babysitters -->
           <div class="input-group" v-if="role === 'babysitter'">
             <label for="hourlyrate">Hourly Rate</label>
             <input
@@ -130,7 +130,16 @@
               required
             />
           </div>
-
+          <div class="input-group" v-if="role === 'babysitter'">
+            <label for="experience">Experience (Years)</label>
+            <input
+              type="number"
+              placeholder="Years of Experience"
+              id="experience"
+              v-model="userDetails.experience"
+              required
+            />
+          </div>
           <button type="submit">Create account</button>
         </div>
       </form>
@@ -164,7 +173,8 @@ export default {
           country: '',
           address: ''
         },
-        hourlyRate: null
+        hourlyRate: null,
+        experience: null
       },
       successMessage: null,
       errorMessage: null,
@@ -193,6 +203,7 @@ export default {
           result = await babysitterAPI.createBabysitter(payload)
         } else if (this.role === 'guardian') {
           delete payload.hourlyRate
+          delete payload.experience
           result = await guardianApi.createGuardian(payload)
         } else {
           throw new Error('Please select a role!')
@@ -223,7 +234,8 @@ export default {
           country: '',
           address: ''
         },
-        hourlyRate: null
+        hourlyRate: null,
+        experience: null
       }
     }
   }
@@ -293,12 +305,16 @@ export default {
 
 .navbar,
 .footer_holder {
-  background-color: #3c5c5e;
+  background-color: #2f4f4f;
   color: white;
   width: 100%;
   text-align: center;
   padding: 1rem;
-  font-size: 1.5rem;
+  font-size: 19.5px;
+  font-weight: 600;
+}
+.footer_holder {
+  color: #2f4f4f;
 }
 
 .header-box {

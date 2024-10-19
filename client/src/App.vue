@@ -44,7 +44,7 @@ provide('showToast', showToast)
   top: 20px;
   left: 50%;
   transform: translateX(-50%);
-  z-index: 9999;
+  z-index: 10000;
   width: 100%;
   display: flex;
   justify-content: center;

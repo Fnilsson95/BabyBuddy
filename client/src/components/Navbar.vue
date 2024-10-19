@@ -1,4 +1,6 @@
 <template>
+<!-- Single Root element wrapper -->
+<div>
   <BNavbar
     toggleable="lg"
     v-b-color-mode="'dark'"
@@ -9,13 +11,9 @@
     <BNavbarToggle target="nav-collapse" />
     <BCollapse id="nav-collapse" is-nav>
       <BNavbarNav>
-        <BNavItem :to="homeRoute" :active="$route.path === homeRoute"
-          >Home</BNavItem
-        >
+        <BNavItem :to="homeRoute" :active="$route.path === homeRoute">Home</BNavItem>
         <!-- Adjusted Home Link -->
-        <BNavItem :to="bookingsRoute" :active="$route.path === bookingsRoute"
-          >Bookings</BNavItem
-        >
+        <BNavItem :to="bookingsRoute" :active="$route.path === bookingsRoute">Bookings</BNavItem>
       </BNavbarNav>
       <!-- Right aligned nav items -->
       <BNavbarNav class="ms-auto mb-2 mb-lg-0">
@@ -24,37 +22,47 @@
           <template #button-content>
             <em>User</em>
           </template>
+          <BDropdownItem @click="openProfileModal">See Profile</BDropdownItem>
           <BDropdownItem to="/login">Sign Out</BDropdownItem>
         </BNavItemDropdown>
       </BNavbarNav>
     </BCollapse>
   </BNavbar>
+
+  <!-- Profile Modal -->
+  <ProfileModal v-if="showModal" @close="showModal = false" />
+</div>
 </template>
 
 <script>
+import { ref, computed } from 'vue'
 import { useRoute } from 'vue-router'
-import { computed } from 'vue'
+import ProfileModal from '@/components/ProfileModal.vue'
 
 export default {
+  components: {
+    ProfileModal
+  },
   setup() {
     const route = useRoute()
-
     const userId = route.params.id
-    const role = computed(() =>
-      route.path.includes('guardian') ? 'guardian' : 'babysitter'
-    )
+    const role = computed(() => (route.path.includes('guardian') ? 'guardian' : 'babysitter'))
 
-    // Dynamic Home Route based on role and userId
     const homeRoute = computed(() => `/${userId}/${role.value}`)
+    const bookingsRoute = computed(() => `/${userId}/${role.value}/bookings-history`)
 
-    // Dynamic Bookings Route based on role and userId
-    const bookingsRoute = computed(
-      () => `/${userId}/${role.value}/bookings-history`
-    )
+    // State for showing/hiding the modal
+    const showModal = ref(false)
+
+    const openProfileModal = () => {
+      showModal.value = true
+    }
 
     return {
       homeRoute,
-      bookingsRoute
+      bookingsRoute,
+      showModal,
+      openProfileModal
     }
   }
 }

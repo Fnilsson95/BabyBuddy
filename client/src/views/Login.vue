@@ -1,6 +1,6 @@
 <template>
   <div class="sign-in-container">
-    <div class="navbar">Navbar</div>
+    <div class="navbar">BabyBuddy</div>
     <Toast :config-toast="toastConfig" />
     <div class="sign-in-box">
       <div class="header-box">
@@ -33,7 +33,6 @@
 
           <hr class="line" />
           <br />
-          <h5>Forgot your password?</h5>
         </div>
       </form>
 
@@ -130,12 +129,17 @@ export default {
 
 .navbar,
 .footer {
-  background-color: #3c5c5e;
+  background-color: #2f4f4f;
   color: white;
   width: 100%;
   text-align: center;
   padding: 1rem;
-  font-size: 1.5rem;
+  font-size: 19.5px;
+  font-weight: 600;
+}
+
+.footer {
+  color: #2f4f4f;
 }
 
 .sign-in-box {
@@ -188,6 +192,7 @@ button {
   background-color: #3c5c5e;
   color: white;
   cursor: pointer;
+  font-weight: 600;
 }
 
 button:hover {
@@ -204,7 +209,9 @@ button:hover {
 }
 
 .create-account {
-  margin-top: 10px;
+  margin-top: 0px;
+  font-weight: bold;
+  font-size: 19px;
 }
 
 .create-account span {
