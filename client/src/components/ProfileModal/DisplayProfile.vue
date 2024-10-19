@@ -18,7 +18,7 @@
       <div class="info-group">
         <p class="label">Date of Birth:</p>
         <div class="textContainer">
-          <p class="modalText">{{ formatDate(profile.dateOfBirth) }}</p>
+          <p class="modalText">{{ this.formatDate(profile.dateOfBirth) }}</p>
         </div>
       </div>
     </div>
@@ -85,21 +85,26 @@
 
     <!-- Edit and Delete Buttons -->
     <div class="button-group">
-      <button @click="$emit('startEditing')" class="edit-btn">Edit Profile</button>
-      <button @click="$emit('confirmDelete')" class="delete-btn">Delete Account</button>
+      <button @click="$emit('startEditing')" class="edit-btn">
+        Edit Profile
+      </button>
+      <button @click="$emit('confirmDelete')" class="delete-btn">
+        Delete Account
+      </button>
     </div>
   </div>
 </template>
 
 <script>
+import { formatDate } from '../../helpers.js'
 export default {
   name: 'DisplayProfile',
-  props: ['profile', 'role', 'formatDate']
+  props: ['profile', 'role'],
+  methods: { formatDate }
 }
 </script>
 
 <style scoped>
-
 #profileDetails {
   padding: 15px;
 }
@@ -131,11 +136,13 @@ export default {
 .textContainer {
   font-size: 16px;
   font-weight: 600;
+  min-height: 35px;
   padding: 6px 8px;
   background-color: #f5f5f5;
   margin: 0;
   display: flex;
   align-items: center;
+  border-radius: 5px;
 }
 
 .modalText {
