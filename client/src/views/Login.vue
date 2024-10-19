@@ -192,6 +192,7 @@ button {
   background-color: #3c5c5e;
   color: white;
   cursor: pointer;
+  font-weight: 600;
 }
 
 button:hover {
