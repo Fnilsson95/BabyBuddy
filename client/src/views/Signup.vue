@@ -1,141 +1,135 @@
 <template>
-  <div class="sign-in-container">
-    <div class="navbar">Navbar</div>
-    <Toast :config-toast="toastConfig" />
-    <div class="sign-in-box">
-      <div class="header-box">
-        <h5>Welcome to Baby Buddy!</h5>
-      </div>
-      <div class="header-options">
-        <h3>Create Account</h3>
-        <router-link to="/login" class="link-to-other-page"
-          >Sign In</router-link
-        >
-      </div>
-      <div class="choice-box">
-        <h6>Choose your role!</h6>
-        <div class="radio-group">
-          <label>
-            <input type="radio" name="role" value="guardian" v-model="role" />
-            Guardian
-          </label>
-          <label>
-            <input type="radio" name="role" value="babysitter" v-model="role" />
-            Babysitter
-          </label>
-        </div>
-      </div>
+  <div class="signup-container">
+    <nav class="navbar">BabyBuddy</nav>
 
-      <form @submit.prevent="handleSignup" class="scrollable-form">
-        <div class="register">
-          <div class="input-group">
-            <label for="email">Email</label>
+    <div class ="toast-wrapper">
+    <Toast :config-toast="toastConfig" />
+    </div>
+
+    <div class="signup-content">
+      <div class="signup-box">
+        <div class="welcome-message">
+          <h2>Welcome to <br> Baby Buddy!</h2>
+        </div>
+        <div class="role-selection">
+          <h3>Choose Your Role</h3>
+          <div class="role-options">
+            <label>
+              <input type="radio" name="role" value="guardian" v-model="role" />
+              Guardian
+            </label>
+            <label>
+              <input type="radio" name="role" value="babysitter" v-model="role" />
+              Babysitter
+            </label>
+          </div>
+        </div>
+        <form @submit.prevent="handleSignup" class="signup-form">
+          <div class="form-group">
             <input
               type="email"
-              placeholder="Enter your Email"
-              id="email"
+              placeholder="Email"
               v-model="userDetails.email"
               required
             />
           </div>
-          <div class="input-group">
-            <label for="password">Password</label>
+          <div class="form-group">
             <input
               type="password"
-              placeholder="Enter your Password"
-              id="password"
+              placeholder="Password"
               v-model="userDetails.password"
               required
             />
           </div>
-          <div class="input-group">
-            <label for="firstname">First Name</label>
-            <input
-              type="text"
-              placeholder="First Name"
-              id="firstname"
-              v-model="userDetails.firstName"
-              required
-            />
+          <div class="form-row">
+            <div class="form-group">
+              <input
+                type="text"
+                placeholder="First Name"
+                v-model="userDetails.firstName"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <input
+                type="text"
+                placeholder="Last Name"
+                v-model="userDetails.lastName"
+                required
+              />
+            </div>
           </div>
-          <div class="input-group">
-            <label for="lastname">Last Name</label>
-            <input
-              type="text"
-              placeholder="Last Name"
-              id="lastname"
-              v-model="userDetails.lastName"
-              required
-            />
+          <div class="form-row">
+            <div class="form-group">
+              <input
+                type="tel"
+                placeholder="Phone Number"
+                v-model="userDetails.phoneNumber"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <input
+                type="date"
+                placeholder="Date of Birth"
+                v-model="userDetails.dateOfBirth"
+                required
+              />
+            </div>
           </div>
-          <div class="input-group">
-            <label for="phonenumber">Phone Number</label>
-            <input
-              type="number"
-              placeholder="Phone Number"
-              id="phonenumber"
-              v-model="userDetails.phoneNumber"
-              required
-            />
+          <div v-if="role === 'guardian'">
+            <div class="form-group">
+              <input
+                type="text"
+                placeholder="City"
+                v-model="userDetails.location.city"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <input
+                type="text"
+                placeholder="Country"
+                v-model="userDetails.location.country"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <input
+                type="text"
+                placeholder="Address"
+                v-model="userDetails.location.address"
+                required
+              />
+            </div>
           </div>
-          <div class="input-group">
-            <label for="dateofbirth">Date of Birth</label>
-            <input
-              type="date"
-              placeholder="Date of Birth (YY-MM-DD)"
-              id="dateofbirth"
-              v-model="userDetails.dateOfBirth"
-              required
-            />
+          <div v-if="role === 'babysitter'">
+            <div class="form-group">
+              <input
+                type="number"
+                placeholder="Hourly Rate (SEK)"
+                v-model="userDetails.hourlyRate"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <input
+                type="number"
+                placeholder="Experience (Years)"
+                v-model="userDetails.experience"
+                required
+              />
+            </div>
           </div>
-          <div class="input-group">
-            <label for="city">City</label>
-            <input
-              type="text"
-              placeholder="City"
-              id="city"
-              v-model="userDetails.location.city"
-              required
-            />
-          </div>
-          <div class="input-group">
-            <label for="country">Country</label>
-            <input
-              type="text"
-              placeholder="Country"
-              id="country"
-              v-model="userDetails.location.country"
-              required
-            />
-          </div>
-          <div class="input-group">
-            <label for="address">Address</label>
-            <input
-              type="text"
-              placeholder="Address"
-              id="address"
-              v-model="userDetails.location.address"
-              required
-            />
-          </div>
-
-          <!-- Hourly Rate input for Babysitters -->
-          <div class="input-group" v-if="role === 'babysitter'">
-            <label for="hourlyrate">Hourly Rate</label>
-            <input
-              type="number"
-              placeholder="Hourly Rate kr/h"
-              id="hourlyrate"
-              v-model="userDetails.hourlyRate"
-              required
-            />
-          </div>
-
-          <button type="submit">Create account</button>
+          <button type="submit" class="btn-primary">Create Account</button>
+        </form>
+        <hr class="line" />
+        <div class="signin-link">
+          <p>Already have an account?</p>
+          <router-link to="/login" class="btn-secondary">Sign In</router-link>
         </div>
-      </form>
+      </div>
     </div>
-    <div class="footer_holder">Footer</div>
   </div>
 </template>
 
@@ -145,7 +139,7 @@ import { babysitterAPI } from '@/api/v1/babysitter'
 import Toast from '@/components/Toast.vue'
 
 export default {
-  name: 'signup',
+  name: 'Signup',
   components: {
     Toast
   },
@@ -164,7 +158,8 @@ export default {
           country: '',
           address: ''
         },
-        hourlyRate: null
+        hourlyRate: null,
+        experience: null
       },
       successMessage: null,
       errorMessage: null,
@@ -193,6 +188,7 @@ export default {
           result = await babysitterAPI.createBabysitter(payload)
         } else if (this.role === 'guardian') {
           delete payload.hourlyRate
+          delete payload.experience
           result = await guardianApi.createGuardian(payload)
         } else {
           throw new Error('Please select a role!')
@@ -203,7 +199,7 @@ export default {
         this.showToast('Success', this.successMessage, 'success')
         this.resetForm()
       } catch (error) {
-        this.errorMessage = error || 'Error creating account. Please try again.'
+        this.errorMessage = error.message || 'Error creating account. Please try again.'
         this.successMessage = null
         this.showToast('Error', this.errorMessage, 'danger')
         console.error(error)
@@ -223,7 +219,8 @@ export default {
           country: '',
           address: ''
         },
-        hourlyRate: null
+        hourlyRate: null,
+        experience: null
       }
     }
   }
@@ -231,157 +228,157 @@ export default {
 </script>
 
 <style scoped>
-.slide-fade-enter-active,
-.slide-fade-leave-active {
-  transition: all 0.5s ease;
-}
-
-.slide-fade-enter,
-.slide-fade-leave-to {
-  transform: translateY(-20px);
-  opacity: 0;
-}
-
-.error-message {
-  background-color: #f8d7da;
-  color: #721c24;
-  padding: 1rem;
-  border-radius: 5px;
-  margin-top: 1rem;
-  text-align: center;
-  position: relative;
-  z-index: 10;
-}
-
-.success-message {
-  background-color: #d4edda;
-  color: #155724;
-  padding: 1rem;
-  border-radius: 5px;
-  margin-top: 1rem;
-  text-align: center;
-  position: relative;
-  z-index: 10;
-}
-
-.header-options {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.link-to-other-page {
-  color: #3c5c5e;
-  text-decoration: none;
-  font-size: 14px;
-  margin-top: 15px;
-  cursor: pointer;
-}
-
-.link-to-other-page:hover {
-  text-decoration: underline;
-}
-
-.sign-in-container {
+/* General Styles */
+.signup-container {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  height: 100vh;
+  min-height: 100vh;
   background-color: #e0f7e9;
 }
 
-.navbar,
-.footer_holder {
-  background-color: #3c5c5e;
+.navbar {
+  background-color: #2f4f4f;
   color: white;
   width: 100%;
   text-align: center;
   padding: 1rem;
-  font-size: 1.5rem;
+  font-size: 19.5px;
+  font-weight: 600;
 }
 
-.header-box {
+.signup-content {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.signup-box {
+  background-color: #ffffff;
+  padding: 2rem;
+  border-radius: 10px;
+  width: 400px;
+  max-width: 90%;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.welcome-message {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.welcome-message h2 {
   border: 1px solid #3c5c5e;
   padding: 0.5rem;
   margin-bottom: 2rem;
   border-radius: 5px;
-  background-color: #f0f4f8;
+  background-color: #f0f4f8;  border: 1px solid #3c5c5e;
 }
 
-.sign-in-box {
-  background-color: #ffffff;
-  padding: 2rem;
+.welcome-message p {
+  color: #555;
+}
+
+.role-selection {
   text-align: center;
-  width: 350px;
-  max-height: 500px;
-  border-radius: 15px;
-  border: 2px solid #ccc;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  overflow-y: auto;
-  position: relative;
+  margin-bottom: 1.5rem;
 }
 
-.radio-group {
+.role-selection h3 {
+  margin-bottom: 0.5rem;
+  color: #2f4f4f;
+}
+
+.role-options {
   display: flex;
-  justify-content: space-around;
-  margin-bottom: 1rem;
+  justify-content: center;
+  gap: 1rem;
 }
 
-.radio-group label {
+.role-options label {
   display: flex;
   align-items: center;
-  cursor: pointer;
-  margin-right: 1rem;
+  font-weight: bold;
+  color: #2f4f4f;
 }
 
-.radio-group input[type='radio'] {
+.role-options input[type='radio'] {
   margin-right: 0.5rem;
 }
 
-.scrollable-form {
+.signup-form {
   display: flex;
   flex-direction: column;
-  max-height: 300px;
-  padding-right: 1rem;
+  gap: 1rem;
 }
 
-.register {
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
+.form-group {
+  position: relative;
 }
 
-.input-group {
-  margin-bottom: 1rem;
-}
-
-label {
-  display: block;
-  text-align: left;
-  margin-bottom: 0.5rem;
-}
-
-input {
+.form-group input {
   width: 100%;
-  padding: 0.5rem;
-  border-radius: 20px;
+  padding: 0.75rem;
   border: 1px solid #ccc;
-  box-sizing: border-box;
+  border-radius: 5px;
 }
 
-button {
-  margin-top: 10px;
-  margin-bottom: 20px;
-  padding: 0.5rem;
-  background-color: #3c5c5e;
+.form-group input::placeholder {
+  color: #aaa;
+}
+
+.form-row {
+  display: flex;
+  gap: 1rem;
+}
+
+.form-row .form-group {
+  flex: 1;
+}
+
+.btn-primary {
+  background-color: #2f4f4f;
   color: white;
+  padding: 0.75rem;
   border: none;
+  border-radius: 5px;
+  font-size: 16px;
   cursor: pointer;
-  border-radius: 20px;
+  margin-top: 1rem;
 }
 
-button:hover {
-  background-color: #2d4749;
+.btn-primary:hover {
+  background-color: #3c5c5e;
+}
+
+.signin-link {
+  text-align: center;
+  margin-top: 2.5rem;
+}
+
+.signin-link p {
+  margin-bottom: 0.5rem;
+  color: #555;
+}
+
+.btn-secondary {
+  background-color: #ffffff;
+  color: #2f4f4f;
+  padding: 0.5rem 1rem;
+  border: 2px solid #2f4f4f;
+  border-radius: 5px;
+  font-size: 16px;
+  text-decoration: none;
+}
+
+.btn-secondary:hover {
+  background-color: #2f4f4f;
+  color: white;
+}
+
+@media (max-width: 600px) {
+  .form-row {
+    flex-direction: column;
+  }
 }
 </style>
