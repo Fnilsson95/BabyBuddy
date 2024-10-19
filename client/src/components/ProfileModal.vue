@@ -1,5 +1,5 @@
 <template>
-  <div class="modal-overlay">
+  <div class="modal-overlay" id="modalOverlay">
     <div class="modal-content">
       <!-- Modal Header -->
       <modal-header @close="$emit('close')"></modal-header>
@@ -167,6 +167,10 @@ export default {
   justify-content: center;
   align-items: center;
   z-index: 9999;
+}
+
+#modalOverlay {
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
 .modal-content {

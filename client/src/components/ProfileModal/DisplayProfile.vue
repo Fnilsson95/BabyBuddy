@@ -1,5 +1,5 @@
 <template>
-  <div class="profile-details">
+  <div class="profile-details" id="profileDetails">
     <!-- Personal Information Section -->
     <p class="sectionTitle">Personal Information</p>
     <div class="grid-item">
@@ -99,9 +99,9 @@ export default {
 </script>
 
 <style scoped>
-.profile-details {
-  padding: 10px;
-  margin: 0;
+
+#profileDetails {
+  padding: 15px;
 }
 
 .sectionTitle {

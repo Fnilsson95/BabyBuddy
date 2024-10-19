@@ -186,7 +186,6 @@ export default {
   flex: 1;
   padding: 6px 8px;
   font-size: 16px;
-  border: 1px solid #c3c3c3;
   border-radius: 4px;
   box-sizing: border-box;
   margin-left: 10px;
@@ -240,5 +239,11 @@ export default {
     flex: 1 1 100%;
     margin-right: 0;
   }
+}
+input {
+  border: 1px solid #ccc;
+}
+label {
+  font-weight: bold;
 }
 </style>

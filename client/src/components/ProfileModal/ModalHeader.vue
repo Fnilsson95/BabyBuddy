@@ -33,4 +33,9 @@ export default {
   font-size: 24px;
   cursor: pointer;
 }
+
+h2 {
+  font-size: 30px;
+  font-weight: bold;
+}
 </style>
