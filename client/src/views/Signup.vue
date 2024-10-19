@@ -8,7 +8,7 @@
 
     <div class="signup-content">
       <div class="signup-box">
-        <div class="welcome-message">
+        <div class="header-box">
           <h2>Welcome to <br> Baby Buddy!</h2>
         </div>
         <div class="role-selection">
@@ -25,7 +25,9 @@
           </div>
         </div>
         <form @submit.prevent="handleSignup" class="signup-form">
+          <div class="scrollable-form">
           <div class="form-group">
+            <label for="email">Email</label>
             <input
               type="email"
               placeholder="Email"
@@ -34,6 +36,7 @@
             />
           </div>
           <div class="form-group">
+            <label for="password">Password</label>
             <input
               type="password"
               placeholder="Password"
@@ -43,6 +46,7 @@
           </div>
           <div class="form-row">
             <div class="form-group">
+              <label for="firstName">First Name</label>
               <input
                 type="text"
                 placeholder="First Name"
@@ -51,6 +55,7 @@
               />
             </div>
             <div class="form-group">
+              <label for="lastName">Last Name</label>
               <input
                 type="text"
                 placeholder="Last Name"
@@ -61,6 +66,7 @@
           </div>
           <div class="form-row">
             <div class="form-group">
+              <label for="phoneNumber">Phone Number</label>
               <input
                 type="tel"
                 placeholder="Phone Number"
@@ -69,6 +75,7 @@
               />
             </div>
             <div class="form-group">
+              <label for="dateOfBirth">Date of Birth</label>
               <input
                 type="date"
                 placeholder="Date of Birth"
@@ -77,8 +84,10 @@
               />
             </div>
           </div>
-          <div v-if="role === 'guardian'">
+          <!-- Additional Fields for Role specifics -->
+          <div class="role-specific" v-if="role === 'guardian'">
             <div class="form-group">
+              <label for="city">City</label>
               <input
                 type="text"
                 placeholder="City"
@@ -87,6 +96,7 @@
               />
             </div>
             <div class="form-group">
+              <label for="country">Country</label>
               <input
                 type="text"
                 placeholder="Country"
@@ -95,6 +105,7 @@
               />
             </div>
             <div class="form-group">
+              <label for="address">Address</label>
               <input
                 type="text"
                 placeholder="Address"
@@ -103,16 +114,18 @@
               />
             </div>
           </div>
-          <div v-if="role === 'babysitter'">
+          <div class="role-specific" v-if="role === 'babysitter'">
             <div class="form-group">
+              <label for="hourlyRate">Hourly Rate (SEK)</label>
               <input
                 type="number"
-                placeholder="Hourly Rate (SEK)"
+                placeholder="Hourly Rate (Kr/h)"
                 v-model="userDetails.hourlyRate"
                 required
               />
             </div>
             <div class="form-group">
+              <label for="experience">Experience (Years)</label>
               <input
                 type="number"
                 placeholder="Experience (Years)"
@@ -121,12 +134,15 @@
               />
             </div>
           </div>
-          <button type="submit" class="btn-primary">Create Account</button>
+          </div>
+          <div class="sticky-button-container">
+          <button type="submit" class="create-account-btn">Create Account</button>
+          </div>
         </form>
         <hr class="line" />
         <div class="signin-link">
           <p>Already have an account?</p>
-          <router-link to="/login" class="btn-secondary">Sign In</router-link>
+          <router-link to="/login" class="sign-in-btn">Sign In</router-link>
         </div>
       </div>
     </div>
@@ -228,7 +244,6 @@ export default {
 </script>
 
 <style scoped>
-/* General Styles */
 .signup-container {
   display: flex;
   flex-direction: column;
@@ -256,18 +271,21 @@ export default {
 .signup-box {
   background-color: #ffffff;
   padding: 2rem;
-  border-radius: 10px;
-  width: 400px;
-  max-width: 90%;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  width: 100%;
+  max-width: 400px;
+  border-radius: 15px;
+  border: 2px solid #ccc;
+  box-sizing: border-box;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.welcome-message {
+.header-box {
   text-align: center;
   margin-bottom: 1.5rem;
 }
 
-.welcome-message h2 {
+.header-box h2 {
   border: 1px solid #3c5c5e;
   padding: 0.5rem;
   margin-bottom: 2rem;
@@ -275,45 +293,40 @@ export default {
   background-color: #f0f4f8;  border: 1px solid #3c5c5e;
 }
 
-.welcome-message p {
-  color: #555;
-}
-
 .role-selection {
   text-align: center;
   margin-bottom: 1.5rem;
 }
 
-.role-selection h3 {
-  margin-bottom: 0.5rem;
-  color: #2f4f4f;
-}
-
 .role-options {
   display: flex;
   justify-content: center;
-  gap: 1rem;
-}
-
-.role-options label {
-  display: flex;
-  align-items: center;
+  gap: 2rem;
   font-weight: bold;
-  color: #2f4f4f;
 }
 
-.role-options input[type='radio'] {
-  margin-right: 0.5rem;
+.scrollable-form {
+  flex: 1;
+  overflow-y: auto;
+  max-height: 350px;
+  padding-right: 0.5rem;
+  scrollbar-width: thin;
+  scrollbar-color: #2f4f4f #e0f7e9;
 }
-
 .signup-form {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 1.5rem;
 }
 
 .form-group {
   position: relative;
+  text-align: left;
+}
+
+.form-group label {
+  margin-bottom: 0.3rem;
+  margin-top: 0.5rem;
 }
 
 .form-group input {
@@ -321,10 +334,11 @@ export default {
   padding: 0.75rem;
   border: 1px solid #ccc;
   border-radius: 5px;
+  box-sizing: border-box;
 }
 
-.form-group input::placeholder {
-  color: #aaa;
+.role-specific {
+  margin-top: 1rem;
 }
 
 .form-row {
@@ -332,12 +346,8 @@ export default {
   gap: 1rem;
 }
 
-.form-row .form-group {
-  flex: 1;
-}
-
-.btn-primary {
-  background-color: #2f4f4f;
+.create-account-btn {
+  background-color: #3c5c5e;
   color: white;
   padding: 0.75rem;
   border: none;
@@ -345,23 +355,14 @@ export default {
   font-size: 16px;
   cursor: pointer;
   margin-top: 1rem;
+  width: 100%;
 }
 
-.btn-primary:hover {
-  background-color: #3c5c5e;
+.create-account-btn:hover {
+  background-color: #2f4f4f;
 }
 
-.signin-link {
-  text-align: center;
-  margin-top: 2.5rem;
-}
-
-.signin-link p {
-  margin-bottom: 0.5rem;
-  color: #555;
-}
-
-.btn-secondary {
+.sign-in-btn {
   background-color: #ffffff;
   color: #2f4f4f;
   padding: 0.5rem 1rem;
@@ -371,9 +372,16 @@ export default {
   text-decoration: none;
 }
 
-.btn-secondary:hover {
+.sign-in-btn:hover {
   background-color: #2f4f4f;
   color: white;
+}
+
+.signin-link {
+  margin-top: 2rem;
+}
+.signin-link p {
+  margin-bottom: 0.5rem;
 }
 
 @media (max-width: 600px) {
