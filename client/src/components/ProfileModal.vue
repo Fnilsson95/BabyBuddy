@@ -1,36 +1,35 @@
 <template>
-  <div class="modal-overlay" id="modalOverlay">
+  <div id="modalOverlay">
     <div class="modal-content">
       <!-- Modal Header -->
-      <modal-header @close="$emit('close')"></modal-header>
+      <ModalHeader @close="$emit('close')" />
 
       <!-- Display Profile Information -->
       <div class="modal-body" v-if="!isEditing && !isDeleting">
-        <display-profile
+        <DisplayProfile
           :profile="profile"
           :role="role"
-          :formatDate="formatDate"
           @startEditing="startEditing"
           @confirmDelete="confirmDelete"
-        ></display-profile>
+        />
       </div>
 
       <!-- Profile Edit Form -->
       <div class="modal-body" v-if="isEditing">
-        <profile-edit-form
+        <ProfileEditForm
           :profile="profile"
           :role="role"
           @submitForm="submitForm"
           @cancelEditing="cancelEditing"
-        ></profile-edit-form>
+        />
       </div>
 
       <!-- Delete Confirmation -->
       <div class="modal-body" v-if="isDeleting">
-        <delete-confirmation
+        <DeleteConfirmation
           @deleteAccount="deleteAccount"
           @cancelDelete="cancelDelete"
-        ></delete-confirmation>
+        />
       </div>
     </div>
   </div>
@@ -41,7 +40,6 @@ import { babysitterAPI } from '../api/v1/babysitter.js'
 import { guardianApi } from '../api/v1/guardians.js'
 import { formatDate } from '../helpers.js'
 import { inject } from 'vue'
-
 import ModalHeader from './ProfileModal/ModalHeader.vue'
 import DisplayProfile from './ProfileModal/DisplayProfile.vue'
 import ProfileEditForm from './ProfileModal/ProfileEditForm.vue'
@@ -49,7 +47,6 @@ import DeleteConfirmation from './ProfileModal/DeleteConfirmation.vue'
 export default {
   name: 'ProfileModal',
   components: {
-
     ModalHeader,
     DisplayProfile,
     ProfileEditForm,
@@ -156,7 +153,7 @@ export default {
 </script>
 
 <style scoped>
-.modal-overlay {
+#modalOverlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -169,10 +166,6 @@ export default {
   z-index: 9999;
 }
 
-#modalOverlay {
-  background-color: rgba(0, 0, 0, 0.5);
-}
-
 .modal-content {
   background-color: white;
   padding: 20px;
@@ -181,7 +174,6 @@ export default {
   max-width: 90%;
   max-height: 90vh;
   overflow-y: auto;
-  box-sizing: border-box;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
