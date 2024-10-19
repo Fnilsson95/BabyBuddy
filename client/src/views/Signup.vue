@@ -1,6 +1,6 @@
 <template>
   <div class="sign-in-container">
-    <div class="navbar">Navbar</div>
+    <div class="navbar">BabyBuddy</div>
     <Toast :config-toast="toastConfig" />
     <div class="sign-in-box">
       <div class="header-box">

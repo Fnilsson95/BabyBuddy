@@ -1,6 +1,6 @@
 <template>
   <div class="sign-in-container">
-    <div class="navbar">Navbar</div>
+    <div class="navbar">BabyBuddy</div>
     <Toast :config-toast="toastConfig" />
     <div class="sign-in-box">
       <div class="header-box">
@@ -33,7 +33,6 @@
 
           <hr class="line" />
           <br />
-          <h5>Forgot your password?</h5>
         </div>
       </form>
 
@@ -209,7 +208,9 @@ button:hover {
 }
 
 .create-account {
-  margin-top: 10px;
+  margin-top: 0px;
+  font-weight: bold;
+  font-size: 19px;
 }
 
 .create-account span {
