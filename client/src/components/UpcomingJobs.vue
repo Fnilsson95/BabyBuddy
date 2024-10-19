@@ -1,68 +1,75 @@
 <template>
-  <BRow class="gx-2">
-    <BCol
-      sm="4"
-      md="6"
-      lg="6"
-      xl="4"
-      class="mb-3"
-      v-for="booking in bookings.bookings"
-      :key="booking._id"
-      style="display: flex; align-items: center; justify-content: center"
-    >
-      <BookingCard :booking="booking" key="booking._id">
-        <template #button>
-          <div class="btn-row">
-            <button
-              class="apply-button-container apply-button apply-button:hover"
-              @click="openModal(booking)"
-            >
-              Details
-            </button>
+  <div>
+    <BRow class="gx-2">
+      <BCol
+        sm="4"
+        md="6"
+        lg="6"
+        xl="6"
+        class="mb-3"
+        v-for="booking in bookings"
+        :key="booking._id"
+        style="display: flex; align-items: center; justify-content: center"
+      >
+        <BookingCard :booking="booking" key="booking._id">
+          <template #button>
+            <div class="btn-row">
+              <button
+                class="apply-button-container apply-button apply-button:hover"
+                @click="openModal(booking)"
+              >
+                Details
+              </button>
 
-            <button
-              class="apply-button apply-button:hover cancel-button"
-              @click="cancelBooking(booking._id)"
-            >
-              Cancel
-            </button>
-          </div>
-        </template>
-      </BookingCard>
-    </BCol>
-    <BModal
-      v-model="modal"
-      title="Booking Information"
-      hide-footer
-      v-if="selectedBooking"
-    >
-      <JobModalContent
-        :booking="selectedBooking"
-        :key="selectedBooking?.id"
-        @booking-updated="$emit('booking-updated')"
-        @update:modalRef="modal = $event"
-    /></BModal>
-  </BRow>
+              <button
+                class="apply-button apply-button:hover cancel-button"
+                @click="cancelBooking(booking._id)"
+              >
+                Cancel
+              </button>
+            </div>
+          </template>
+        </BookingCard>
+      </BCol>
+      <BModal
+        v-model="modal"
+        title="Booking Information"
+        hide-footer
+        v-if="selectedBooking"
+      >
+        <JobModalContent
+          :booking="selectedBooking"
+          :key="selectedBooking?.id"
+          @booking-updated="$emit('booking-updated')"
+          @update:modalRef="modal = $event"
+      /></BModal>
+    </BRow>
+  </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, inject } from 'vue'
 import { useRoute } from 'vue-router'
 import { bookingApi } from '@/api/v1/bookings'
 import { calculateDuration, formatDate } from '@/helpers'
 import BookingCard from './BookingCard.vue'
+import Toast from './Toast.vue'
 
 const bookings = ref([])
 const modal = ref(false)
 const selectedBooking = ref(null)
 
+const showToast = inject('showToast')
 const emit = defineEmits(['booking-updated'])
 const route = useRoute()
 
 const getBookings = async () => {
   const { id } = route.params
   try {
-    bookings.value = await bookingApi.getBabysitterBookings(id)
+    const res = await bookingApi.getBabysitterBookings(id)
+    bookings.value = res.bookings.filter(
+      (booking) => booking.status === 'Confirmed'
+    )
   } catch (error) {
     console.error('Error fetching bookings:', error)
   }
@@ -74,7 +81,10 @@ const cancelBooking = async (bookingId) => {
     await bookingApi.deleteBooking(bookingId, id)
     emit('booking-updated')
     await getBookings()
+
+    showToast('Success', 'Successfully cancelled booking', 'success')
   } catch (error) {
+    showToast('Error', 'Could not cancel booking', 'danger')
     console.error('Error canceling booking:', error)
   }
 }

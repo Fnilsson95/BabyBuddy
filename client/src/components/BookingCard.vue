@@ -48,7 +48,7 @@ defineProps({
   background-color: white;
   color: #555;
   border: 1px solid #2f4f4f;
-  max-width: 250px;
+  max-width: 340px;
   min-width: 180px;
   width: 100%;
 }
@@ -76,8 +76,14 @@ defineProps({
 }
 
 .information {
+  /*Apply Tailwinds line-clamp styling for content that fills up multiple rows*/
   font-size: 16px;
   font-weight: 600;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .apply-button {
