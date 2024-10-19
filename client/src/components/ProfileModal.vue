@@ -2,241 +2,35 @@
   <div class="modal-overlay">
     <div class="modal-content">
       <!-- Modal Header -->
-      <div class="modal-header">
-        <h2 class="profile-header">Profile Information</h2>
-        <button @click="$emit('close')" class="close-btn">&times;</button>
-      </div>
+      <modal-header @close="$emit('close')"></modal-header>
 
       <!-- Display Profile Information -->
       <div class="modal-body" v-if="!isEditing && !isDeleting">
-        <div class="profile-details">
-          <!-- Personal Information Section -->
-          <p class="sectionTitle">Personal Information</p>
-          <div class="grid-item">
-            <div class="info-group">
-              <p class="label">First Name:</p>
-              <div class="textContainer">
-                <p class="modalText">{{ profile.firstName }}</p>
-              </div>
-            </div>
-            <div class="info-group">
-              <p class="label">Last Name:</p>
-              <div class="textContainer">
-                <p class="modalText">{{ profile.lastName }}</p>
-              </div>
-            </div>
-            <div class="info-group">
-              <p class="label">Date of Birth:</p>
-              <div class="textContainer">
-                <p class="modalText">{{ formatDate(profile.dateOfBirth) }}</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Contact Information Section -->
-          <p class="sectionTitle">Contact Information</p>
-          <div class="grid-item">
-            <div class="info-group">
-              <p class="label">Email:</p>
-              <div class="textContainer">
-                <p class="modalText">{{ profile.email }}</p>
-              </div>
-            </div>
-            <div class="info-group">
-              <p class="label">Phone Number:</p>
-              <div class="textContainer">
-                <p class="modalText">{{ profile.phoneNumber }}</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Additional Fields Based on Role -->
-          <div v-if="role === 'babysitter'">
-            <p class="sectionTitle">Professional Details</p>
-            <div class="grid-item">
-              <div class="info-group">
-                <p class="label">Experience: (Years)</p>
-                <div class="textContainer">
-                  <p class="modalText">{{ profile.experience }}</p>
-                </div>
-              </div>
-              <div class="info-group">
-                <p class="label">Hourly Rate: (SEK)</p>
-                <div class="textContainer">
-                  <p class="modalText">{{ profile.hourlyRate }} kr/h</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div v-else-if="role === 'guardian'">
-            <p class="sectionTitle">Location</p>
-            <div class="grid-item">
-              <div class="info-group">
-                <p class="label">City:</p>
-                <div class="textContainer">
-                  <p class="modalText">{{ profile.location?.city }}</p>
-                </div>
-              </div>
-              <div class="info-group">
-                <p class="label">Country:</p>
-                <div class="textContainer">
-                  <p class="modalText">{{ profile.location?.country }}</p>
-                </div>
-              </div>
-              <div class="info-group">
-                <p class="label">Address:</p>
-                <div class="textContainer">
-                  <p class="modalText">{{ profile.location?.address }}</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Edit and Delete Buttons -->
-        <div class="button-group">
-          <button @click="startEditing" class="edit-btn">Edit Profile</button>
-          <button @click="confirmDelete" class="delete-btn">Delete Account</button>
-        </div>
+        <display-profile
+          :profile="profile"
+          :role="role"
+          :formatDate="formatDate"
+          @startEditing="startEditing"
+          @confirmDelete="confirmDelete"
+        ></display-profile>
       </div>
 
       <!-- Profile Edit Form -->
       <div class="modal-body" v-if="isEditing">
-        <form @submit.prevent="submitForm">
-          <!-- Personal Information Section -->
-          <p class="sectionTitle">Personal Information</p>
-          <div class="grid-item">
-            <div class="form-group">
-              <label for="firstName">First Name:</label>
-              <input
-                type="text"
-                id="firstName"
-                v-model="profile.firstName"
-                required
-              />
-            </div>
-            <div class="form-group">
-              <label for="lastName">Last Name:</label>
-              <input
-                type="text"
-                id="lastName"
-                v-model="profile.lastName"
-                required
-              />
-            </div>
-            <div class="form-group">
-              <label for="dateOfBirth">Date of Birth:</label>
-              <input
-                type="date"
-                id="dateOfBirth"
-                v-model="profile.dateOfBirth"
-                required
-              />
-            </div>
-          </div>
-
-          <!-- Contact Information Section -->
-          <p class="sectionTitle">Contact Information</p>
-          <div class="grid-item">
-            <div class="form-group">
-              <label for="email">Email:</label>
-              <input
-                type="email"
-                id="email"
-                v-model="profile.email"
-                required
-              />
-            </div>
-            <div class="form-group">
-              <label for="phoneNumber">Phone Number:</label>
-              <input
-                type="tel"
-                id="phoneNumber"
-                v-model="profile.phoneNumber"
-                required
-              />
-            </div>
-          </div>
-
-          <!-- Additional Fields Based on Role -->
-          <div v-if="role === 'babysitter'">
-            <p class="sectionTitle">Professional Details</p>
-            <div class="grid-item">
-              <div class="form-group">
-                <label for="experience">Experience (Years)</label>
-                <input
-                  type="number"
-                  id="experience"
-                  v-model="profile.experience"
-                  required
-                  min="0"
-                />
-              </div>
-              <div class="form-group">
-                <label for="hourlyRate">Hourly Rate: (SEK)</label>
-                <input
-                  type="number"
-                  id="hourlyRate"
-                  v-model="profile.hourlyRate"
-                  required
-                  min="50"
-                  step="1"
-                />
-              </div>
-            </div>
-          </div>
-
-          <div v-else-if="role === 'guardian'">
-            <p class="sectionTitle">Location</p>
-            <div class="grid-item">
-              <div class="form-group">
-                <label for="city">City:</label>
-                <input
-                  type="text"
-                  id="city"
-                  v-model="profile.location.city"
-                  required
-                />
-              </div>
-              <div class="form-group">
-                <label for="country">Country:</label>
-                <input
-                  type="text"
-                  id="country"
-                  v-model="profile.location.country"
-                  required
-                />
-              </div>
-              <div class="form-group">
-                <label for="address">Address:</label>
-                <input
-                  type="text"
-                  id="address"
-                  v-model="profile.location.address"
-                  required
-                />
-              </div>
-            </div>
-          </div>
-
-          <!-- Save and Cancel Buttons -->
-          <div class="button-group">
-            <button type="submit" class="save-btn">Save Changes</button>
-            <button type="button" @click="cancelEditing" class="cancel-btn">
-              Cancel
-            </button>
-          </div>
-        </form>
+        <profile-edit-form
+          :profile="profile"
+          :role="role"
+          @submitForm="submitForm"
+          @cancelEditing="cancelEditing"
+        ></profile-edit-form>
       </div>
 
       <!-- Delete Confirmation -->
       <div class="modal-body" v-if="isDeleting">
-        <p>Are you sure you want to delete your account?</p>
-        <div class="button-group">
-          <button @click="deleteAccount" class="confirm-btn">Yes</button>
-          <button @click="cancelDelete" class="cancel-btn">No</button>
-        </div>
+        <delete-confirmation
+          @deleteAccount="deleteAccount"
+          @cancelDelete="cancelDelete"
+        ></delete-confirmation>
       </div>
     </div>
   </div>
@@ -248,8 +42,19 @@ import { guardianApi } from '../api/v1/guardians.js'
 import { formatDate } from '../helpers.js'
 import { inject } from 'vue'
 
+import ModalHeader from './ProfileModal/ModalHeader.vue'
+import DisplayProfile from './ProfileModal/DisplayProfile.vue'
+import ProfileEditForm from './ProfileModal/ProfileEditForm.vue'
+import DeleteConfirmation from './ProfileModal/DeleteConfirmation.vue'
 export default {
   name: 'ProfileModal',
+  components: {
+
+    ModalHeader,
+    DisplayProfile,
+    ProfileEditForm,
+    DeleteConfirmation
+  },
   data() {
     return {
       isEditing: false,
@@ -279,9 +84,6 @@ export default {
         this.role = 'guardian'
       } else if (this.$route.path.includes('babysitter')) {
         this.role = 'babysitter'
-      } else {
-        this.error = 'Invalid role in URL.'
-        console.error('Invalid role in URL.')
       }
     },
     async fetchProfileData() {
@@ -290,14 +92,6 @@ export default {
           this.profile = await babysitterAPI.getBabysitter(this.id)
         } else if (this.role === 'guardian') {
           this.profile = await guardianApi.getGuardian(this.id)
-          // Ensure location object exists for guardians
-          if (!this.profile.location) {
-            this.$set(this.profile, 'location', {
-              city: '',
-              country: '',
-              address: ''
-            })
-          }
         }
       } catch (error) {
         console.error('Error fetching profile data:', error)
@@ -305,7 +99,7 @@ export default {
       }
     },
 
-    formatDate, // Make formatDate available to the template
+    formatDate,
 
     startEditing() {
       this.isEditing = true
@@ -313,15 +107,17 @@ export default {
     cancelEditing() {
       this.isEditing = false
     },
-    async submitForm() {
+    async submitForm(updatedProfile) {
       try {
         if (this.role === 'babysitter') {
-          await babysitterAPI.updateBabysitter(this.id, this.profile)
+          await babysitterAPI.updateBabysitter(this.id, updatedProfile)
         } else if (this.role === 'guardian') {
-          await guardianApi.updateGuardian(this.id, this.profile)
+          await guardianApi.updateGuardian(this.id, updatedProfile)
         } else {
           throw new Error('Invalid role.')
         }
+        // Update the local profile with the updated data
+        this.profile = updatedProfile
         this.isEditing = false
         this.showToast('Success', 'Profile updated successfully!', 'success')
       } catch (error) {
@@ -385,146 +181,11 @@ export default {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.modal-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-.close-btn {
-  background-color: transparent;
-  border: none;
-  font-size: 24px;
-  cursor: pointer;
-}
-
 .modal-body {
   padding: 10px 0;
 }
 
-.profile-details {
-  padding: 10px;
-  margin: 0;
-}
-
-.sectionTitle {
-  font-weight: 600;
-  font-size: 20px;
-  margin-bottom: 10px;
-}
-
-.grid-item {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  margin-bottom: 20px;
-}
-
-.info-group,
-.form-group {
-  flex: 1 1 calc(33.333% - 10px);
-  margin-bottom: 10px;
-  margin-right: 10px;
-}
-
-.label {
-  font-size: 14px;
-  margin: 0;
-}
-
-.textContainer {
-  font-size: 16px;
-  font-weight: 600;
-  padding: 6px 8px;
-  background-color: #f5f5f5;
-  margin: 0;
-  display: flex;
-  align-items: center;
-}
-
-.modalText {
-  margin: 0;
-}
-
-.form-group {
-  display: flex;
-  align-items: center;
-}
-
-.form-group label {
-  width: 120px;
-  font-size: 14px;
-  margin-bottom: 0;
-}
-
-.form-group input {
-  flex: 1;
-  padding: 6px 8px;
-  font-size: 16px;
-  border: 1px solid #c3c3c3;
-  border-radius: 4px;
-  box-sizing: border-box;
-  margin-left: 10px;
-}
-
-.button-group {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  margin-top: 20px;
-}
-
-.button-group button {
-  flex: 1 1 calc(48% - 10px);
-  margin-right: 10px;
-  margin-bottom: 10px;
-}
-
-.button-group button:last-child {
-  margin-right: 0;
-}
-
-.edit-btn,
-.delete-btn,
-.confirm-btn,
-.cancel-btn,
-.save-btn {
-  background-color: #2f4f4f;
-  color: white;
-  border: none;
-  padding: 10px;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  border-radius: 5px;
-}
-
-.delete-btn,
-.cancel-btn {
-  background-color: #d9534f;
-}
-
-.edit-btn:hover,
-.delete-btn:hover,
-.confirm-btn:hover,
-.cancel-btn:hover,
-.save-btn:hover {
-  opacity: 0.8;
-}
-
 @media (max-width: 600px) {
-  .info-group,
-  .form-group {
-    flex: 1 1 100%;
-    margin-right: 0;
-  }
-
-  .button-group button {
-    flex: 1 1 100%;
-    margin-right: 0;
-  }
-
   .modal-content {
     width: 90%;
   }
