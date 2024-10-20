@@ -1,158 +1,164 @@
 <template>
-  <div class="sign-in-container">
-    <div class="navbar">Navbar</div>
-    <div class="sign-in-box">
-      <div class="header-box">
-        <h5>Welcome to Baby Buddy!</h5>
-      </div>
-      <div class="header-options">
-        <h3>Create Account</h3>
-        <router-link to="/login" class="link-to-other-page"
-          >Sign In</router-link
-        >
-      </div>
-      <div class="choice-box">
-        <h6>Choose your role!</h6>
-        <div class="radio-group">
-          <label>
-            <input type="radio" name="role" value="guardian" v-model="role" />
-            Guardian
-          </label>
-          <label>
-            <input type="radio" name="role" value="babysitter" v-model="role" />
-            Babysitter
-          </label>
+  <div class="signup-container">
+    <nav class="navbar">BabyBuddy</nav>
+
+    <div class="toast-wrapper">
+      <Toast :config-toast="toastConfig" />
+    </div>
+
+    <div class="signup-content">
+      <div class="signup-box">
+        <div class="header-box">
+          <h2>Welcome to <br /> Baby Buddy!</h2>
         </div>
-      </div>
-
-      <form @submit.prevent="handleSignup" class="scrollable-form">
-        <div class="register">
-          <div class="input-group">
-            <label for="email">Email</label>
-            <input
-              type="email"
-              placeholder="Enter your Email"
-              id="email"
-              v-model="userDetails.email"
-              required
-            />
+        <div class="role-selection">
+          <h3>Choose Your Role</h3>
+          <div class="role-options">
+            <label>
+              <input type="radio" name="role" value="guardian" v-model="role" />
+              Guardian
+            </label>
+            <label>
+              <input type="radio" name="role" value="babysitter" v-model="role" />
+              Babysitter
+            </label>
           </div>
-          <div class="input-group">
-            <label for="password">Password</label>
-            <input
-              type="password"
-              placeholder="Enter your Password"
-              id="password"
-              v-model="userDetails.password"
-              required
-            />
-          </div>
-          <div class="input-group">
-            <label for="firstname">First Name</label>
-            <input
-              type="text"
-              placeholder="First Name"
-              id="firstname"
-              v-model="userDetails.firstName"
-              required
-            />
-          </div>
-          <div class="input-group">
-            <label for="lastname">Last Name</label>
-            <input
-              type="text"
-              placeholder="Last Name"
-              id="lastname"
-              v-model="userDetails.lastName"
-              required
-            />
-          </div>
-          <div class="input-group">
-            <label for="phonenumber">Phone Number</label>
-            <input
-              type="number"
-              placeholder="Phone Number"
-              id="phonenumber"
-              v-model="userDetails.phoneNumber"
-              required
-            />
-          </div>
-          <div class="input-group">
-            <label for="dateofbirth">Date of Birth</label>
-            <input
-              type="date"
-              placeholder="Date of Birth (YY-MM-DD)"
-              id="dateofbirth"
-              v-model="userDetails.dateOfBirth"
-              required
-            />
-          </div>
-          <div class="input-group">
-            <label for="city">City</label>
-            <input
-              type="text"
-              placeholder="City"
-              id="city"
-              v-model="userDetails.location.city"
-              required
-            />
-          </div>
-          <div class="input-group">
-            <label for="country">Country</label>
-            <input
-              type="text"
-              placeholder="Country"
-              id="country"
-              v-model="userDetails.location.country"
-              required
-            />
-          </div>
-          <div class="input-group">
-            <label for="address">Address</label>
-            <input
-              type="text"
-              placeholder="Address"
-              id="address"
-              v-model="userDetails.location.address"
-              required
-            />
-          </div>
-
-          <!-- Hourly Rate input for Babysitters -->
-          <div class="input-group" v-if="role === 'babysitter'">
-            <label for="hourlyrate">Hourly Rate</label>
-            <input
-              type="number"
-              placeholder="Hourly Rate kr/h"
-              id="hourlyrate"
-              v-model="userDetails.hourlyRate"
-              required
-            />
-          </div>
-
-          <button type="submit">Create account</button>
         </div>
-      </form>
-
-      <!-- Error Message -->
-      <transition name="slide-fade">
-        <div v-if="errorMessage" class="error-message">{{ errorMessage }}</div>
-      </transition>
-      <!-- Success Message -->
-      <div v-if="successMessage" class="success-message">
-        {{ successMessage }}
+        <form @submit.prevent="handleSignup" class="signup-form">
+          <div class="scrollable-form">
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input
+                type="email"
+                placeholder="Email"
+                v-model="userDetails.email"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input
+                type="password"
+                placeholder="Password"
+                v-model="userDetails.password"
+                required
+              />
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="firstName">First Name</label>
+                <input
+                  type="text"
+                  placeholder="First Name"
+                  v-model="userDetails.firstName"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="lastName">Last Name</label>
+                <input
+                  type="text"
+                  placeholder="Last Name"
+                  v-model="userDetails.lastName"
+                  required
+                />
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="phoneNumber">Phone Number</label>
+                <input
+                  type="tel"
+                  placeholder="Phone Number"
+                  v-model="userDetails.phoneNumber"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="dateOfBirth">Date of Birth</label>
+                <input
+                  type="date"
+                  placeholder="Date of Birth"
+                  v-model="userDetails.dateOfBirth"
+                  required
+                />
+              </div>
+            </div>
+            <!-- Additional Fields for Role specifics -->
+            <div class="role-specific" v-if="role === 'guardian'">
+              <div class="form-group">
+                <label for="city">City</label>
+                <input
+                  type="text"
+                  placeholder="City"
+                  v-model="userDetails.location.city"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="country">Country</label>
+                <input
+                  type="text"
+                  placeholder="Country"
+                  v-model="userDetails.location.country"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="address">Address</label>
+                <input
+                  type="text"
+                  placeholder="Address"
+                  v-model="userDetails.location.address"
+                  required
+                />
+              </div>
+            </div>
+            <div class="role-specific" v-if="role === 'babysitter'">
+              <div class="form-group">
+                <label for="hourlyRate">Hourly Rate (Kr/h)</label>
+                <input
+                  type="number"
+                  placeholder="Hourly Rate (Kr/h)"
+                  v-model="userDetails.hourlyRate"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="experience">Experience (Years)</label>
+                <input
+                  type="number"
+                  placeholder="Experience (Years)"
+                  v-model="userDetails.experience"
+                  required
+                />
+              </div>
+            </div>
+          </div>
+          <div class="sticky-button-container">
+            <button type="submit" class="create-account-btn">Create Account</button>
+          </div>
+        </form>
+        <hr class="line" />
+        <div class="signin-link">
+          <p>Already have an account?</p>
+          <router-link to="/login" class="sign-in-btn">Sign In</router-link>
+        </div>
       </div>
     </div>
-    <div class="footer_holder">Footer</div>
   </div>
 </template>
 
 <script>
 import { guardianApi } from '@/api/v1/guardians'
 import { babysitterAPI } from '@/api/v1/babysitter'
+import Toast from '@/components/Toast.vue'
 
 export default {
-  name: 'signup',
+  name: 'Signup',
+  components: {
+    Toast
+  },
   data() {
     return {
       role: null,
@@ -168,13 +174,23 @@ export default {
           country: '',
           address: ''
         },
-        hourlyRate: null
+        hourlyRate: null,
+        experience: null
       },
       successMessage: null,
-      errorMessage: null
+      errorMessage: null,
+      toastConfig: {
+        title: '',
+        body: '',
+        variant: '',
+        show: false
+      }
     }
   },
   methods: {
+    showToast(title, body, variant) {
+      this.toastConfig = { title, body, variant, show: true }
+    },
     async handleSignup() {
       try {
         const payload = JSON.parse(JSON.stringify(this.userDetails))
@@ -188,6 +204,7 @@ export default {
           result = await babysitterAPI.createBabysitter(payload)
         } else if (this.role === 'guardian') {
           delete payload.hourlyRate
+          delete payload.experience
           result = await guardianApi.createGuardian(payload)
         } else {
           throw new Error('Please select a role!')
@@ -195,10 +212,12 @@ export default {
 
         this.successMessage = result.message
         this.errorMessage = null
+        this.showToast('Success', this.successMessage, 'success')
         this.resetForm()
       } catch (error) {
-        this.errorMessage = error || 'Error creating account. Please try again.'
+        this.errorMessage = error.message || 'Error creating account. Please try again.'
         this.successMessage = null
+        this.showToast('Error', this.errorMessage, 'danger')
         console.error(error)
       }
     },
@@ -216,7 +235,8 @@ export default {
           country: '',
           address: ''
         },
-        hourlyRate: null
+        hourlyRate: null,
+        experience: null
       }
     }
   }
@@ -224,157 +244,149 @@ export default {
 </script>
 
 <style scoped>
-.slide-fade-enter-active,
-.slide-fade-leave-active {
-  transition: all 0.5s ease;
-}
-
-.slide-fade-enter,
-.slide-fade-leave-to {
-  transform: translateY(-20px);
-  opacity: 0;
-}
-
-.error-message {
-  background-color: #f8d7da;
-  color: #721c24;
-  padding: 1rem;
-  border-radius: 5px;
-  margin-top: 1rem;
-  text-align: center;
-  position: relative;
-  z-index: 10;
-}
-
-.success-message {
-  background-color: #d4edda;
-  color: #155724;
-  padding: 1rem;
-  border-radius: 5px;
-  margin-top: 1rem;
-  text-align: center;
-  position: relative;
-  z-index: 10;
-}
-
-.header-options {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.link-to-other-page {
-  color: #3c5c5e;
-  text-decoration: none;
-  font-size: 14px;
-  margin-top: 15px;
-  cursor: pointer;
-}
-
-.link-to-other-page:hover {
-  text-decoration: underline;
-}
-
-.sign-in-container {
+.signup-container {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  height: 100vh;
+  min-height: 100vh;
   background-color: #e0f7e9;
 }
 
-.navbar,
-.footer_holder {
-  background-color: #3c5c5e;
+.navbar {
+  background-color: #2f4f4f;
   color: white;
   width: 100%;
   text-align: center;
   padding: 1rem;
-  font-size: 1.5rem;
+  font-size: 19.5px;
+  font-weight: 600;
+}
+
+.signup-content {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.signup-box {
+  background-color: #ffffff;
+  padding: 2rem;
+  text-align: center;
+  width: 100%;
+  max-width: 400px;
+  border-radius: 15px;
+  border: 2px solid #ccc;
+  box-sizing: border-box;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .header-box {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.header-box h2 {
   border: 1px solid #3c5c5e;
   padding: 0.5rem;
   margin-bottom: 2rem;
   border-radius: 5px;
-  background-color: #f0f4f8;
+  background-color: #f0f4f8;  border: 1px solid #3c5c5e;
 }
 
-.sign-in-box {
-  background-color: #ffffff;
-  padding: 2rem;
+.role-selection {
   text-align: center;
-  width: 350px;
-  max-height: 500px;
-  border-radius: 15px;
-  border: 2px solid #ccc;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  overflow-y: auto;
-  position: relative;
+  margin-bottom: 1.5rem;
 }
 
-.radio-group {
+.role-options {
   display: flex;
-  justify-content: space-around;
-  margin-bottom: 1rem;
-}
-
-.radio-group label {
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-  margin-right: 1rem;
-}
-
-.radio-group input[type='radio'] {
-  margin-right: 0.5rem;
+  justify-content: center;
+  gap: 2rem;
+  font-weight: bold;
 }
 
 .scrollable-form {
+  flex: 1;
+  overflow-y: auto;
+  max-height: 350px;
+  padding-right: 0.5rem;
+  scrollbar-width: thin;
+  scrollbar-color: #2f4f4f #e0f7e9;
+}
+.signup-form {
   display: flex;
   flex-direction: column;
-  max-height: 300px;
-  padding-right: 1rem;
+  gap: 1.5rem;
 }
 
-.register {
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-}
-
-.input-group {
-  margin-bottom: 1rem;
-}
-
-label {
-  display: block;
+.form-group {
+  position: relative;
   text-align: left;
-  margin-bottom: 0.5rem;
 }
 
-input {
+.form-group label {
+  margin-bottom: 0.3rem;
+  margin-top: 0.5rem;
+}
+
+.form-group input {
   width: 100%;
-  padding: 0.5rem;
-  border-radius: 20px;
+  padding: 0.75rem;
   border: 1px solid #ccc;
+  border-radius: 5px;
   box-sizing: border-box;
 }
 
-button {
-  margin-top: 10px;
-  margin-bottom: 20px;
-  padding: 0.5rem;
-  background-color: #3c5c5e;
-  color: white;
-  border: none;
-  cursor: pointer;
-  border-radius: 20px;
+.role-specific {
+  margin-top: 1rem;
 }
 
-button:hover {
-  background-color: #2d4749;
+.form-row {
+  display: flex;
+  gap: 1rem;
+}
+
+.create-account-btn {
+  background-color: #3c5c5e;
+  color: white;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 1rem;
+  width: 100%;
+}
+
+.create-account-btn:hover {
+  background-color: #2f4f4f;
+}
+
+.sign-in-btn {
+  background-color: #ffffff;
+  color: #2f4f4f;
+  padding: 0.5rem 1rem;
+  border: 2px solid #2f4f4f;
+  border-radius: 5px;
+  font-size: 16px;
+  text-decoration: none;
+}
+
+.sign-in-btn:hover {
+  background-color: #2f4f4f;
+  color: white;
+}
+
+.signin-link {
+  margin-top: 2rem;
+}
+.signin-link p {
+  margin-bottom: 0.5rem;
+}
+
+@media (max-width: 600px) {
+  .form-row {
+    flex-direction: column;
+  }
 }
 </style>

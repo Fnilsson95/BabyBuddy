@@ -7,14 +7,14 @@
           <p class="label">Start Date:</p>
           <div class="textContainer">
             <p class="modalText">
-              {{ booking.startDateTime }}
+              {{ formatDate(booking.startDateTime) }}
             </p>
           </div>
         </div>
         <div class="dates">
           <p class="label">End Date/Time:</p>
           <div class="textContainer">
-            <p class="modalText">{{ booking.endDateTime }}</p>
+            <p class="modalText">{{ formatDate(booking.endDateTime) }}</p>
           </div>
         </div>
       </div>
@@ -40,8 +40,8 @@
       <p class="sectionTitle">Guardian</p>
       <div class="guardianContainer">
         <p style="font-size: 18px; font-weight: 600; margin: 0">
-          {{ booking.guardian.name.firstName }}
-          {{ booking.guardian.name.lastName }}
+          {{ booking.guardian.firstName }}
+          {{ booking.guardian.lastName }}
         </p>
 
         <p style="font-size: 14px; margin: 0">
@@ -70,37 +70,19 @@
         </p>
       </div>
     </div>
-    <div class="apply-button-container">
-      <button class="apply-button" @click="handleConfirmBooking(booking.id)">
-        Apply
-      </button>
-    </div>
+    <slot name="button"></slot>
   </div>
 </template>
 
-<script>
-import { bookingApi } from '@/api/v1/bookings'
+<script setup>
+import { formatDate } from '@/helpers'
 
-export default {
-  name: 'JobModalContent',
-  components: {},
-  props: {
-    booking: {
-      type: Object,
-      required: true
-    }
-  },
-  methods: {
-    async handleConfirmBooking(bookingId, babysitterId) {
-      try {
-        bookingApi.confirmBooking(bookingId, '66ff1821d6c0fea82a7301ae')
-        this.$emit('apply-and-close')
-      } catch (error) {
-        console.error('Error confirming booking:', error)
-      }
-    }
+defineProps({
+  booking: {
+    type: Object,
+    required: true
   }
-}
+})
 </script>
 
 <style scoped>

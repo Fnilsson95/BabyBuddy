@@ -1,23 +1,6 @@
 const BASE_URL = 'http://localhost:3001/api/v1'
 
 export const babysitterAPI = {
-  async getAllBookings(babysitterId) {
-    try {
-      const response = await fetch(
-        `${BASE_URL}/babysitters/${babysitterId}/bookings`
-      )
-
-      if (!response.ok) {
-        throw new Error('Network response was not ok')
-      }
-
-      return await response.json()
-    } catch (error) {
-      console.error('Error fetching users:', error)
-      throw error
-    }
-  },
-
   async createBabysitter(babysitterData) {
     try {
       const response = await fetch(`${BASE_URL}/babysitters`, {
@@ -61,6 +44,37 @@ export const babysitterAPI = {
     } catch (error) {
       console.error('Error updating babysitter: ', error)
       throw error
+    }
+  },
+
+  async getBabysitter(id) {
+    try {
+      const response = await fetch(`${BASE_URL}/babysitters/${id}`)
+      if (!response.ok) {
+        const errorData = await response.json()
+        throw new Error(errorData.error || 'Failed to fetch Babysitter Data')
+      }
+      return await response.json()
+    } catch (error) {
+      console.error('Error fetching users:', error)
+      throw error
+    }
+  },
+
+  async deleteBabysitter(id) {
+    try {
+      const response = await fetch(`${BASE_URL}/babysitters/${id}`, {
+        method: 'DELETE'
+      })
+
+      if (!response) {
+        const errorData = await response.json()
+        throw new Error(errorData.error || 'Failed to delete babysitter')
+      }
+
+      return await response.json()
+    } catch (error) {
+      console.error('Error deleting babysitter:', error)
     }
   }
 }

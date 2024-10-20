@@ -5,7 +5,8 @@ export const guardianApi = {
     try {
       const response = await fetch(`${BASE_URL}/guardians/${id}`)
       if (!response.ok) {
-        throw new Error('Network response was not ok')
+        const errorData = await response.json()
+        throw new Error(errorData.error || 'Failed to fetch Guardian Data')
       }
       return await response.json()
     } catch (error) {
@@ -74,6 +75,30 @@ export const guardianApi = {
       return await response.json()
     } catch (error) {
       console.error('Error deleting child: ', error)
+    }
+  },
+  // HTTP Method Overriding with query parameters POST --> PUT
+  async updateGuardian(id, guardianData) {
+    try {
+      const response = await fetch(
+        `${BASE_URL}/guardians/${id}?_method=PUT`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(guardianData)
+        }
+      )
+
+      if (!response.ok) {
+        const errorData = await response.json()
+        throw new Error(errorData.error || 'Failed to update Guardian')
+      }
+
+      return await response.json()
+    } catch (error) {
+      console.error('Error updating Guardian: ', error)
       throw error
     }
   },
@@ -92,6 +117,22 @@ export const guardianApi = {
       }
     } catch (error) {
       console.error('Error deleting child: ', error)
+    }
+  },
+  async deleteGuardian(id) {
+    try {
+      const response = await fetch(`${BASE_URL}/guardians/${id}`, {
+        method: 'DELETE'
+      })
+
+      if (!response.ok) {
+        const errorData = await response.json()
+        throw new Error(errorData.error || `Failed to delete guardian with id ${id}`)
+      }
+
+      return await response.json()
+    } catch (error) {
+      console.error('Error deleting guardian:', error)
       throw error
     }
   }

@@ -1,7 +1,7 @@
 {
 	"info": {
-		"_postman_id": "71eda8a6-e6b0-4a0d-948d-dec849dbd7fe",
-		"name": "BabyBuddy Updated Collection",
+		"_postman_id": "2627a423-3e23-40f8-98b5-bf31621dae8e",
+		"name": "Updated 18/10 BabyBuddy",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "38140788"
 	},
@@ -172,7 +172,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"firstName\": \"Sarah\",\n  \"lastName\": \"Connor\",\n  \"email\": \"{{randomEmail}}\",\n  \"dateOfBirth\": \"1995-08-29T00:00:00.000Z\",\n  \"phoneNumber\": \"0987654321\",\n  \"experience\": \"5 years of experience with children aged 1-6.\",\n  \"hourlyRate\": 100,\n  \"password\": \"AlsoRandomPassword\"\n}",
+							"raw": "{\n  \"firstName\": \"Sarah\",\n  \"lastName\": \"Connor\",\n  \"email\": \"{{randomEmail}}\",\n  \"dateOfBirth\": \"1995-08-29T00:00:00.000Z\",\n  \"phoneNumber\": \"0987654321\",\n  \"experience\": 5,\n  \"hourlyRate\": 100,\n  \"password\": \"AlsoRandomPassword\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1286,7 +1286,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"firstName\": \"Sarah\",\n  \"lastName\": \"Connor\",\n  \"email\": \"{{randomEmail}}\",\n  \"dateOfBirth\": \"1995-08-29T00:00:00.000Z\",\n  \"phoneNumber\": \"0987654321\",\n  \"experience\": \"5 years of experience with children aged 1-6.\",\n  \"hourlyRate\": 100,\n  \"password\": \"AlsoRandomPassword\"\n}",
+									"raw": "{\n  \"firstName\": \"Sarah\",\n  \"lastName\": \"Connor\",\n  \"email\": \"{{randomEmail}}\",\n  \"dateOfBirth\": \"1995-08-29T00:00:00.000Z\",\n  \"phoneNumber\": \"0987654321\",\n  \"experience\": 5,\n  \"hourlyRate\": 100,\n  \"password\": \"AlsoRandomPassword\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1440,7 +1440,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"firstName\": \"Sarah\",\n  \"lastName\": \"Connor\",\n  \"email\": \"{{randomEmail}}}}\",\n  \"dateOfBirth\": \"1995-08-29T00:00:00.000Z\",\n  \"phoneNumber\": \"0987654321\",\n  \"experience\": \"7 years of experience with children aged 1-10.\",\n  \"hourlyRate\": 120\n}",
+									"raw": "{\n  \"firstName\": \"Sarah\",\n  \"lastName\": \"Connor\",\n  \"email\": \"{{randomEmail}}}}\",\n  \"dateOfBirth\": \"1995-08-29T00:00:00.000Z\",\n  \"phoneNumber\": \"0987654321\",\n  \"experience\": 7,\n  \"hourlyRate\": 120\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1501,7 +1501,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"experience\": \"10 years of experience with children aged 1-12.\"\n}",
+									"raw": "{\n  \"experience\": 8\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -2240,7 +2240,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"firstName\": \"Sarah\",\n  \"lastName\": \"Connor\",\n  \"email\": \"{{randomEmail}}\",\n  \"dateOfBirth\": \"1995-08-29T00:00:00.000Z\",\n  \"phoneNumber\": \"0987654321\",\n  \"experience\": \"5 years of experience with children aged 1-6.\",\n  \"hourlyRate\": 100,\n  \"password\": \"AlsoRandomPassword\"\n}",
+									"raw": "{\n  \"firstName\": \"Sarah\",\n  \"lastName\": \"Connor\",\n  \"email\": \"{{randomEmail}}\",\n  \"dateOfBirth\": \"1995-08-29T00:00:00.000Z\",\n  \"phoneNumber\": \"0987654321\",\n  \"experience\": 5,\n  \"hourlyRate\": 100,\n  \"password\": \"AlsoRandomPassword\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -2536,7 +2536,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"firstName\": \"Sarah\",\n  \"lastName\": \"Connor\",\n  \"email\": \"{{randomEmail}}\",\n  \"dateOfBirth\": \"1995-08-29T00:00:00.000Z\",\n  \"phoneNumber\": \"0987654321\",\n  \"experience\": \"5 years of experience with children aged 1-6.\",\n  \"hourlyRate\": 100,\n  \"password\": \"AlsoRandomPassword\"\n}",
+									"raw": "{\n  \"firstName\": \"Sarah\",\n  \"lastName\": \"Connor\",\n  \"email\": \"{{randomEmail}}\",\n  \"dateOfBirth\": \"1995-08-29T00:00:00.000Z\",\n  \"phoneNumber\": \"0987654321\",\n  \"experience\": 11,\n  \"hourlyRate\": 100,\n  \"password\": \"AlsoRandomPassword\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -3016,7 +3016,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"firstName\": \"Sarah\",\n  \"lastName\": \"Connor\",\n  \"email\": \"{{randomEmail}}\",\n  \"dateOfBirth\": \"1995-08-29T00:00:00.000Z\",\n  \"phoneNumber\": \"0987654321\",\n  \"experience\": \"5 years of experience with children aged 1-6.\",\n  \"hourlyRate\": 100,\n  \"password\": \"AlsoRandomPassword\"\n}",
+									"raw": "{\n  \"firstName\": \"Sarah\",\n  \"lastName\": \"Connor\",\n  \"email\": \"{{randomEmail}}\",\n  \"dateOfBirth\": \"1995-08-29T00:00:00.000Z\",\n  \"phoneNumber\": \"0987654321\",\n  \"experience\": 5,\n  \"hourlyRate\": 100,\n  \"password\": \"AlsoRandomPassword\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -3299,7 +3299,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"firstName\": \"Sarah\",\n  \"lastName\": \"Connor\",\n  \"email\": \"{{randomEmail}}\",\n  \"dateOfBirth\": \"1995-08-29T00:00:00.000Z\",\n  \"phoneNumber\": \"0987654321\",\n  \"experience\": \"5 years of experience with children aged 1-6.\",\n  \"hourlyRate\": 100,\n  \"password\": \"AlsoRandomPassword\"\n}",
+									"raw": "{\n  \"firstName\": \"Sarah\",\n  \"lastName\": \"Connor\",\n  \"email\": \"{{randomEmail}}\",\n  \"dateOfBirth\": \"1995-08-29T00:00:00.000Z\",\n  \"phoneNumber\": \"0987654321\",\n  \"experience\": 0,\n  \"hourlyRate\": 100,\n  \"password\": \"AlsoRandomPassword\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -4025,7 +4025,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"firstName\": \"Sarah\",\n  \"lastName\": \"Connor\",\n  \"email\": \"{{randomEmail}}\",\n  \"dateOfBirth\": \"1995-08-29T00:00:00.000Z\",\n  \"phoneNumber\": \"0987654321\",\n  \"experience\": \"5 years of experience with children aged 1-6.\",\n  \"hourlyRate\": 100,\n  \"password\": \"AlsoRandomPassword\"\n}",
+							"raw": "{\n  \"firstName\": \"Sarah\",\n  \"lastName\": \"Connor\",\n  \"email\": \"{{randomEmail}}\",\n  \"dateOfBirth\": \"1995-08-29T00:00:00.000Z\",\n  \"phoneNumber\": \"0987654321\",\n  \"experience\": 5,\n  \"hourlyRate\": 100,\n  \"password\": \"AlsoRandomPassword\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -4093,7 +4093,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"firstName\": \"Jessica\",\n  \"lastName\": \"Peterson\",\n  \"email\": \"{{randomEmail}}\",\n  \"dateOfBirth\": \"1995-08-29T00:00:00.000Z\",\n  \"phoneNumber\": \"0987654321\",\n  \"experience\": \"5 years of experience with children aged 1-6.\",\n  \"hourlyRate\": 100,\n  \"password\": \"AlsoRandomPassword\"\n}",
+							"raw": "{\n  \"firstName\": \"Jessica\",\n  \"lastName\": \"Peterson\",\n  \"email\": \"{{randomEmail}}\",\n  \"dateOfBirth\": \"1995-08-29T00:00:00.000Z\",\n  \"phoneNumber\": \"0987654321\",\n  \"experience\": 16,\n  \"hourlyRate\": 100,\n  \"password\": \"AlsoRandomPassword\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -4161,7 +4161,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"firstName\": \"Petter\",\n  \"lastName\": \"Carlsson\",\n  \"email\": \"{{randomEmail}}\",\n  \"dateOfBirth\": \"1995-08-29T00:00:00.000Z\",\n  \"phoneNumber\": \"0987654321\",\n  \"experience\": \"5 years of experience with children aged 1-6.\",\n  \"hourlyRate\": 100,\n  \"password\": \"AlsoRandomPassword\"\n}",
+							"raw": "{\n  \"firstName\": \"Petter\",\n  \"lastName\": \"Carlsson\",\n  \"email\": \"{{randomEmail}}\",\n  \"dateOfBirth\": \"1995-08-29T00:00:00.000Z\",\n  \"phoneNumber\": \"0987654321\",\n  \"experience\": 44,\n  \"hourlyRate\": 100,\n  \"password\": \"AlsoRandomPassword\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -4661,7 +4661,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"firstName\": \"Sarah\",\n  \"lastName\": \"Connor\",\n  \"email\": \"sarah@connor.com\",\n  \"dateOfBirth\": \"1995-08-29T00:00:00.000Z\",\n  \"phoneNumber\": \"0987654321\",\n  \"experience\": \"5 years of experience with children aged 1-6.\",\n  \"hourlyRate\": 100,\n  \"password\": \"AlsoRandomPassword\"\n}",
+							"raw": "{\n  \"firstName\": \"Sarah\",\n  \"lastName\": \"Connor\",\n  \"email\": \"sarah@connor.com\",\n  \"dateOfBirth\": \"1995-08-29T00:00:00.000Z\",\n  \"phoneNumber\": \"0987654321\",\n  \"experience\": 3,\n  \"hourlyRate\": 100,\n  \"password\": \"AlsoRandomPassword\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
