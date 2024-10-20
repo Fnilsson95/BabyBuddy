@@ -6,8 +6,9 @@
 
 <script>
 export default {
-    name: 'my-button'
+    name: 'button-component',
 }
+
 </script>
 
 <style></style>

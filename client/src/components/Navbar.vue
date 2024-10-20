@@ -1,5 +1,5 @@
 <template>
-    <BNavbar toggleable="lg" variant="primary" v-b-color-mode="'dark'">
+    <BNavbar toggleable="lg" v-b-color-mode="'dark'" style="background-color: #2f4f4f; font-size: 18px; font-weight: 600">
         <BNavbarBrand :to="homeRoute">BabyBuddy</BNavbarBrand> <!-- Dynamic Home Route -->
         <BNavbarToggle target="nav-collapse" />
         <BCollapse id="nav-collapse" is-nav>
@@ -15,7 +15,6 @@
                         <em>User</em>
                     </template>
                     <BDropdownItem href="#">Profile</BDropdownItem>
-                    <BDropdownItem href="#">My kids</BDropdownItem>
                     <BDropdownItem to="/login">Sign Out</BDropdownItem>
                 </BNavItemDropdown>
             </BNavbarNav>
@@ -26,6 +25,7 @@
 <script>
 import { useRoute } from 'vue-router'
 import { computed } from 'vue'
+import Modal from './Modal.vue'
 
 export default {
     setup() {
@@ -47,3 +47,5 @@ export default {
     }
 }
 </script>
+
+<style></style>

@@ -9,7 +9,7 @@
       <div class="bookings-box">
         <!-- Booking History Header inside the bookings box -->
         <div class="header-box">
-          <h2>Booking History</h2>
+          <h2>Bookings and Booking History</h2>
         </div>
 
         <!-- Booking tables based on the role -->
@@ -48,7 +48,6 @@ export default {
 </script>
 
 <style scoped>
-
 .bookings-container {
   background-color: #e0f7e9;
   display: flex;
@@ -107,6 +106,7 @@ export default {
     width: 95%;
     overflow-x: auto;
   }
+
   .header-box {
     width: 90%;
   }

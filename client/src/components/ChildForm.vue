@@ -4,7 +4,10 @@
             :label-for="input.name">
             <BFormInput v-model="form[input.name]" :id="input.name" :type="input.type" />
         </BFormFloatingLabel>
-        <Button type="submit" variant="primary">Submit</Button>
+        <div class="button-container">
+            <Button type="submit" variant="outline-success">Submit</Button>
+            <Button @click="onDelete" variant="outline-danger"> Delete child </Button>
+        </div>
     </BForm>
 </template>
 
@@ -13,11 +16,10 @@ import { reactive, defineProps } from 'vue'
 import Button from '@/components/Button.vue'
 import { useModalController } from 'bootstrap-vue-next'
 import { store } from '@/stores/guardianStore';
-import { formatDate } from '@/helpers';
-const { hide, modal } = useModalController();
+const { hide } = useModalController();
 
 const { child } = defineProps(['child'])
-console.log(child);
+
 
 const inputs = [
     { label: 'First name', type: 'text', name: 'firstName', },
@@ -26,17 +28,30 @@ const inputs = [
 ]
 
 const form = reactive({
-    firstName: child?.name.firstName,
-    lastName: child?.name.lastName,
-    birthDate: child?.dateOfBirth,
-    specialNeeds: child?.specialNeeds,
+    firstName: child?.firstName || '',
+    lastName: child?.lastName || '',
+    specialNeeds: child?.specialNeeds || '',
 })
 
 const onSubmit = async (event) => {
     event.preventDefault();
-    console.log("birthDate", formatDate(child.dateOfBirth))
-    console.log(child.specialNeeds)
-    await store.updateChild({ ...child, ...form, name: { firstName: form.firstName, lastName: form.lastName }, specialNeeds: form.specialNeeds });
     hide();
+    await store.updateChild({ ...child, ...form });
 }
+
+const onDelete = async () => {
+    hide();
+    await store.deleteChild(child._id);
+}
+
+
 </script>
+
+<style scoped>
+.button-container {
+    color: solid #3c5c5e;
+    display: flex;
+    margin-top: 1rem;
+    justify-content: space-between;
+}
+</style>

@@ -6,8 +6,8 @@ const Schema = mongoose.Schema;
 // Define Mongoose booking Schema
 const bookingSchema = new mongoose.Schema(
     {
-        startDateTime: { 
-            type: Date, 
+        startDateTime: {
+            type: Date,
             required: [true, "Start-date is required"],
             validate: {
                 validator: function (value) {
@@ -16,42 +16,42 @@ const bookingSchema = new mongoose.Schema(
                 message: "Start date must be in the future",
             },
         },
-        endDateTime: { 
-            type: Date, 
+        endDateTime: {
+            type: Date,
             required: [true, "End-date is required"],
         },
-        totalCost: { 
-            type: Number, 
-            required: [true, "Total Cost is required"], 
+        totalCost: {
+            type: Number,
+            required: [true, "Total Cost is required"],
             min: [0, "Total Cost must be at least 0"]
         },
         location: {
-            pickup_Location: { 
-                type: String, 
+            pickupLocation: {
+                type: String,
                 required: [true, "Pick-up location is required"],
                 trim: true,
             },
-            dropoff_Location: { 
-                type: String, 
+            dropoffLocation: {
+                type: String,
                 required: [true, "Drop-off location is required"],
                 trim: true,
             },
         },
-        guardian: { 
-            type: Schema.Types.ObjectId, 
-            ref: "Guardian", 
+        guardian: {
+            type: Schema.Types.ObjectId,
+            ref: "Guardian",
             required: [true, "A Guardian is required"]
         },
-        babysitter: { 
-            type: Schema.Types.ObjectId, 
+        babysitter: {
+            type: Schema.Types.ObjectId,
             ref: "Babysitter",
         },
-        children: [{ 
+        children: [{
             // Array for choice of multiple children
-            type: Schema.Types.ObjectId, 
-            ref: "Children", 
+            type: Schema.Types.ObjectId,
+            ref: "Children",
             required: [true, "Atleast one child is required"]
-        }], 
+        }],
         status: {
             type: String,
             required: true,
@@ -74,7 +74,7 @@ const bookingSchema = new mongoose.Schema(
             trim: true
         },
     },
-    { timestamps: true}
+    { timestamps: true }
 );
 
 
