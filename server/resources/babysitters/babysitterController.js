@@ -11,7 +11,7 @@ controller.post("/", async (req, res) => {
     const babysitter = new Babysitter(req.body);
     const newBabysitter = await babysitter.save();
     res.status(201).json({
-      message: `Successfully created babysitter!`,
+      message: `Successfully created your account! Welcome`,
       newBabysitter,
     });
   } catch (e) {
