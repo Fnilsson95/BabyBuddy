@@ -4,7 +4,6 @@
     <div class="toast-wrapper">
       <Toast :config-toast="toastConfig" />
     </div>
-
     <div class="sign-in-content">
       <div class="sign-in-box">
         <div class="header-box">

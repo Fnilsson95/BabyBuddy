@@ -2,14 +2,14 @@
   <div class="signup-container">
     <nav class="navbar">BabyBuddy</nav>
 
-    <div class ="toast-wrapper">
-    <Toast :config-toast="toastConfig" />
+    <div class="toast-wrapper">
+      <Toast :config-toast="toastConfig" />
     </div>
 
     <div class="signup-content">
       <div class="signup-box">
         <div class="header-box">
-          <h2>Welcome to <br> Baby Buddy!</h2>
+          <h2>Welcome to <br /> Baby Buddy!</h2>
         </div>
         <div class="role-selection">
           <h3>Choose Your Role</h3>
@@ -26,117 +26,117 @@
         </div>
         <form @submit.prevent="handleSignup" class="signup-form">
           <div class="scrollable-form">
-          <div class="form-group">
-            <label for="email">Email</label>
-            <input
-              type="email"
-              placeholder="Email"
-              v-model="userDetails.email"
-              required
-            />
-          </div>
-          <div class="form-group">
-            <label for="password">Password</label>
-            <input
-              type="password"
-              placeholder="Password"
-              v-model="userDetails.password"
-              required
-            />
-          </div>
-          <div class="form-row">
             <div class="form-group">
-              <label for="firstName">First Name</label>
+              <label for="email">Email</label>
               <input
-                type="text"
-                placeholder="First Name"
-                v-model="userDetails.firstName"
+                type="email"
+                placeholder="Email"
+                v-model="userDetails.email"
                 required
               />
             </div>
             <div class="form-group">
-              <label for="lastName">Last Name</label>
+              <label for="password">Password</label>
               <input
-                type="text"
-                placeholder="Last Name"
-                v-model="userDetails.lastName"
+                type="password"
+                placeholder="Password"
+                v-model="userDetails.password"
                 required
               />
             </div>
-          </div>
-          <div class="form-row">
-            <div class="form-group">
-              <label for="phoneNumber">Phone Number</label>
-              <input
-                type="tel"
-                placeholder="Phone Number"
-                v-model="userDetails.phoneNumber"
-                required
-              />
+            <div class="form-row">
+              <div class="form-group">
+                <label for="firstName">First Name</label>
+                <input
+                  type="text"
+                  placeholder="First Name"
+                  v-model="userDetails.firstName"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="lastName">Last Name</label>
+                <input
+                  type="text"
+                  placeholder="Last Name"
+                  v-model="userDetails.lastName"
+                  required
+                />
+              </div>
             </div>
-            <div class="form-group">
-              <label for="dateOfBirth">Date of Birth</label>
-              <input
-                type="date"
-                placeholder="Date of Birth"
-                v-model="userDetails.dateOfBirth"
-                required
-              />
+            <div class="form-row">
+              <div class="form-group">
+                <label for="phoneNumber">Phone Number</label>
+                <input
+                  type="tel"
+                  placeholder="Phone Number"
+                  v-model="userDetails.phoneNumber"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="dateOfBirth">Date of Birth</label>
+                <input
+                  type="date"
+                  placeholder="Date of Birth"
+                  v-model="userDetails.dateOfBirth"
+                  required
+                />
+              </div>
             </div>
-          </div>
-          <!-- Additional Fields for Role specifics -->
-          <div class="role-specific" v-if="role === 'guardian'">
-            <div class="form-group">
-              <label for="city">City</label>
-              <input
-                type="text"
-                placeholder="City"
-                v-model="userDetails.location.city"
-                required
-              />
+            <!-- Additional Fields for Role specifics -->
+            <div class="role-specific" v-if="role === 'guardian'">
+              <div class="form-group">
+                <label for="city">City</label>
+                <input
+                  type="text"
+                  placeholder="City"
+                  v-model="userDetails.location.city"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="country">Country</label>
+                <input
+                  type="text"
+                  placeholder="Country"
+                  v-model="userDetails.location.country"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="address">Address</label>
+                <input
+                  type="text"
+                  placeholder="Address"
+                  v-model="userDetails.location.address"
+                  required
+                />
+              </div>
             </div>
-            <div class="form-group">
-              <label for="country">Country</label>
-              <input
-                type="text"
-                placeholder="Country"
-                v-model="userDetails.location.country"
-                required
-              />
+            <div class="role-specific" v-if="role === 'babysitter'">
+              <div class="form-group">
+                <label for="hourlyRate">Hourly Rate (Kr/h)</label>
+                <input
+                  type="number"
+                  placeholder="Hourly Rate (Kr/h)"
+                  v-model="userDetails.hourlyRate"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="experience">Experience (Years)</label>
+                <input
+                  type="number"
+                  placeholder="Experience (Years)"
+                  v-model="userDetails.experience"
+                  required
+                />
+              </div>
             </div>
-            <div class="form-group">
-              <label for="address">Address</label>
-              <input
-                type="text"
-                placeholder="Address"
-                v-model="userDetails.location.address"
-                required
-              />
-            </div>
-          </div>
-          <div class="role-specific" v-if="role === 'babysitter'">
-            <div class="form-group">
-              <label for="hourlyRate">Hourly Rate (SEK)</label>
-              <input
-                type="number"
-                placeholder="Hourly Rate (Kr/h)"
-                v-model="userDetails.hourlyRate"
-                required
-              />
-            </div>
-            <div class="form-group">
-              <label for="experience">Experience (Years)</label>
-              <input
-                type="number"
-                placeholder="Experience (Years)"
-                v-model="userDetails.experience"
-                required
-              />
-            </div>
-          </div>
           </div>
           <div class="sticky-button-container">
-          <button type="submit" class="create-account-btn">Create Account</button>
+            <button type="submit" class="create-account-btn">Create Account</button>
           </div>
         </form>
         <hr class="line" />
