@@ -13,7 +13,7 @@ controller.post("/", async (req, res) => {
     const newGuardian = await guardian.save();
     res
       .status(201)
-      .json({ message: "Successfully created guardian!", newGuardian });
+      .json({ message: "Successfully created your account! Welcome", newGuardian });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
