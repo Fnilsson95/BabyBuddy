@@ -3,7 +3,7 @@
     <p class="title">
       {{ title }}
     </p>
-    <p class="value">{{ value }}$</p>
+    <p class="value">{{ value }}kr</p>
   </div>
 </template>
 
