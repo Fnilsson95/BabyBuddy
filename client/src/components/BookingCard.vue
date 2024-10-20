@@ -3,7 +3,8 @@
     <div class="card-header">
       <slot name="header">
         {{ booking.guardian.firstName }}
-        {{ booking.guardian.lastName }}</slot>
+        {{ booking.guardian.lastName }}</slot
+      >
     </div>
 
     <div class="card-body">
@@ -39,9 +40,6 @@
 </template>
 
 <script setup>
-import { calculateDuration, formatDate } from '@/helpers'
-import Button from '@/components/Button.vue'
-
 const props = defineProps({
   booking: {
     type: Object,
@@ -53,7 +51,6 @@ const props = defineProps({
     default: 'babysitter'
   }
 })
-
 </script>
 
 <style scoped>
