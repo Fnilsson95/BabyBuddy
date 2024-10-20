@@ -24,7 +24,7 @@
           <p class="label">Pickup Location:</p>
           <div class="textContainer">
             <p class="modalText">
-              {{ booking.location.pickup_Location }}
+              {{ booking.location.pickupLocation }}
             </p>
           </div>
         </div>
@@ -32,7 +32,7 @@
           <p class="label">Dropoff Location:</p>
           <div class="textContainer">
             <p class="modalText">
-              {{ booking.location.dropoff_Location }}
+              {{ booking.location.dropoffLocation }}
             </p>
           </div>
         </div>
@@ -91,6 +91,7 @@ defineProps({
   margin: 0;
   text-align: center;
 }
+
 .textContainer {
   font-size: 16;
   font-weight: 600;
@@ -107,6 +108,7 @@ defineProps({
   margin: 0;
   text-align: center;
 }
+
 .job-details {
   padding: 10px;
   margin: 0;

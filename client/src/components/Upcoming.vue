@@ -1,50 +1,59 @@
 <template>
-    <div class="pt-3">
-        <BRow>
-            <BCol>
-                <div class="mt-20px">
-                    <template v-if="store.guardian?.bookings?.length > 0">
-                        <BCard v-for="booking in store.guardian.bookings" border-variant="dark" class="my-10"
-                            :header="`Booking for: ${booking.children?.map((child) => child?.firstName).join(', ')}`"
-                            header-bg-variant="warning" header-text-variant="dark" align="center">
-                            <template v-if="booking.children">
-                                <BCardText>{{ formatDate(booking.startDateTime) }}</BCardText>
-                                <BCardText>Torsten is picking up {{ booking.children.length > 1 ? "the kids" :
-                                    booking.children[0].firstName }} at {{
-        booking.location.pickupLocation }}
-                                    and dropping {{ booking.children.length > 1 ? "them" : "him/her" }} off at {{
-                                        booking.location.dropoffLocation
-                                    }}</BCardText>
-                            </template>
-                            <em v-else>No children for this booking</em>
-                        </BCard>
+    <div class="card-wrapper" v-if="store.guardian.bookings.length > 0" v-for="booking in store.guardian.bookings"
+        :key="booking._id">
+        <BookingCard :booking="booking" card-type="guardian">
+            <template #header>
+                Booking for {{ booking.children?.map(child => child.firstName).join(', ') }}
+            </template>
+            <template #button>
+                <Modal title="Delete booking?" buttonType="outline-danger">
+                    <template #content>
+                        <h5 class="mb-4">Are you sure you want to delete this booking?</h5>
+                        <Button variant="danger" @click="() => handleDelete(booking._id)">Delete</Button>
                     </template>
-                    <em class="header-box" v-else>No upcoming bookings</em>
-                </div>
-            </BCol>
-        </BRow>
+                    <template #button>Delete booking</template>
+                </Modal>
+            </template>
+        </BookingCard>
     </div>
+    <em class="header-box mt-4" v-else>No upcoming bookings</em>
 </template>
 
 <script setup>
-import { computed } from 'vue';
+import { computed, inject } from 'vue';
 import { formatDate } from '@/helpers';
 import { useRoute } from 'vue-router';
 import { store } from '@/stores/guardianStore';
-console.log("store:", store);
+import BookingCard from '@/components/BookingCard.vue'
+
+const showToast = inject('showToast')
+
+const handleDelete = async (bookingId) => {
+    try {
+        await store.deleteBooking(bookingId);
+        showToast('Success', 'Successfully deleted booking', 'success')
+    } catch (error) {
+        showToast('Error', 'Could not delete booking', 'danger')
+        console.error('Error deleting booking:', error)
+    }
+}
 </script>
 
-<style>
+<style scoped>
 .header-box {
     border: 1px solid #3c5c5e;
     background-color: #e0f7e9;
     padding: 0.5rem;
-    margin-top: 1rem;
     border-radius: 5px;
     width: 60%;
     max-width: 600px;
     text-align: center;
     margin-left: auto;
     margin-right: auto;
+    display: inline-block;
+}
+
+.card-wrapper {
+    margin-top: 24px;
 }
 </style>

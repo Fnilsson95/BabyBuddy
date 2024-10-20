@@ -1,10 +1,9 @@
 <template>
   <div class="card">
     <div class="card-header">
-      <span>
+      <slot name="header">
         {{ booking.guardian.firstName }}
-        {{ booking.guardian.lastName }}</span
-      >
+        {{ booking.guardian.lastName }}</slot>
     </div>
 
     <div class="card-body">
@@ -12,7 +11,8 @@
         <p class="information">{{ booking.description }}</p>
       </div>
       <div class="cardRow">
-        <p class="label">Earning:</p>
+        <p v-if="cardType === 'babysitter'" class="label">Earning:</p>
+        <p v-if="cardType === 'guardian'" class="label">Cost:</p>
         <p class="information">${{ booking.totalCost }}</p>
       </div>
       <div class="cardRow">
@@ -26,6 +26,12 @@
           hours
         </p>
       </div>
+      <div class="cardRow">
+        <p class="label">Status:</p>
+        <p class="information">
+          {{ booking.status }}
+        </p>
+      </div>
 
       <slot name="button"></slot>
     </div>
@@ -34,13 +40,20 @@
 
 <script setup>
 import { calculateDuration, formatDate } from '@/helpers'
+import Button from '@/components/Button.vue'
 
-defineProps({
+const props = defineProps({
   booking: {
     type: Object,
     required: true
+  },
+  cardType: {
+    type: String,
+    required: false,
+    default: 'babysitter'
   }
 })
+
 </script>
 
 <style scoped>
@@ -48,10 +61,10 @@ defineProps({
   background-color: white;
   color: #555;
   border: 1px solid #2f4f4f;
-  max-width: 340px;
   min-width: 180px;
   width: 100%;
 }
+
 .card-header {
   width: 100%;
   background-color: #2f4f4f;

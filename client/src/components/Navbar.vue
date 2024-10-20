@@ -14,7 +14,7 @@
                 </BNavbarNav>
                 <!-- Right aligned nav items -->
                 <BNavbarNav class="ms-auto mb-2 mb-lg-0">
-                    <BNavItemDropdown>
+                    <BNavItemDropdown class="mx-auto">
                         <!-- Using 'button-content' slot -->
                         <template #button-content>
                             <em>User</em>

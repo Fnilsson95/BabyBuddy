@@ -4,6 +4,21 @@ const BASE_URL = 'http://localhost:3001/api/v1'
 
 export const bookingApi = {
 
+  async abortBooking(bookingId) {
+    try {
+      const response = await fetch(`${BASE_URL}/bookings/${bookingId}`, {
+        method: 'DELETE'
+      })
+      if (!response.ok) {
+        throw new Error('Network response was not ok')
+      }
+      return await response.json()
+    } catch (error) {
+      console.error('Error deleting booking:', error)
+      throw error
+    }
+  },
+
   async createBooking(bookingData) {
     try {
       const response = await fetch(`${BASE_URL}/bookings`, {

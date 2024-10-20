@@ -4,19 +4,19 @@
     <div class="guardian-container">
       <BContainer class="guardian-box">
         <BRow>
-          <BCol lg="3">
+          <BCol lg="4">
             <div class="pt-5">
               <h2>Book a babysitter</h2>
               <Booking />
             </div>
           </BCol>
-          <BCol lg="3">
+          <BCol lg="4">
             <div class="pt-5">
               <h2>Upcoming bookings</h2>
               <Upcoming />
             </div>
           </BCol>
-          <BCol lg="6">
+          <BCol lg="4">
             <div class="pt-5">
               <h2>My children</h2>
               <div class="custom-row">
@@ -31,7 +31,7 @@
                   </Modal>
                 </div>
                 <div class="custom-col" v-if="store.guardian.children.length > 0">
-                  <Modal title="Delete all children" buttonType="outline-danger">
+                  <Modal title="Delete all children?" buttonType="outline-danger">
                     <template #content>
                       <DeleteAllChildren />
                     </template>

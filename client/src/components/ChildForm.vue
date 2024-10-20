@@ -5,19 +5,20 @@
             <BFormInput v-model="form[input.name]" :id="input.name" :type="input.type" />
         </BFormFloatingLabel>
         <div class="button-container">
-            <Button type="submit" variant="outline-success">Submit</Button>
-            <Button @click="onDelete" variant="outline-danger"> Delete child </Button>
+            <Button type="submit" variant="success">Submit</Button>
+            <Button @click="onDelete" variant="danger"> Delete child </Button>
         </div>
     </BForm>
 </template>
 
 <script setup>
-import { reactive, defineProps } from 'vue'
+import { reactive, defineProps, inject } from 'vue'
 import Button from '@/components/Button.vue'
 import { useModalController } from 'bootstrap-vue-next'
-import { store } from '@/stores/guardianStore';
-const { hide } = useModalController();
+import { store } from '@/stores/guardianStore'
 
+const { hide } = useModalController();
+const showToast = inject('showToast')
 const { child } = defineProps(['child'])
 
 
@@ -36,12 +37,23 @@ const form = reactive({
 const onSubmit = async (event) => {
     event.preventDefault();
     hide();
-    await store.updateChild({ ...child, ...form });
+    try {
+        await store.updateChild({ ...child, ...form });
+        showToast('Success', 'Successfully edited child information', 'success')
+    } catch (error) {
+        showToast('Error', 'Could not edit information', 'danger')
+        console.error('Error editing child:', error)
+    }
 }
-
 const onDelete = async () => {
     hide();
-    await store.deleteChild(child._id);
+    try {
+        await store.deleteChild(child._id);
+        showToast('Success', 'Successfully deleted child', 'success')
+    } catch (error) {
+        showToast('Error', 'Could not delete child', 'danger')
+        console.error('Error deleting child:', error)
+    }
 }
 
 

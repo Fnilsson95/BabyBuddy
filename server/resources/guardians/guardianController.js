@@ -95,9 +95,9 @@ controller.get("/:id", async (req, res) => {
     const { id } = req.params;
     const guardian = await Guardian.findById(id).populate("children").populate({
       path: 'bookings',
-      populate: {
+      populate: [{
         path: 'children',
-      }
+      }]
     });
 
     if (!guardian) {

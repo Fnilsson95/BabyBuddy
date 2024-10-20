@@ -55,8 +55,15 @@ export const store = reactive({
         this.guardian.children = [];
     },
     async createBooking(bookingData) {
-        console.log("bookingData:", bookingData);
-        const newBooking = await bookingApi.createBooking({ ...bookingData, guardian: this.guardian._id });
-        this.guardian.bookings = [...this.guardian.bookings, newBooking];
-    }
+        try {
+            const { newBooking } = await bookingApi.createBooking({ ...bookingData, guardian: this.guardian._id });
+            this.guardian.bookings = [...this.guardian.bookings, newBooking];
+        } catch (error) {
+            console.error("error:", error);
+        }
+    },
+    async deleteBooking(bookingId) {
+        await bookingApi.abortBooking(bookingId);
+        this.guardian.bookings = this.guardian.bookings.filter((booking) => booking._id !== bookingId)
+    },
 })

@@ -1,5 +1,5 @@
 <template>
-  <Button :variant="buttonType ? buttonType : 'outline-warning'" @click="isOpen = !isOpen">
+  <Button :variant="buttonType ? buttonType : 'outline-dark'" @click="isOpen = !isOpen">
     <slot name="button"></slot>
   </Button>
 

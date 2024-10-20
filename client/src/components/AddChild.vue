@@ -10,48 +10,44 @@
     </BForm>
 </template>
 
-<script>
-import { reactive, defineProps } from 'vue'
+<script setup>
+import { reactive, inject } from 'vue'
 import Button from '@/components/Button.vue'
 import { formatDate } from '@/helpers';
 import { useModalController } from 'bootstrap-vue-next'
-import { store } from '@/stores/guardianStore';
+import { store } from '@/stores/guardianStore'
 
-export default {
-    setup() {
-        const { hide } = useModalController();
+const { hide } = useModalController();
+const showToast = inject('showToast')
 
-        const inputs = [
-            { label: 'First name', type: 'text', name: 'firstName', },
-            { label: 'Last name', type: 'text', name: 'lastName', },
-            { label: 'Birth date', type: 'date', name: 'dateOfBirth' },
-            { label: 'Special needs', type: 'text', name: 'specialNeeds', },
-        ]
-        const form = reactive({
-            firstName: '',
-            lastName: '',
-            specialNeeds: '',
-            dateOfBirth: formatDate(new Date().toDateString()),
-            guardian: store.guardian._id
-        })
+const inputs = [
+    { label: 'First name', type: 'text', name: 'firstName', },
+    { label: 'Last name', type: 'text', name: 'lastName', },
+    { label: 'Birth date', type: 'date', name: 'dateOfBirth' },
+    { label: 'Special needs', type: 'text', name: 'specialNeeds', },
+]
 
-        const onSubmit = async (event) => {
-            event.preventDefault();
-            hide();
-            await store.createChild(form);
-            form.firstName = '',
-                form.lastName = '',
-                form.specialNeeds = '',
-                form.dateOfBirth = formatDate(new Date().toDateString())
-        }
-
-        return {
-            inputs,
-            form,
-            onSubmit,
-        }
+const form = reactive({
+    firstName: '',
+    lastName: '',
+    specialNeeds: '',
+    dateOfBirth: formatDate(new Date().toDateString()),
+    guardian: store.guardian._id
+})
+const onSubmit = async (event) => {
+    event.preventDefault();
+    hide();
+    try {
+        await store.createChild(form);
+        form.firstName = '',
+            form.lastName = '',
+            form.specialNeeds = '',
+            form.dateOfBirth = formatDate(new Date().toDateString())
+        showToast('Success', 'Successfully added child', 'success')
+    } catch (error) {
+        showToast('Error', 'Could not add child', 'danger')
+        console.error('Error creating child:', error)
     }
 }
 </script>
-
 <style></style>
