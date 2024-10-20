@@ -37,38 +37,63 @@
           </div>
         </div>
       </div>
-      <p class="sectionTitle">Guardian</p>
-      <div class="guardianContainer">
-        <p style="font-size: 18px; font-weight: 600; margin: 0">
-          {{ booking.guardian.firstName }}
-          {{ booking.guardian.lastName }}
-        </p>
+      <p class="sectionTitle">
+        Guardian -
+        {{ booking.guardian.firstName + ' ' + booking.guardian.lastName }}
+      </p>
+      <div class="grid-item">
+        <div
+          style="
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+          "
+        >
+          <p class="label">Email:</p>
+          <p class="modalText">
+            {{ booking.guardian.email }}
+          </p>
+        </div>
 
-        <p style="font-size: 14px; margin: 0">
-          Email:
-          {{ booking.guardian.email }}
-        </p>
-
-        <p style="font-size: 14px; margin: 0">
-          Phone:
-          {{ booking.guardian.phoneNumber }}
-        </p>
-        <p style="font-size: 14px; margin: 0">
-          Children:
-          {{ booking.children.length }}
-        </p>
+        <div
+          style="
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+          "
+        >
+          <p class="label">Phone:</p>
+          <p class="modalText">
+            {{ booking.guardian.phoneNumber }}
+          </p>
+        </div>
+        <div
+          style="
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+          "
+        >
+          <p class="label">Children:</p>
+          <p class="modalText">
+            {{ booking.children.length }}
+          </p>
+        </div>
       </div>
-      <div class="bookingStatus">
-        <p>
-          Status:
-          <span style="font-weight: 600">{{ booking.status }}</span>
-        </p>
+    </div>
+    <div class="bookingStatus">
+      <p>
+        Status:
+        <span>{{ booking.status }}</span>
+      </p>
 
-        <p>
-          Total cost:
-          <span style="font-weight: 600">${{ booking.totalCost }}</span>
-        </p>
-      </div>
+      <p>
+        Total cost:
+        <span>{{ booking.totalCost }}kr</span>
+      </p>
     </div>
     <slot name="button"></slot>
   </div>
@@ -87,9 +112,10 @@ defineProps({
 
 <style scoped>
 .label {
-  font-size: 14;
+  font-size: 14px;
   margin: 0;
   text-align: center;
+  text-decoration: underline;
 }
 .textContainer {
   font-size: 16;
@@ -106,6 +132,9 @@ defineProps({
 .modalText {
   margin: 0;
   text-align: center;
+  color: #2f4f4f;
+  font-size: 14px;
+  font-weight: 600;
 }
 .job-details {
   padding: 10px;
@@ -113,7 +142,7 @@ defineProps({
 }
 
 .grid-item {
-  border: 0.3px solid #c3c3c3;
+  border: 1px solid #2f4f4f;
   background-color: white;
   padding: 15px;
   border-radius: 5px;
@@ -124,21 +153,22 @@ defineProps({
 }
 
 .guardianContainer {
-  border: 0.3px solid #c3c3c3;
+  border: 1px solid #2f4f4f;
   background-color: white;
   padding: 15px;
   border-radius: 5px;
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
   margin-bottom: 10px;
 }
 
 .sectionTitle {
   font-weight: 600;
   font-size: 20px;
-  margin: 0;
+  margin: 0 0 5px 0;
+  color: #2f4f4f;
 }
 
 .bookingStatus {
@@ -147,22 +177,8 @@ defineProps({
   justify-content: space-between;
 }
 
-.apply-button-container {
-  margin-top: 20px;
-  text-align: center;
-}
-
-.apply-button {
-  background-color: #007bff;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  font-size: 16px;
-  cursor: pointer;
-  border-radius: 5px;
-}
-
-.apply-button:hover {
-  background-color: #0056b3;
+span {
+  font-weight: 600;
+  color: #2f4f4f;
 }
 </style>

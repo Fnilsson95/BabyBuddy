@@ -13,7 +13,7 @@
       </div>
       <div class="cardRow">
         <p class="label">Earning:</p>
-        <p class="information">${{ booking.totalCost }}</p>
+        <p class="information">{{ booking.totalCost }}kr</p>
       </div>
       <div class="cardRow">
         <p class="label">Date:</p>
