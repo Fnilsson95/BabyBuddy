@@ -3,6 +3,42 @@ const BASE_URL = 'http://localhost:3001/api/v1'
 // http://localhost:3000/api/bookings?page=1&limit=1
 
 export const bookingApi = {
+
+  async abortBooking(bookingId) {
+    try {
+      const response = await fetch(`${BASE_URL}/bookings/${bookingId}`, {
+        method: 'DELETE'
+      })
+      if (!response.ok) {
+        throw new Error('Network response was not ok')
+      }
+      return await response.json()
+    } catch (error) {
+      console.error('Error deleting booking:', error)
+      throw error
+    }
+  },
+
+  async createBooking(bookingData) {
+    try {
+      const response = await fetch(`${BASE_URL}/bookings`, {
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        method: 'POST',
+        body: JSON.stringify(bookingData)
+      })
+      if (!response.ok) {
+        const errorData = await response.json()
+        throw new Error(errorData.error || 'Failed to create booking')
+      }
+      return await response.json()
+    } catch (error) {
+      console.error('Error creating booking: ', error)
+      throw error
+    }
+  },
+
   async getAllPendingBookings() {
     try {
       const response = await fetch(`${BASE_URL}/bookings/pending`)

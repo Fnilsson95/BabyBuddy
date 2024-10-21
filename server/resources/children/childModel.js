@@ -4,18 +4,16 @@ const Schema = mongoose.Schema;
 
 const childrenSchema = mongoose.Schema(
   {
-    name: {
-      firstName: {
+    firstName: {
       type: String,
       required: [true, "First name is required"],
       trim: true,
     },
-      lastName: {
+    lastName: {
       type: String,
       required: [true, "Last name is required"],
       trim: true,
     },
-  },
     dateOfBirth: {
       type: Date,
       required: [true, "Date of birth is required"],

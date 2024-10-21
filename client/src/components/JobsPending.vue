@@ -69,11 +69,12 @@ const route = useRoute()
 const refreshBookings = async () => {
   try {
     const bookings = await bookingApi.getAllPendingBookings()
+
     if (bookings.length === 0) {
       return
     }
 
-    structuredBookings.value = bookings.bookings.map((booking) => {
+    structuredBookings.value = bookings.bookings?.map((booking) => {
       return {
         id: booking._id,
         description: booking.description,
@@ -126,6 +127,7 @@ onMounted(refreshBookings)
   align-items: center;
   justify-content: center;
 }
+
 .button {
   min-width: 80px;
   background-color: #2f4f4f;

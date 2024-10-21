@@ -42,7 +42,8 @@
           :key="selectedBooking?.id"
           @booking-updated="$emit('booking-updated')"
           @update:modalRef="modal = $event"
-      /></BModal>
+        />
+      </BModal>
     </BRow>
   </div>
 </template>
@@ -53,7 +54,6 @@ import { useRoute } from 'vue-router'
 import { bookingApi } from '@/api/v1/bookings'
 import { calculateDuration, formatDate } from '@/helpers'
 import BookingCard from './BookingCard.vue'
-import Toast from './Toast.vue'
 
 const bookings = ref([])
 const modal = ref(false)

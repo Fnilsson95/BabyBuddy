@@ -2,20 +2,51 @@ const Guardian = require("./guardianModel");
 const express = require("express");
 const controller = express.Router();
 const Child = require("../children/childModel");
-const Children = require("../children/childModel");
 const Bookings = require("../bookings/bookingModel");
 const updateBookingStatus = require("../bookings/bookingHelpers");
+
+const childDeletionCleanup = async (guardianId, childrenIds) => {
+  // Remove children from the guardian
+  await Guardian.findByIdAndUpdate(guardianId, {
+    $pullAll: { children: childrenIds },
+  });
+  // Remove children from the bookings
+  await Bookings.updateMany(
+    { guardian: guardianId },
+    { $pullAll: { children: childrenIds } }
+  );
+  // Get references to bookings that will be deleted because they now have no children
+  const bookingsToBeDeletedQuery = {
+    guardian: guardianId,
+    children: { $size: 0 },
+  };
+  const bookingsToBeDeleted = await Bookings.find(bookingsToBeDeletedQuery);
+  // If there are bookings to be deleted
+  if (bookingsToBeDeleted.length > 0) {
+    const deletedBookings = bookingsToBeDeleted.map((booking) => booking._id);
+    // Delete the bookings
+    await Bookings.deleteMany(bookingsToBeDeletedQuery);
+    // Remove the deleted bookings from the babysitters
+    await Babysitter.updateMany(
+      { bookings: { $in: deletedBookings } },
+      { $pullAll: { bookings: deletedBookings } }
+    );
+  }
+};
 
 // Create new guardian
 controller.post("/", async (req, res) => {
   try {
     const guardian = new Guardian(req.body);
     const newGuardian = await guardian.save();
-    res
+    return res
       .status(201)
-      .json({ message: "Successfully created your account! Welcome", newGuardian });
+      .json({
+        message: "Successfully created your account! Welcome",
+        newGuardian,
+      });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    return res.status(500).json({ error: error.message });
   }
 });
 
@@ -32,7 +63,7 @@ controller.post("/:guardianId/children", async (req, res) => {
     }
 
     //Create new child
-    const child = new Children(req.body);
+    const child = new Child(req.body);
     const newChild = await child.save();
 
     // Add the child to the guardian's children array
@@ -43,21 +74,32 @@ controller.post("/:guardianId/children", async (req, res) => {
       "children"
     );
 
-    res
+    return res
       .status(201)
-      .json({ message: "Successfully created child!", newChild, updatedGuardian });
+      .json({
+        message: "Successfully created child!",
+        newChild,
+        updatedGuardian,
+      });
   } catch (e) {
-    res.status(500).json({ message: e.message });
+    return res.status(500).json({ message: e.message });
   }
 });
 
 // Get all guardians
 controller.get("/", async (req, res) => {
   try {
-    const guardians = await Guardian.find().populate("children");
-    res.status(200).json(guardians);
+    const guardians = await Guardian.find()
+      .populate("children")
+      .populate({
+        path: "bookings",
+        populate: {
+          path: "children",
+        },
+      });
+    return res.status(200).json(guardians);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    return res.status(500).json({ error: error.message });
   }
 });
 
@@ -65,17 +107,26 @@ controller.get("/", async (req, res) => {
 controller.get("/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const guardian = await Guardian.findById(id).populate("children");
+    const guardian = await Guardian.findById(id)
+      .populate("children")
+      .populate({
+        path: "bookings",
+        populate: [
+          {
+            path: "children",
+          },
+        ],
+      });
 
     if (!guardian) {
-      res.status(404).json({
+      return res.status(404).json({
         message: `Guardian with id ${id} was not found`,
       });
     } else {
-      res.status(200).json(guardian);
+      return res.status(200).json(guardian);
     }
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    return res.status(500).json({ message: error.message });
   }
 });
 
@@ -86,7 +137,9 @@ controller.put("/:id", async (req, res) => {
     const guardian = await Guardian.findByIdAndUpdate(id, req.body, {
       new: true,
       runValidators: true,
-    }).populate("children");
+    })
+      .populate("children")
+      .populate("bookings");
 
     // Check if the email is being updated, and if it exists in another guardian
     if (req.body.email && req.body.email !== guardian.email) {
@@ -97,16 +150,18 @@ controller.put("/:id", async (req, res) => {
     }
 
     if (!guardian) {
-      res.status(404).json({ message: `Guardian with id ${id} was not found` });
+      return res
+        .status(404)
+        .json({ message: `Guardian with id ${id} was not found` });
     } else {
       const updateGuardian = await Guardian.findById(id).populate("children");
-      res.status(200).json({
+      return res.status(200).json({
         message: `Successfully updated guardian with id ${id}`,
         updateGuardian,
       });
     }
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    return res.status(500).json({ error: error.message });
   }
 });
 
@@ -118,7 +173,6 @@ controller.patch("/:id", async (req, res) => {
       new: true,
       runValidators: true,
     }).populate("children");
-
 
     // Check if the email is being updated, and if it exists in another guardian
     if (req.body.email && req.body.email !== guardian.email) {
@@ -133,10 +187,10 @@ controller.patch("/:id", async (req, res) => {
         .status(404)
         .json({ message: `Guardian with id ${id} was not found` });
     } else {
-      res.status(200).json(updateGuadian);
+      return res.status(200).json(updateGuadian);
     }
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    return res.status(500).json({ error: error.message });
   }
 });
 
@@ -147,14 +201,16 @@ controller.delete("/:id", async (req, res) => {
   try {
     const guardian = await Guardian.findByIdAndDelete(id);
     if (guardian) {
-      res.status(200).json({
+      return res.status(200).json({
         message: `deleted guardian: ${guardian}`,
       });
     } else {
-      res.status(404).json({ error: `Guardian with id ${id} was not found` });
+      return res
+        .status(404)
+        .json({ error: `Guardian with id ${id} was not found` });
     }
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    return res.status(500).json({ error: error.message });
   }
 });
 
@@ -166,12 +222,12 @@ controller.delete("/", async (req, res) => {
     if (deleteAll.deletedCount === 0) {
       return res.status(400).json({ message: "No guardians to delete!" });
     }
-    res.status(200).json({
+    return res.status(200).json({
       message: "All guardians was successfully deleted!",
       deletedCount: deleteAll.deletedCount,
     });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    return res.status(500).json({ error: error.message });
   }
 });
 
@@ -186,9 +242,9 @@ controller.get("/:guardianId/children", async (req, res) => {
         .status(404)
         .json({ message: `Guardian with id ${guardianId} were not found` });
     }
-    res.status(200).json(guardian.children);
+    return res.status(200).json(guardian.children);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    return res.status(500).json({ error: error.message });
   }
 });
 
@@ -204,9 +260,9 @@ controller.get("/:guardianId/children/:childId", async (req, res) => {
         .status(404)
         .json({ message: `Child with ${childId} not found for this guardian` });
     }
-    res.status(200).json(child);
+    return res.status(200).json(child);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    return res.status(500).json({ error: error.message });
   }
 });
 
@@ -220,21 +276,39 @@ controller.delete("/:guardianId/children/:childId", async (req, res) => {
       guardian: guardianId,
     });
 
+    await childDeletionCleanup(guardianId, [childId]);
+
     if (!child) {
       return res
         .status(404)
         .json({ message: `Child with ${childId} not found for this guardian` });
     }
 
-    await Guardian.findByIdAndUpdate(guardianId, {
-      $pull: { children: child._id },
-    });
-
-    res
+    return res
       .status(200)
       .json({ message: `Child with ${childId} removed successfully` });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    return res.status(500).json({ error: error.message });
+  }
+});
+
+//Delete all children of a specific guardian
+controller.delete("/:guardianId/children", async (req, res) => {
+  try {
+    const { guardianId } = req.params;
+
+    const children = await Child.find({ guardian: guardianId });
+    const childrenIds = children.map((child) => child._id);
+    await Child.deleteMany({ guardian: guardianId, _id: { $in: childrenIds } });
+    await childDeletionCleanup(guardianId, childrenIds);
+
+    return res
+      .status(200)
+      .json({
+        message: `Successfully deleted all children from guardian with id: ${guardianId}`,
+      });
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
   }
 });
 
@@ -245,7 +319,12 @@ controller.delete("/:guardianId/children/:childId", async (req, res) => {
 controller.get("/:guardianId/bookings", async (req, res) => {
   try {
     const { guardianId } = req.params;
-    const { page = 1, limit = 20, sort = "startDateTime", order = "asc" } = req.query;
+    const {
+      page = 1,
+      limit = 20,
+      sort = "startDateTime",
+      order = "asc",
+    } = req.query;
 
     // Pagination and Sorting parameters and validation
     const pages = parseInt(page, 10);
@@ -254,19 +333,33 @@ controller.get("/:guardianId/bookings", async (req, res) => {
 
     // Handle invalid page or limit values
     if (isNaN(pages) || pages < 1) {
-      return res.status(400).json({ message: "Invalid page parameter. Must be a positive number." });
+      return res
+        .status(400)
+        .json({
+          message: "Invalid page parameter. Must be a positive number.",
+        });
     }
     if (isNaN(limits) || limits < 1) {
-      return res.status(400).json({ message: "Invalid limit parameter. Must be a positive number." });
+      return res
+        .status(400)
+        .json({
+          message: "Invalid limit parameter. Must be a positive number.",
+        });
     }
-    
+
     const validOrders = ["asc", "desc"];
-    const sortOrder = validOrders.includes(order) ? (order === "asc" ? 1 : -1) : 1;
-    const sortOption = { [sort]: sortOrder};
+    const sortOrder = validOrders.includes(order)
+      ? order === "asc"
+        ? 1
+        : -1
+      : 1;
+    const sortOption = { [sort]: sortOrder };
 
     // Get the total number of bookings for the guardian
-    const totalBookings = await Bookings.countDocuments({ guardian: guardianId });
-    
+    const totalBookings = await Bookings.countDocuments({
+      guardian: guardianId,
+    });
+
     // Find all bookings associated with the guardian
     const guardianBookings = await Bookings.find({ guardian: guardianId })
       .sort(sortOption)
@@ -276,15 +369,16 @@ controller.get("/:guardianId/bookings", async (req, res) => {
       .populate("children")
       .populate("babysitter"); // Babysitter may be null if booking is still pending
 
-
     // Update booking statuses before returning (if any)
-    const updatedBookings = await updateBookingStatus(guardianBookings);  
-    
+    const updatedBookings = await updateBookingStatus(guardianBookings);
+
     if (updatedBookings.length === 0) {
-      return res.status(400).json({ message: "No bookings found for this guardian" });
+      return res
+        .status(400)
+        .json({ message: "No bookings found for this guardian" });
     }
 
-    res.status(200).json({
+    return res.status(200).json({
       page: pages,
       limit: limits,
       totalBookings,
@@ -292,10 +386,9 @@ controller.get("/:guardianId/bookings", async (req, res) => {
       bookings: updatedBookings,
     });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    return res.status(500).json({ error: error.message });
   }
 });
-
 
 // Get a specific booking for a guardian
 controller.get("/:guardianId/bookings/:bookingId", async (req, res) => {
@@ -303,13 +396,20 @@ controller.get("/:guardianId/bookings/:bookingId", async (req, res) => {
     const { guardianId, bookingId } = req.params;
 
     // Find the booking and ensure it belongs to the guardian
-    const booking = await Bookings.findOne({ _id: bookingId, guardian: guardianId })
+    const booking = await Bookings.findOne({
+      _id: bookingId,
+      guardian: guardianId,
+    })
       .populate("guardian")
       .populate("children")
       .populate("babysitter"); // Babysitter may be null if booking is still pending
 
     if (!booking) {
-      return res.status(404).json({ message: `Booking with id ${bookingId} not found for this guardian` });
+      return res
+        .status(404)
+        .json({
+          message: `Booking with id ${bookingId} not found for this guardian`,
+        });
     }
 
     // Update the status before returning
@@ -329,29 +429,41 @@ controller.delete("/:guardianId/bookings/:bookingId", async (req, res) => {
     const { guardianId, bookingId } = req.params;
 
     // Find the booking and ensure it belongs to the guardian
-    const booking = await Bookings.findOne({ _id: bookingId, guardian: guardianId });
+    const booking = await Bookings.findOne({
+      _id: bookingId,
+      guardian: guardianId,
+    });
     if (!booking) {
-      return res.status(404).json({ message: `Booking with id ${bookingId} not found for this guardian` });
+      return res
+        .status(404)
+        .json({
+          message: `Booking with id ${bookingId} not found for this guardian`,
+        });
     }
 
     // If a babysitter is assigned to the booking
     // remove the booking from the babysitter's bookings list
     if (booking.babysitter) {
-      await Babysitter.findByIdAndUpdate(booking.babysitter, { $pull: { bookings: bookingId } });
+      await Babysitter.findByIdAndUpdate(booking.babysitter, {
+        $pull: { bookings: bookingId },
+      });
     }
 
     // Delete the booking
     await Bookings.findByIdAndDelete(bookingId);
 
     // Remove the booking reference from the guardian's bookings array
-    await Guardian.findByIdAndUpdate(guardianId, { $pull: { bookings: bookingId } });
+    await Guardian.findByIdAndUpdate(guardianId, {
+      $pull: { bookings: bookingId },
+    });
 
-    res.status(200).json({ message: `Successfully deleted booking with id ${bookingId}` });
+    res
+      .status(200)
+      .json({ message: `Successfully deleted booking with id ${bookingId}` });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 });
-
 
 // Delete ALL bookings for a specific guardian
 controller.delete("/:guardianId/bookings", async (req, res) => {
@@ -361,7 +473,9 @@ controller.delete("/:guardianId/bookings", async (req, res) => {
     // Find all bookings for the guardian
     const guardianBookings = await Bookings.find({ guardian: guardianId });
     if (guardianBookings.length === 0) {
-      return res.status(400).json({ message: "No bookings found for this guardian" });
+      return res
+        .status(404)
+        .json({ message: "No bookings found for this guardian" });
     }
 
     // For each booking
@@ -369,8 +483,9 @@ controller.delete("/:guardianId/bookings", async (req, res) => {
     // Remove the booking from the babysitters bookings list
     for (const booking of guardianBookings) {
       if (booking.babysitter) {
-        await Babysitter.findByIdAndUpdate(booking.babysitter,
-          { $pull: { bookings: booking._id } });
+        await Babysitter.findByIdAndUpdate(booking.babysitter, {
+          $pull: { bookings: booking._id },
+        });
       }
     }
 
@@ -380,12 +495,16 @@ controller.delete("/:guardianId/bookings", async (req, res) => {
     // Clear the bookings array for guardian
     await Guardian.findByIdAndUpdate(guardianId, { $set: { bookings: [] } });
 
-    res.status(200).json({ message: "All bookings for this guardian have been successfully deleted" });
+    res
+      .status(200)
+      .json({
+        message:
+          "All bookings for this guardian have been successfully deleted",
+      });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 });
-
 
 // Export routes
 module.exports = controller;
