@@ -1,6 +1,17 @@
 <template>
   <div class="job-details">
     <div class="grid-container">
+      <p class="sectionTitle">Description</p>
+      <div class="grid-item">
+        <div>
+          <p class="label">Description:</p>
+          <div class="textContainer">
+            <p class="modalText">
+              {{ booking.description }}
+            </p>
+          </div>
+        </div>
+      </div>
       <p class="sectionTitle">Date</p>
       <div class="grid-item">
         <div class="dates">
