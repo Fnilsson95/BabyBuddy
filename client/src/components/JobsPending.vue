@@ -5,7 +5,7 @@
       md="6"
       lg="6"
       xl="6"
-      class="mb-3"
+      class="mb-3 large-screen-grid"
       v-for="booking in structuredBookings"
       :key="booking._id"
       style="display: flex; align-items: center; justify-content: center"
@@ -122,6 +122,13 @@ onMounted(refreshBookings)
 </script>
 
 <style scoped>
+@media (min-width: 1600px) {
+  .large-screen-grid {
+    flex: 0 0 33.3333%;
+    max-width: 33.3333%;
+  }
+}
+
 .button-container {
   display: flex;
   align-items: center;
