@@ -84,8 +84,7 @@ export default {
   },
   async mounted() {
     const guardianId = this.route.params.id
-    const guardian = await guardianApi.getGuardian(guardianId);
-    store.setGuardian(guardian);
+    await store.init(guardianId);
   }
 }
 

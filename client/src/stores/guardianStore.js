@@ -4,66 +4,62 @@ import { guardianApi } from "@/api/v1/guardians";
 import { bookingApi } from "@/api/v1/bookings";
 
 export const store = reactive({
+    includedStatuses: ["Pending", "Confirmed"],
+
     guardian: {
         firstName: "",
         lastName: "",
         children: [],
         bookings: []
     },
-    async updateGuardian(guardianUpdate = {}) {
-        const updatedGuardian = {
-            ...this.guardian,
-            ...guardianUpdate
-        }
-        this.guardian = updatedGuardian;
 
-    },
     setGuardian(newGuardian) {
-        this.guardian = newGuardian;
+        this.guardian = {
+            ...newGuardian,
+            bookings: newGuardian.bookings.filter(({ status }) => this.includedStatuses.includes(status))
+        };
+    },
+
+    async init(id) {
+        if (!id) {
+            throw new Error("You need to provide an id to initialize the guardian store");
+        }
+        const guardian = await guardianApi.getGuardian(id);
+        this.setGuardian(guardian);
+    },
+
+    async refreshGuardian() {
+        const guardian = await guardianApi.getGuardian(this.guardian._id);
+        this.setGuardian(guardian);
     },
 
     async updateChild(childUpdate = {}) {
-        const updatedChild = {
-            ...this.guardian.children.find((child) => child._id === childUpdate._id),
-            ...childUpdate
-        }
-        await childApi.updateChild(updatedChild._id, updatedChild);
-        this.guardian.children = this.guardian.children.map((child) => {
-            return child._id === updatedChild._id ? updatedChild : child
-        });
-        this.guardian.bookings = this.guardian.bookings.map((booking) => {
-            return {
-                ...booking,
-                children: booking.children.map((child) => {
-                    return child._id === updatedChild._id ? updatedChild : child
-                })
-            };
-        });
+        await childApi.updateChild(childUpdate._id, childUpdate);
+        await this.refreshGuardian();
     },
 
     async createChild(childData = {}) {
-        const { newChild } = await guardianApi.createChild(this.guardian._id, childData)
-        this.guardian.children = [...this.guardian.children, newChild];
+        const { updatedGuardian } = await guardianApi.createChild(this.guardian._id, childData)
+        this.setGuardian(updatedGuardian);
     },
 
     async deleteChild(childToRemoveId) {
-        await guardianApi.deleteChild(this.guardian._id, childToRemoveId)
-        this.guardian.children = this.guardian.children.filter((child) => child._id !== childToRemoveId)
+        const { guardian } = await guardianApi.deleteChild(this.guardian._id, childToRemoveId)
+        this.setGuardian(guardian);
     },
+
     async deleteAllChildren() {
-        await guardianApi.deleteAllChildren(this.guardian._id)
-        this.guardian.children = [];
+        const { guardian } = await guardianApi.deleteAllChildren(this.guardian._id)
+        this.setGuardian(guardian);
     },
+
     async createBooking(bookingData) {
-        try {
-            const { newBooking } = await bookingApi.createBooking({ ...bookingData, guardian: this.guardian._id });
-            this.guardian.bookings = [...this.guardian.bookings, newBooking];
-        } catch (error) {
-            console.error("error:", error);
-        }
+        await bookingApi.createBooking({ ...bookingData, guardian: this.guardian._id });
+        await this.refreshGuardian();
     },
+
     async deleteBooking(bookingId) {
         await bookingApi.abortBooking(bookingId);
-        this.guardian.bookings = this.guardian.bookings.filter((booking) => booking._id !== bookingId)
+        await this.refreshGuardian();
     },
 })

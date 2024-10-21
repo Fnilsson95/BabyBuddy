@@ -3,13 +3,10 @@ const express = require("express");
 const controller = express.Router();
 const Child = require("../children/childModel");
 const Bookings = require("../bookings/bookingModel");
+const Babysitter = require("../babysitters/babysitterModel");
 const updateBookingStatus = require("../bookings/bookingHelpers");
 
 const childDeletionCleanup = async (guardianId, childrenIds) => {
-  // Remove children from the guardian
-  await Guardian.findByIdAndUpdate(guardianId, {
-    $pullAll: { children: childrenIds },
-  });
   // Remove children from the bookings
   await Bookings.updateMany(
     { guardian: guardianId },
@@ -32,6 +29,21 @@ const childDeletionCleanup = async (guardianId, childrenIds) => {
       { $pullAll: { bookings: deletedBookings } }
     );
   }
+
+  // Remove children from the guardian
+  const updatedGuardian = await Guardian.findByIdAndUpdate(guardianId, {
+    $pullAll: { children: childrenIds },
+  }).populate("children")
+    .populate({
+      path: "bookings",
+      populate: [
+        {
+          path: "children",
+        },
+      ],
+    });
+
+  return updatedGuardian;
 };
 
 // Create new guardian
@@ -72,7 +84,14 @@ controller.post("/:guardianId/children", async (req, res) => {
 
     const updatedGuardian = await Guardian.findById(guardianId).populate(
       "children"
-    );
+    ).populate({
+      path: "bookings",
+      populate: [
+        {
+          path: "children",
+        },
+      ],
+    });;
 
     return res
       .status(201)
@@ -126,6 +145,7 @@ controller.get("/:id", async (req, res) => {
       return res.status(200).json(guardian);
     }
   } catch (error) {
+    console.error("error:", error)
     return res.status(500).json({ message: error.message });
   }
 });
@@ -276,7 +296,7 @@ controller.delete("/:guardianId/children/:childId", async (req, res) => {
       guardian: guardianId,
     });
 
-    await childDeletionCleanup(guardianId, [childId]);
+    const updatedGuardian = await childDeletionCleanup(guardianId, [childId]);
 
     if (!child) {
       return res
@@ -286,8 +306,9 @@ controller.delete("/:guardianId/children/:childId", async (req, res) => {
 
     return res
       .status(200)
-      .json({ message: `Child with ${childId} removed successfully` });
+      .json({ message: `Child with ${childId} removed successfully`, guardian: updatedGuardian });
   } catch (error) {
+    console.error("controller.delete ~ error:", error)
     return res.status(500).json({ error: error.message });
   }
 });
@@ -300,12 +321,13 @@ controller.delete("/:guardianId/children", async (req, res) => {
     const children = await Child.find({ guardian: guardianId });
     const childrenIds = children.map((child) => child._id);
     await Child.deleteMany({ guardian: guardianId, _id: { $in: childrenIds } });
-    await childDeletionCleanup(guardianId, childrenIds);
+    const updatedGuardian = await childDeletionCleanup(guardianId, childrenIds);
 
     return res
       .status(200)
       .json({
         message: `Successfully deleted all children from guardian with id: ${guardianId}`,
+        guardian: updatedGuardian
       });
   } catch (error) {
     return res.status(500).json({ error: error.message });
