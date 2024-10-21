@@ -12,7 +12,7 @@ const { hide } = useModalController()
 const showToast = inject('showToast')
 
 const deleteAll = async () => {
-  hide()
+  hide();
   try {
     await store.deleteAllChildren()
     showToast('Success', 'Successfully deleted all children', 'success')

@@ -119,6 +119,7 @@ export const guardianApi = {
         const errorData = await response.json()
         throw new Error(errorData.error || 'Failed to delete children')
       }
+      return await response.json()
     } catch (error) {
       console.error('Error deleting child: ', error)
     }

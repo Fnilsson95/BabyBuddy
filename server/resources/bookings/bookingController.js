@@ -36,9 +36,14 @@ controller.post("/", async (req, res) => {
         .status(404)
         .json({ message: `Guardian with id ${guardian} was not found` });
     }
-
+    if (children.length === 0) {
+      return res
+        .status(400)
+        .json({ message: `No children in request.` });
+    }
     // Check if all children exist
     const childrenExist = await Children.find({ _id: { $in: children } });
+
     if (childrenExist.length !== children.length) {
       return res
         .status(404)
