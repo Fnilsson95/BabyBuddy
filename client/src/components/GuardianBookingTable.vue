@@ -27,10 +27,10 @@
         ${{ row.item.totalCost }}
       </template>
       <template #cell(pickupLocation)="row">
-        {{ row.item.location.pickup_Location }}
+        {{ row.item.location.pickupLocation }}
       </template>
       <template #cell(dropoffLocation)="row">
-        {{ row.item.location.dropoff_Location }}
+        {{ row.item.location.dropoffLocation }}
       </template>
       <template #cell(babysitter)="row">
         {{ row.item.babysitter ? row.item.babysitter.firstName : 'Unassigned' }}
