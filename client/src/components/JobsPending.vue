@@ -79,9 +79,8 @@ const refreshBookings = async () => {
         id: booking._id,
         description: booking.description,
         createdAt: booking.createdAt,
-        startDateTime: formatDate(booking.startDateTime),
-        endDateTime: formatDate(booking.endDateTime),
-        duration: calculateDuration(booking.startDateTime, booking.endDateTime),
+        startDateTime: booking.startDateTime,
+        endDateTime: booking.endDateTime,
         location: booking.location,
         guardian: {
           firstName: booking.guardian.firstName,
