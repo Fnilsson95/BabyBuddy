@@ -1,7 +1,15 @@
 <template>
   <BRow class="gx-2">
-    <BCol sm="4" md="6" lg="6" xl="6" class="mb-3" v-for="booking in structuredBookings" :key="booking._id"
-      style="display: flex; align-items: center; justify-content: center">
+    <BCol
+      sm="4"
+      md="6"
+      lg="6"
+      xl="6"
+      class="mb-3"
+      v-for="booking in structuredBookings"
+      :key="booking._id"
+      style="display: flex; align-items: center; justify-content: center"
+    >
       <BookingCard :booking="booking" :key="booking._id">
         <template #button>
           <div class="button-container">
@@ -12,11 +20,23 @@
         </template>
       </BookingCard>
     </BCol>
-    <BModal v-model="modal" title="Booking Information" hide-footer v-if="selectedBooking">
-      <JobModalContent :booking="selectedBooking" :key="selectedBooking?.id" @booking-updated="$emit('booking-updated')">
+    <BModal
+      v-model="modal"
+      title="Booking Information"
+      hide-footer
+      v-if="selectedBooking"
+    >
+      <JobModalContent
+        :booking="selectedBooking"
+        :key="selectedBooking?.id"
+        @booking-updated="$emit('booking-updated')"
+      >
         <template #button>
           <div class="button-container">
-            <button class="button button:hover" @click="handleConfirmBooking(selectedBooking.id)">
+            <button
+              class="button button:hover"
+              @click="handleConfirmBooking(selectedBooking.id)"
+            >
               Apply
             </button>
           </div>
@@ -49,11 +69,12 @@ const route = useRoute()
 const refreshBookings = async () => {
   try {
     const bookings = await bookingApi.getAllPendingBookings()
+
     if (bookings.length === 0) {
       return
     }
 
-    structuredBookings.value = bookings.bookings.map((booking) => {
+    structuredBookings.value = bookings.bookings?.map((booking) => {
       return {
         id: booking._id,
         description: booking.description,

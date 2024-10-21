@@ -22,8 +22,6 @@ controller.post("/", async (req, res) => {
       additionalInformation,
     } = req.body;
 
-    console.log("children", children);
-
     // Validate dates
     if (new Date(startDateTime) >= new Date(endDateTime)) {
       return res
@@ -61,7 +59,6 @@ controller.post("/", async (req, res) => {
     });
     await newBooking.save();
     await newBooking.populate(["children", "guardian"]);
-    console.log("newBooking:", newBooking);
 
     // Update the Guardian to include the booking.
     await Guardian.findByIdAndUpdate(guardian, {
@@ -243,8 +240,6 @@ controller.put("/:id", async (req, res) => {
 controller.delete("/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    console.log("id:", id);
-
     const deletedBooking = await Booking.findByIdAndDelete(id);
     if (!deletedBooking) {
       return res

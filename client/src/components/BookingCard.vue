@@ -40,6 +40,8 @@
 </template>
 
 <script setup>
+import { calculateDuration, formatDate } from '@/helpers'
+
 const props = defineProps({
   booking: {
     type: Object,
@@ -59,6 +61,7 @@ const props = defineProps({
   color: #555;
   border: 1px solid #2f4f4f;
   min-width: 180px;
+  max-width: 340px;
   width: 100%;
 }
 

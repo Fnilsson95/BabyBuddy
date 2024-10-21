@@ -17,16 +17,19 @@ export const guardianApi = {
 
   async createChild(guardianId, childData) {
     try {
-      const response = await fetch(`${BASE_URL}/guardians/${guardianId}/children`, {
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        method: 'POST',
-        body: JSON.stringify({
-          ...childData,
-          guardian: guardianId
-        })
-      })
+      const response = await fetch(
+        `${BASE_URL}/guardians/${guardianId}/children`,
+        {
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          method: 'POST',
+          body: JSON.stringify({
+            ...childData,
+            guardian: guardianId
+          })
+        }
+      )
       if (!response.ok) {
         const errorData = await response.json()
         throw new Error(errorData.error || 'Failed to create child')
@@ -59,15 +62,16 @@ export const guardianApi = {
   },
 
   async deleteChild(guardianId, childId) {
-    console.log("childId:", childId);
-    console.log("guardianId:", guardianId);
     try {
-      const response = await fetch(`${BASE_URL}/guardians/${guardianId}/children/${childId}`, {
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        method: 'DELETE',
-      })
+      const response = await fetch(
+        `${BASE_URL}/guardians/${guardianId}/children/${childId}`,
+        {
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          method: 'DELETE'
+        }
+      )
       if (!response.ok) {
         const errorData = await response.json()
         throw new Error(errorData.error || 'Failed to delete child')
@@ -80,16 +84,13 @@ export const guardianApi = {
   // HTTP Method Overriding with query parameters POST --> PUT
   async updateGuardian(id, guardianData) {
     try {
-      const response = await fetch(
-        `${BASE_URL}/guardians/${id}?_method=PUT`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(guardianData)
-        }
-      )
+      const response = await fetch(`${BASE_URL}/guardians/${id}?_method=PUT`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(guardianData)
+      })
 
       if (!response.ok) {
         const errorData = await response.json()
@@ -105,12 +106,15 @@ export const guardianApi = {
 
   async deleteAllChildren(guardianId) {
     try {
-      const response = await fetch(`${BASE_URL}/guardians/${guardianId}/children`, {
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        method: 'DELETE',
-      })
+      const response = await fetch(
+        `${BASE_URL}/guardians/${guardianId}/children`,
+        {
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          method: 'DELETE'
+        }
+      )
       if (!response.ok) {
         const errorData = await response.json()
         throw new Error(errorData.error || 'Failed to delete children')
@@ -127,7 +131,9 @@ export const guardianApi = {
 
       if (!response.ok) {
         const errorData = await response.json()
-        throw new Error(errorData.error || `Failed to delete guardian with id ${id}`)
+        throw new Error(
+          errorData.error || `Failed to delete guardian with id ${id}`
+        )
       }
 
       return await response.json()
