@@ -91,7 +91,7 @@ export default {
 
 </script>
 
-<style>
+<style scoped>
 .guardian-container {
   background-color: #e0f7e9;
   display: flex;

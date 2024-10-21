@@ -153,6 +153,7 @@
 import { guardianApi } from '@/api/v1/guardians'
 import { babysitterAPI } from '@/api/v1/babysitter'
 import Toast from '@/components/Toast.vue'
+import { loginApi } from '../api/v1/login'
 
 export default {
   name: 'Signup',
@@ -214,6 +215,11 @@ export default {
         this.errorMessage = null
         this.showToast('Success', this.successMessage, 'success')
         this.resetForm()
+
+        // 3 second delay before redirect to logging in
+        setTimeout(async () => {
+          await this.handleLoginAfterSignup(payload.email, payload.password)
+        }, 3000)
       } catch (error) {
         this.errorMessage = error.message || 'Error creating account. Please try again.'
         this.successMessage = null
@@ -221,6 +227,26 @@ export default {
         console.error(error)
       }
     },
+
+    async handleLoginAfterSignup(email, password) {
+      try {
+        // Use login API to log in the user
+        const loginResult = await loginApi.login({ email, password })
+
+        // Extract userId and role from the login response
+        const { userId: id, role } = loginResult
+
+        // Redirect based on the role
+        if (role === 'babysitter') {
+          this.$router.push({ name: 'babysitter', params: { id } })
+        } else if (role === 'guardian') {
+          this.$router.push({ name: 'guardian', params: { id } })
+        }
+      } catch (error) {
+        console.error(error)
+      }
+    },
+
     resetForm() {
       this.role = ''
       this.userDetails = {
